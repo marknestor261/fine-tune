@@ -6,7 +6,6 @@
   },
   "extends": [
     "eslint:recommended",
-    "plugin:mdx/recommended",
     "plugin:@next/next/core-web-vitals",
     "plugin:@next/next/recommended",
     "plugin:@typescript-eslint/recommended",
@@ -21,7 +20,6 @@
   },
   "plugins": [
     "@typescript-eslint",
-    "mdx",
     "promise",
     "react",
     "sonarjs",

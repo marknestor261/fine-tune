@@ -33,10 +33,15 @@ function CreateCompletionModal({
 }) {
   const form = useForm({ defaultValues: { training: "", validation: "" } });
 
-  const onSubmit = form.handleSubmit(async ({ training, validation }) => {
-    await mutate("fine-tune");
-    onClose();
-  });
+  const onSubmit = form.handleSubmit(async () =>
+    /*{
+        training, validation
+      }*/
+    {
+      await mutate("fine-tune");
+      onClose();
+    }
+  );
 
   return (
     <Modal {...{ open, onClose }}>

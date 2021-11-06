@@ -80,7 +80,7 @@ export default function Signin() {
             iconRight={<FontAwesomeIcon icon={faChevronRight} />}
             type="submit"
           >
-            Let's Go
+            {"Let's Go"}
           </Button>
         </div>
         <p className="text-sm">

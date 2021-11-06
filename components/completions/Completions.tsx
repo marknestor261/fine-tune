@@ -5,7 +5,6 @@ import type { OpenAI } from "types/openai";
 import CreateCompletionButton from "./CreateCompletionButton";
 import FindTuneDetails from "./FineTuneDetails";
 import FineTunes from "./FineTunes";
-import Instructions from "./instructions.mdx";
 
 export default function Classifications() {
   const [fineTune, setFineTune] = useState<OpenAI.FineTune | null>(null);
@@ -26,9 +25,7 @@ export default function Classifications() {
         </div>
         <FileListTable purpose="fine-tune" />
       </section>
-      <section className="prose mt-12 text-sm">
-        <Instructions />
-      </section>
+      <section className="prose mt-12 text-sm">{/* Instructions */}</section>
       <FindTuneDetails fineTune={fineTune} onClose={() => setFineTune(null)} />
     </main>
   );
