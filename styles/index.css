@@ -1,0 +1,35 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,100;0,400;0,700;1,100;1,400;1,700&display=swap");
+@import "react-toastify/dist/ReactToastify.css";
+@import "@fortawesome/fontawesome-svg-core/styles.css";
+
+@tailwind base;
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply font-body;
+  }
+}
+@tailwind components;
+@tailwind utilities;
+
+dl.dl-table:before,
+dl.dl-table:after {
+  display: table;
+  content: "";
+  line-height: 0;
+}
+dl.dl-table dt {
+  float: left;
+  clear: left;
+  text-align: left;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  padding: 0.25rem 0;
+  margin-right: 1rem;
+}
+dl.dl-table dd {
+  padding: 0.25rem 0;
+}
