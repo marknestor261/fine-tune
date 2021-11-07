@@ -1,5 +1,6 @@
 import { CssBaseline, Text } from "@nextui-org/react";
 import Account from "components/account/Account";
+import Layout from "components/Layout";
 import { AppProps } from "next/dist/shared/lib/router/router";
 import Head from "next/head";
 import React from "react";
@@ -15,7 +16,9 @@ export default function App({ Component, pageProps }: AppProps) {
       <CssBaseline />
       <ToastContainer hideProgressBar />
       <Account>
-        <Component {...pageProps} />
+        <Layout fullPage={pageProps.fullPage}>
+          <Component {...pageProps} />
+        </Layout>
       </Account>
     </ErrorBoundary>
   );

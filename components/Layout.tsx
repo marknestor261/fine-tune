@@ -1,9 +1,15 @@
-export default function Layout({ children }: { children: React.ReactNode }) {
+export default function Layout({
+  children,
+  fullPage,
+}: {
+  children: React.ReactNode;
+  fullPage?: boolean;
+}) {
   const { signOut } = useAuthentication();
 
   return (
     <div className="container mx-auto p-4">
-      <PageHeader signOut={signOut} />
+      {fullPage ? null : <PageHeader signOut={signOut} />}
       {children}
     </div>
   );
@@ -24,8 +30,10 @@ function PageHeader({ signOut }: { signOut: () => void }) {
   return (
     <header className="mb-8 flex flex-wrap justify-between items-center gap-4 text-xl">
       <span className="whitespace-nowrap">
-        <span className="font-bold">👋 Trainer</span>
-        <span className="font-light ml-2">The missing UI for OpenAI</span>
+        <Link href="/">
+          <span className="font-bold">👋 Trainer</span>
+          <span className="font-light ml-2">The missing UI for OpenAI</span>
+        </Link>
       </span>
       <nav className="space-x-4 whitespace-nowrap">
         {pages.map(([name, href]) => (

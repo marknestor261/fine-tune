@@ -1,4 +1,3 @@
-import Layout from "components/Layout";
 import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { SWRConfig } from "swr";
@@ -57,9 +56,7 @@ export default function Account({ children }: { children: React.ReactNode }) {
       value={{ isSignedIn: !!apiKey, headers, signIn, signOut }}
     >
       {apiKey ? (
-        <SWRConfig value={{ fetcher, onError }}>
-          <Layout>{children}</Layout>
-        </SWRConfig>
+        <SWRConfig value={{ fetcher, onError }}>{children}</SWRConfig>
       ) : (
         <HomePage />
       )}
