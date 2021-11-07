@@ -20,7 +20,7 @@ function App({ Component, pageProps }: AppProps) {
     <ErrorBoundary>
       <Head>
         <title>
-          {ready ? t(`$t(app.title) — $t(app.subtitle)`) : "loading …"}
+          {ready ? t(`$t(app.title) — $t(app.subtitle)`) : "🥱 waking up …"}
         </title>
       </Head>
       <CssBaseline />
