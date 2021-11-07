@@ -76,7 +76,7 @@ function FineTunesTable({ fineTunes }: { fineTunes: OpenAI.FineTune[] }) {
                 <Button
                   light
                   color="primary"
-                  onClick={() => router.push(`/completions/${fineTune.id}`)}
+                  onClick={() => router.push(`/fine-tunes/${fineTune.id}`)}
                 >
                   {fineTune.id}
                 </Button>

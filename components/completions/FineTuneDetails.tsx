@@ -6,12 +6,15 @@ import ErrorMessage from "components/ErrorMessage";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
-import useSWR from "swr";
+import useSWRImmutable from "swr/immutable";
 import type { OpenAI } from "types/openai";
 import FineTuneMetadata from "./FineTuneMetadata";
+import FineTuneResultFile from "./FineTuneResults";
 
 export default function FineTuneDetails({ id }: { id: string }) {
-  const { data: fineTune, error } = useSWR<OpenAI.FineTune>(`fine-tunes/${id}`);
+  const { data: fineTune, error } = useSWRImmutable<OpenAI.FineTune>(
+    `fine-tunes/${id}`
+  );
 
   return (
     <main className="max-w-2xl mx-auto space-y-8">
@@ -21,6 +24,7 @@ export default function FineTuneDetails({ id }: { id: string }) {
       {error && <ErrorMessage error={error} />}
       {fineTune && <FineTuneForm fineTune={fineTune} />}
       {fineTune && <FineTuneMetadata fineTune={fineTune} />}
+      {fineTune && <FineTuneResultFile fineTune={fineTune} />}
     </main>
   );
 }

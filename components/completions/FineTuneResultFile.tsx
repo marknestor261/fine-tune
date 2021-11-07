@@ -1,105 +1,63 @@
-import { faDownload } from "@fortawesome/free-solid-svg-icons/faDownload";
-import { faEye } from "@fortawesome/free-solid-svg-icons/faEye";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Button } from "@nextui-org/react";
 import useAuthentication from "components/account/useAuthentication";
+import ErrorMessage from "components/ErrorMessage";
+import Loading from "components/Loading";
 import parse from "csv-parse/lib/sync";
-import React, { useState } from "react";
-import { toast } from "react-toastify";
+import React from "react";
 import useSWRImmutable from "swr/immutable";
-import { OpenAI } from "types/openai";
 
-export default function FineTuneResultFile({ file }: { file: OpenAI.File }) {
+type ResultFileRecord = {
+  elapsed_examples: number;
+  elapsed_tokens: number;
+  step: string;
+  training_loss: number;
+  training_sequence_accuracy: number;
+  training_token_accuracy: number;
+};
+
+export default function FineTuneResultFile({ id }: { id: string }) {
   const { headers } = useAuthentication();
-  const [showResults, setShowResults] = useState(true);
 
-  const { data: results } = useSWRImmutable<
-    Array<{
-      elapsed_examples: string;
-      elapsed_tokens: string;
-      step: string;
-      training_loss: string;
-      training_sequence_accuracy: string;
-      training_token_accuracy: string;
-    }>
-  >(`files/${file.id}/content`, async () => {
-    const response = await fetch(
-      `https://api.openai.com/v1/files/${file.id}/content`,
-      { headers }
-    );
-    const raw = response.ok ? await response.text() : null;
-    return (
-      raw &&
-      parse(raw, {
+  const { data: results, error } = useSWRImmutable(
+    `files/${id}/content`,
+    async (resource) => {
+      const response = await fetch(`https://api.openai.com/v1/${resource}`, {
+        headers,
+      });
+      if (!response.ok) throw new Error(response.statusText);
+      const raw = await response.text();
+      return parse(raw, {
+        cast: true,
         columns: true,
         skip_empty_lines: true,
-      })
-    );
-  });
-
-  async function download(file: OpenAI.File) {
-    const response = await fetch(
-      `https://api.openai.com/v1/files/${file.id}/content`,
-      { headers }
-    );
-    if (!response.ok) {
-      toast.error(`Failed to download ${file.filename}`);
-      return;
+      }) as ResultFileRecord[];
     }
+  );
 
-    const blob = await response.blob();
-    const link = document.createElement("a");
-    link.href = URL.createObjectURL(blob);
-    link.type = "text/csv";
-    link.download = file.filename;
-    link.click();
-  }
+  if (error) return <ErrorMessage error={error} />;
+  if (!results) return <Loading />;
 
   return (
-    <div className="border rounded-xl shadow-xl max-w-md p-4 space-y-1">
-      <h4>
-        Results File
-        {results && (
-          <span className="ml-2 font-thin">{results.length} records</span>
-        )}
-      </h4>
-      <div className="flex gap-4 justify-between">
-        {file && (
-          <Button
-            flat
-            icon={<FontAwesomeIcon icon={faDownload} />}
-            size="small"
-            onClick={(event) => {
-              event.preventDefault();
-              download(file);
-            }}
-          >
-            Download
-          </Button>
-        )}
-        {results && (
-          <Button
-            flat
-            icon={<FontAwesomeIcon icon={faEye} />}
-            size="small"
-            onClick={(event) => {
-              event.preventDefault();
-              setShowResults(!showResults);
-            }}
-          >
-            View
-          </Button>
-        )}
-      </div>
-      {showResults && results && (
-        <table>
-          <tbody>
-            {results.map((row) => (
-              <tr key={row.step}></tr>
-            ))}
-          </tbody>
-        </table>
-      )}
-    </div>
+    <table className="w-full text-left" cellPadding={4}>
+      <thead>
+        <th>Step</th>
+        <th>Elapsed Tokens</th>
+        <th>Examples</th>
+        <th>Training Loss</th>
+        <th>Sequency Accuracy</th>
+        <th>Token Accuracy</th>
+      </thead>
+      <tbody>
+        {results.map((row) => (
+          <tr key={row.step}>
+            <td>{row.step}</td>
+            <td>{row.elapsed_tokens}</td>
+            <td>{row.elapsed_examples}</td>
+            <td>{row.training_loss}</td>
+            <td>{row.training_sequence_accuracy}</td>
+            <td>{row.training_token_accuracy}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
   );
 }

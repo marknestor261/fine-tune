@@ -9,7 +9,7 @@ export function MetadataCard({
 }: {
   fields: Array<{
     label: string;
-    value: string | number | Date;
+    value?: string | number | Date | null;
     clickToCopy?: boolean;
   }>;
 }) {
@@ -19,7 +19,10 @@ export function MetadataCard({
         .map(({ clickToCopy, label, value }) => ({
           clickToCopy,
           label,
-          value: value instanceof Date ? value.toLocaleString() : String(value),
+          value:
+            value instanceof Date
+              ? value.toLocaleString()
+              : String(value ?? ""),
         }))
         .map(({ clickToCopy, label, value }) => (
           <div key={label} className="flex flex-nowrap gap-4">
