@@ -1,6 +1,6 @@
 import { faDownload } from "@fortawesome/free-solid-svg-icons/faDownload";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Link } from "@nextui-org/react";
+import { Collapse, Link } from "@nextui-org/react";
 import useAuthentication from "components/account/useAuthentication";
 import { toast } from "react-toastify";
 import { OpenAI } from "types/openai";
@@ -32,53 +32,59 @@ export default function FineTuneMetadata({
   }
 
   return (
-    <table className="w-full text-left" cellPadding={4}>
-      <tbody>
-        <tr>
-          <th>ID</th>
-          <td>{fineTune.id}</td>
-        </tr>
-        <tr>
-          <th>Engine</th>
-          <td>{fineTune.model}</td>
-        </tr>
-        <tr>
-          <th>Training Files</th>
-          <td>
-            {fineTune.training_files.map(({ filename }) => filename).join(" ")}
-          </td>
-        </tr>
-        <tr>
-          <th>Validation Files</th>
-          <td>
-            {fineTune.validation_files
-              .map(({ filename }) => filename)
-              .join(" ") || "None"}
-          </td>
-        </tr>
-        <tr>
-          <th>Updated</th>
-          <td>{new Date(fineTune.updated_at * 1000).toLocaleString()}</td>
-        </tr>
-        {resultFile && (
-          <tr>
-            <th>Result Files</th>
-            <td>
-              <Link
-                className="flex gap-2"
-                color="primary"
-                onClick={(event) => {
-                  event.preventDefault();
-                  download(resultFile);
-                }}
-              >
-                <FontAwesomeIcon icon={faDownload} />
-                Download
-              </Link>
-            </td>
-          </tr>
-        )}
-      </tbody>
-    </table>
+    <Collapse.Group>
+      <Collapse title="" subtitle="Fine Tune Details" initialExpanded>
+        <table className="w-full text-left" cellPadding={4}>
+          <tbody>
+            <tr>
+              <th>ID</th>
+              <td>{fineTune.id}</td>
+            </tr>
+            <tr>
+              <th>Engine</th>
+              <td>{fineTune.model}</td>
+            </tr>
+            <tr>
+              <th>Training Files</th>
+              <td>
+                {fineTune.training_files
+                  .map(({ filename }) => filename)
+                  .join(" ")}
+              </td>
+            </tr>
+            <tr>
+              <th>Validation Files</th>
+              <td>
+                {fineTune.validation_files
+                  .map(({ filename }) => filename)
+                  .join(" ") || "None"}
+              </td>
+            </tr>
+            <tr>
+              <th>Updated</th>
+              <td>{new Date(fineTune.updated_at * 1000).toLocaleString()}</td>
+            </tr>
+            {resultFile && (
+              <tr>
+                <th>Result Files</th>
+                <td>
+                  <Link
+                    className="flex gap-2"
+                    color="primary"
+                    onClick={(event) => {
+                      event.preventDefault();
+                      download(resultFile);
+                    }}
+                  >
+                    <FontAwesomeIcon icon={faDownload} />
+                    Download
+                  </Link>
+                </td>
+              </tr>
+            )}
+          </tbody>
+        </table>
+      </Collapse>
+    </Collapse.Group>
   );
 }
