@@ -58,6 +58,7 @@ export default function FineTuneResultFile({
       {results && resultFile ? (
         <div className="flex gap-4 justify-between">
           <Button
+            auto
             flat
             icon={<FontAwesomeIcon icon={faDownload} />}
             size="small"
@@ -66,9 +67,10 @@ export default function FineTuneResultFile({
               download(resultFile);
             }}
           >
-            Download
+            Download (CSV)
           </Button>
           <Button
+            auto
             flat
             icon={<FontAwesomeIcon icon={faEye} />}
             size="small"
@@ -77,7 +79,7 @@ export default function FineTuneResultFile({
               window.open(`/fine-tunes/results/${resultFile.id}`);
             }}
           >
-            View
+            View in new tab
           </Button>
         </div>
       ) : (
