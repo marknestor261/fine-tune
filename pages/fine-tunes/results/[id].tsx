@@ -1,5 +1,5 @@
 import LoginRequired from "components/account/LoginRequired";
-import FineTuneResultFile from "components/completions/FineTuneResultFile";
+import FineTuneResultFile from "components/fine-tunes/FineTuneResultFile";
 import { useRouter } from "next/router";
 import React from "react";
 
