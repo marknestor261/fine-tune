@@ -69,7 +69,7 @@ function Promo() {
           Create <b>fine tune</b> models for prompt completion
         </li>
         <li>
-          Upload and manage files for <b>classification</b>{" "}
+          Upload and manage files for <b>classification</b>
         </li>
         <li>
           Upload and manage files for <b>search</b>
