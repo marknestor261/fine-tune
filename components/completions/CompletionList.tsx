@@ -1,9 +1,9 @@
 import FileListTable from "components/files/FileListTable";
 import UploadFileButton from "components/files/UploadFileButton";
+import FineTuneList from "components/fine-tunes/FineTuneList";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import CreateCompletionButton from "./CreateCompletionButton";
-import FineTuneList from "./FineTuneList";
 
 export default function ClassificationList() {
   const { t } = useTranslation();

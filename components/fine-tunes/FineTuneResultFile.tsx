@@ -3,15 +3,6 @@ import Loading from "components/Loading";
 import React from "react";
 import useFineTuneResults from "./useFineTuneResults";
 
-type ResultFileRecord = {
-  elapsed_examples: number;
-  elapsed_tokens: number;
-  step: string;
-  training_loss: number;
-  training_sequence_accuracy: number;
-  training_token_accuracy: number;
-};
-
 export default function FineTuneResultFile({ id }: { id: string }) {
   const { results, error } = useFineTuneResults(id);
 
