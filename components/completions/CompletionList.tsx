@@ -12,7 +12,7 @@ export default function ClassificationList() {
     <main className="max-w-4xl mx-auto">
       <section>
         <div className="flex flex-nowrap justify-between items-center">
-          <h1 className="text-3xl">{t("pages.search")}</h1>
+          <h1 className="text-3xl">{t("pages.completions")}</h1>
           <CreateCompletionButton />
         </div>
         <FineTunes />

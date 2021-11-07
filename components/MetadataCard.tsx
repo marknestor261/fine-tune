@@ -1,3 +1,5 @@
+import { faCopy } from "@fortawesome/free-solid-svg-icons/faCopy";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Tooltip } from "@nextui-org/react";
 import { useState } from "react";
 import { useCopyToClipboard } from "usehooks-ts";
@@ -5,37 +7,43 @@ import { useCopyToClipboard } from "usehooks-ts";
 export function MetadataCard({
   fields,
 }: {
-  fields: Array<{ label: string; value: string | number | Date }>;
+  fields: Array<{
+    label: string;
+    value: string | number | Date;
+    clickToCopy?: boolean;
+  }>;
 }) {
   return (
-    <table className="text-left min-w-min" cellPadding={4}>
-      <tbody>
-        {fields
-          .map(({ label, value }) => ({
-            label,
-            value:
-              value instanceof Date
-                ? value.toLocaleDateString()
-                : String(value),
-          }))
-          .map(({ label, value }) => (
-            <tr key={label} className="flex">
-              <th className="w-24 block truncate">{label}</th>
-              <td className="w-60 block truncate">
-                <ClickToCopy value={value}>{value}</ClickToCopy>
-              </td>
-            </tr>
-          ))}
-      </tbody>
-    </table>
+    <div className="border rounded-xl shadow-xl max-w-md p-4 space-y-1">
+      {fields
+        .map(({ clickToCopy, label, value }) => ({
+          clickToCopy,
+          label,
+          value: value instanceof Date ? value.toLocaleString() : String(value),
+        }))
+        .map(({ clickToCopy, label, value }) => (
+          <div key={label} className="flex flex-nowrap gap-4">
+            <span className="w-20 flex-shrink-0 font-bold"> {label}</span>
+            {clickToCopy ? (
+              <ClickToCopy className="flex gap-2 items-center" value={value}>
+                <FontAwesomeIcon icon={faCopy} /> {value}
+              </ClickToCopy>
+            ) : (
+              <span>{value}</span>
+            )}
+          </div>
+        ))}
+    </div>
   );
 }
 
 function ClickToCopy({
   children,
+  className,
   value,
 }: {
   children: React.ReactNode;
+  className?: string;
   value: string;
 }) {
   const [copied, setCopied] = useState(false);
@@ -43,18 +51,16 @@ function ClickToCopy({
 
   return (
     <Tooltip
+      className={className}
       content={copied ? "Copied!" : "Click to copy"}
       onVisibleChange={(visible) => visible && setCopied(false)}
       placement="left"
+      onClick={async () => {
+        await copy(value);
+        setCopied(true);
+      }}
     >
-      <span
-        onClick={async () => {
-          await copy(value);
-          setCopied(true);
-        }}
-      >
-        {children}
-      </span>
+      {children}
     </Tooltip>
   );
 }

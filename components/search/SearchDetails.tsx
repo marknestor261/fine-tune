@@ -22,12 +22,8 @@ export default function SearchDetails({ id }: { id: string }) {
         <span className="font-normal">{t("pages.search")}</span> {id}
       </h1>
       {error && <ErrorMessage error={error} />}
-      <div className="grid md:grid-cols-3 gap-8">
-        <div className="col-span-2">
-          <SearchForm id={id} />
-        </div>
-        {file ? <FileMetadata file={file} /> : <Loading />}
-      </div>
+      <SearchForm id={id} />
+      {file ? <FileMetadata file={file} /> : <Loading />}
     </main>
   );
 }
