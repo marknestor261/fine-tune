@@ -9,11 +9,11 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
-import useSWR from "swr";
+import useSWRImmutable from "swr/immutable";
 import type { OpenAI } from "types/openai";
 
 export default function SearchDetails({ id }: { id: string }) {
-  const { data: file, error } = useSWR<OpenAI.File>(`files/${id}`);
+  const { data: file, error } = useSWRImmutable<OpenAI.File>(`files/${id}`);
   const { t } = useTranslation();
 
   return (
