@@ -84,7 +84,7 @@ function CompletionResults({
 }) {
   return (
     <div>
-      <h4 className="my-2">Completions:</h4>
+      <h4 className="my-2">⭐️ Completions</h4>
       <ol>
         {results.choices.map((choice, index) => (
           <li key={index} className="truncate-4-lines">

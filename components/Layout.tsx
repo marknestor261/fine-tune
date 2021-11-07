@@ -21,30 +21,30 @@ import React from "react";
 import useAuthentication from "./account/useAuthentication";
 
 const pages: Array<[string, string]> = [
-  ["Completions", "/completions"],
-  ["Classifications", "/classifications"],
-  ["Search", "/search"],
+  ["Completions", "/completions/"],
+  ["Classifications", "/classifications/"],
+  ["Search", "/search/"],
 ];
 
 function PageHeader({ signOut }: { signOut: () => void }) {
   return (
     <header className="mb-8 flex flex-wrap justify-between items-center gap-4 text-xl">
-      <span className="whitespace-nowrap">
-        <Link href="/">
+      <Link href="/">
+        <a className="whitespace-nowrap text-black">
           <span className="font-bold">👋 Trainer</span>
           <span className="font-light ml-2">The missing UI for OpenAI</span>
-        </Link>
-      </span>
+        </a>
+      </Link>
       <nav className="space-x-4 whitespace-nowrap">
         {pages.map(([name, href]) => (
           <NextLink href={href} key={href}>
-            <Link color="primary">{name}</Link>
+            <a>{name}</a>
           </NextLink>
         ))}
       </nav>
-      <Link onClick={signOut} className="text-base">
+      <button onClick={signOut} className="text-base">
         Sign Out
-      </Link>
+      </button>
     </header>
   );
 }

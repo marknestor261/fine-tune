@@ -1,6 +1,6 @@
 import { faDownload } from "@fortawesome/free-solid-svg-icons/faDownload";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Collapse, Link } from "@nextui-org/react";
+import { Button, Collapse } from "@nextui-org/react";
 import useAuthentication from "components/account/useAuthentication";
 import { toast } from "react-toastify";
 import { OpenAI } from "types/openai";
@@ -33,7 +33,7 @@ export default function FineTuneMetadata({
 
   return (
     <Collapse.Group>
-      <Collapse title="" subtitle="Fine Tune Details" initialExpanded>
+      <Collapse title="" subtitle="Fine Tune Details">
         <table className="w-full text-left" cellPadding={4}>
           <tbody>
             <tr>
@@ -68,17 +68,17 @@ export default function FineTuneMetadata({
               <tr>
                 <th>Result Files</th>
                 <td>
-                  <Link
-                    className="flex gap-2"
-                    color="primary"
+                  <Button
+                    flat
+                    icon={<FontAwesomeIcon icon={faDownload} />}
+                    size="small"
                     onClick={(event) => {
                       event.preventDefault();
                       download(resultFile);
                     }}
                   >
-                    <FontAwesomeIcon icon={faDownload} />
                     Download
-                  </Link>
+                  </Button>
                 </td>
               </tr>
             )}
