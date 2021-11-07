@@ -47,7 +47,7 @@ export default function FineTuneResultFile({
   }
 
   return (
-    <div className="border rounded-xl shadow-xl p-4 space-y-1 max-w-md">
+    <div className="border rounded-xl shadow-sm p-4 space-y-1">
       <h4>
         Results File
         {results && (

@@ -32,7 +32,7 @@ export default function FineTuneDetails({ id }: { id: string }) {
 function FineTuneForm({ fineTune }: { fineTune: OpenAI.FineTune }) {
   const form = useForm({ defaultValues: { prompt: "" } });
   const { headers } = useAuthentication();
-  const [results, setResults] = useState<OpenAI.Completions.Response>();
+  const [results, setResults] = useState<OpenAI.Completions.Response[]>([]);
 
   const onSubmit = form.handleSubmit(async ({ prompt }) => {
     const request: OpenAI.Completions.Request = {
@@ -49,7 +49,7 @@ function FineTuneForm({ fineTune }: { fineTune: OpenAI.FineTune }) {
     });
     if (response.ok) {
       const json = await response.json();
-      setResults(json);
+      setResults([json, ...results]);
     } else {
       const { error } = (await response.json()) as OpenAI.ErrorResponse;
       toast.error(error.message);
@@ -57,27 +57,31 @@ function FineTuneForm({ fineTune }: { fineTune: OpenAI.FineTune }) {
   });
 
   return (
-    <form onSubmit={onSubmit} className="space-y-4">
-      <fieldset>
-        <Textarea
-          autoFocus
-          label="Text to complete"
-          bordered
-          minRows={4}
-          width="100%"
-          {...form.register("prompt")}
-        />
-      </fieldset>
-      <Button
-        auto
-        iconRight={<FontAwesomeIcon icon={faChevronRight} />}
-        loading={form.formState.isSubmitting}
-        type="submit"
-      >
-        Complete
-      </Button>
-      {results && <CompletionResults results={results} />}
-    </form>
+    <>
+      <form onSubmit={onSubmit} className="space-y-4">
+        <fieldset>
+          <Textarea
+            autoFocus
+            label="Text to complete"
+            bordered
+            minRows={4}
+            width="100%"
+            {...form.register("prompt")}
+          />
+        </fieldset>
+        <Button
+          auto
+          iconRight={<FontAwesomeIcon icon={faChevronRight} />}
+          loading={form.formState.isSubmitting}
+          type="submit"
+        >
+          Complete
+        </Button>
+      </form>
+      {results.map((result, index) => (
+        <CompletionResults key={index} results={result} />
+      ))}
+    </>
   );
 }
 
@@ -87,11 +91,11 @@ function CompletionResults({
   results: OpenAI.Completions.Response;
 }) {
   return (
-    <div>
-      <h4 className="my-2">⭐️ Completions</h4>
+    <div className="border rounded-xl shadow-sm p-4 space-y-1">
+      <h4 className="my-4">⭐️ Completions</h4>
       <ol>
         {results.choices.map((choice, index) => (
-          <li key={index} className="truncate-4-lines">
+          <li key={index} className="truncate-4-lines my-4">
             {choice.text}
           </li>
         ))}

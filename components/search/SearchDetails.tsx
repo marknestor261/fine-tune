@@ -17,7 +17,7 @@ export default function SearchDetails({ id }: { id: string }) {
   const { t } = useTranslation();
 
   return (
-    <main className="max-w-4xl mx-auto space-y-8">
+    <main className="max-w-2xl mx-auto space-y-8">
       <h1 className="text-3xl">
         <span className="font-normal">{t("pages.search")}</span> {id}
       </h1>
@@ -32,7 +32,7 @@ function SearchForm({ id }: { id: string }) {
   const engine: OpenAI.Engine = "davinci";
   const form = useForm({ defaultValues: { query: "" } });
   const { headers } = useAuthentication();
-  const [results, setResults] = useState<OpenAI.Search.Response>();
+  const [results, setResults] = useState<OpenAI.Search.Response[]>([]);
 
   const onSubmit = form.handleSubmit(async ({ query }) => {
     const request: OpenAI.Search.Request = { file: id, query };
@@ -46,7 +46,7 @@ function SearchForm({ id }: { id: string }) {
     );
     if (response.ok) {
       const json = await response.json();
-      setResults(json);
+      setResults([json, ...results]);
     } else {
       const { error } = (await response.json()) as OpenAI.ErrorResponse;
       toast.error(error.message);
@@ -54,44 +54,50 @@ function SearchForm({ id }: { id: string }) {
   });
 
   return (
-    <form onSubmit={onSubmit} className="space-y-4">
-      <fieldset>
-        <Input
-          autoFocus
-          label="Search query"
-          bordered
-          width="100%"
-          {...form.register("query")}
-        />
-      </fieldset>
-      <Button
-        auto
-        iconRight={<FontAwesomeIcon icon={faChevronRight} />}
-        loading={form.formState.isSubmitting}
-        type="submit"
-      >
-        Search
-      </Button>
-      {results && <SearchResult results={results} />}
-    </form>
+    <>
+      <form onSubmit={onSubmit} className="space-y-4">
+        <fieldset>
+          <Input
+            autoFocus
+            label="Search query"
+            bordered
+            width="100%"
+            {...form.register("query")}
+          />
+        </fieldset>
+        <Button
+          auto
+          iconRight={<FontAwesomeIcon icon={faChevronRight} />}
+          loading={form.formState.isSubmitting}
+          type="submit"
+        >
+          Search
+        </Button>
+      </form>
+      {results.map((result, i) => (
+        <SearchResult key={i} results={result} />
+      ))}
+    </>
   );
 }
 
 function SearchResult({ results }: { results: OpenAI.Search.Response }) {
   return (
-    <table className="w-full text-left">
-      <thead>
-        <th>Score</th>
-        <th>Document</th>
-      </thead>
-      <tbody>
-        {results.data.map((result) => (
-          <tr key={result.document}>
-            <td className="align-top">{result.score.toFixed(2)}</td>
-            <td className="truncate-2-lines  ">{result.text}</td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
+    <div className="border rounded-xl shadow-sm p-4 space-y-1">
+      <table className="w-full text-left">
+        <thead>
+          <th>Score</th>
+          <th>Document</th>
+        </thead>
+        <tbody>
+          {results.data.map((result) => (
+            <tr key={result.document}>
+              <td className="align-top">{result.score.toFixed(2)}</td>
+              <td className="truncate-2-lines  ">{result.text}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
   );
 }

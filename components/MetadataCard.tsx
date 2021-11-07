@@ -14,7 +14,7 @@ export function MetadataCard({
   }>;
 }) {
   return (
-    <div className="border rounded-xl shadow-xl max-w-md p-4 space-y-1">
+    <div className="border rounded-xl shadow-sm p-4 space-y-1">
       {fields
         .map(({ clickToCopy, label, value }) => ({
           clickToCopy,

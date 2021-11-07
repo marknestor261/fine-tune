@@ -30,7 +30,7 @@ export default function ClassificationDetail({ id }: { id: string }) {
 function ClassificationForm({ id }: { id: string }) {
   const form = useForm({ defaultValues: { query: "" } });
   const { headers } = useAuthentication();
-  const [results, setResults] = useState<OpenAI.Classifications.Response>();
+  const [results, setResults] = useState<OpenAI.Classifications.Response[]>([]);
 
   const onSubmit = form.handleSubmit(async ({ query }) => {
     const request: OpenAI.Classifications.Request = {
@@ -45,7 +45,7 @@ function ClassificationForm({ id }: { id: string }) {
     });
     if (response.ok) {
       const json = await response.json();
-      setResults(json);
+      setResults([json, ...results]);
     } else {
       const { error } = (await response.json()) as OpenAI.ErrorResponse;
       toast.error(error.message);
@@ -53,27 +53,31 @@ function ClassificationForm({ id }: { id: string }) {
   });
 
   return (
-    <form onSubmit={onSubmit} className="space-y-4">
-      <fieldset>
-        <Textarea
-          autoFocus
-          label="Text to classify"
-          bordered
-          minRows={4}
-          width="100%"
-          {...form.register("query")}
-        />
-      </fieldset>
-      <Button
-        auto
-        iconRight={<FontAwesomeIcon icon={faChevronRight} />}
-        loading={form.formState.isSubmitting}
-        type="submit"
-      >
-        Classify
-      </Button>
-      {results && <ClassificationResult results={results} />}
-    </form>
+    <>
+      <form onSubmit={onSubmit} className="space-y-4">
+        <fieldset>
+          <Textarea
+            autoFocus
+            label="Text to classify"
+            bordered
+            minRows={4}
+            width="100%"
+            {...form.register("query")}
+          />
+        </fieldset>
+        <Button
+          auto
+          iconRight={<FontAwesomeIcon icon={faChevronRight} />}
+          loading={form.formState.isSubmitting}
+          type="submit"
+        >
+          Classify
+        </Button>
+      </form>
+      {results.map((result, index) => (
+        <ClassificationResult key={index} results={result} />
+      ))}
+    </>
   );
 }
 
@@ -83,12 +87,12 @@ function ClassificationResult({
   results: OpenAI.Classifications.Response;
 }) {
   return (
-    <>
-      <p>
-        <b>Label:</b> {results.label}
-      </p>
+    <div className="border rounded-xl shadow-sm p-4 space-y-1">
+      <h3>
+        <span className="font-normal">Label:</span> {results.label}
+      </h3>
       <table className="w-full text-left">
-        <caption className="text-left font-bold my-2">Based on:</caption>
+        <caption className="text-left my-2">Based on:</caption>
         <thead>
           <th>Label</th>
           <th>Example</th>
@@ -96,14 +100,14 @@ function ClassificationResult({
         <tbody>
           {results.selected_examples.map((example) => (
             <tr key={example.document}>
-              <th className="align-top">
+              <td className="align-top">
                 {example.label} ({example.score.toFixed(2)})
-              </th>
+              </td>
               <td className="truncate-2-lines  ">{example.text}</td>
             </tr>
           ))}
         </tbody>
       </table>
-    </>
+    </div>
   );
 }
