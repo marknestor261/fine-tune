@@ -4,10 +4,10 @@ import { OpenAI } from "types/openai";
 
 export default function FileMetadata({ file }: { file: OpenAI.File }) {
   return (
-    <table className="w-full">
+    <table className="w-full text-left" cellPadding={4}>
       <tbody>
         <tr>
-          <th>ID</th>
+          <th className="w-0">ID</th>
           <td>{file.id}</td>
         </tr>
         <tr>

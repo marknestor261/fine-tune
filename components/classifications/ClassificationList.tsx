@@ -1,20 +1,22 @@
 import FileListTable from "components/files/FileListTable";
 import UploadFileButton from "components/files/UploadFileButton";
-import React, { useState } from "react";
-import type { OpenAI } from "types/openai";
-import TestClassification from "./TestClassification";
+import { useRouter } from "next/dist/client/router";
+import React from "react";
 
-export default function Classifications() {
-  const [file, setFile] = useState<OpenAI.File | null>(null);
+export default function ClassificationList() {
+  const router = useRouter();
 
   return (
-    <main>
+    <main className="max-w-4xl mx-auto">
       <section>
         <div className="flex flex-nowrap justify-between items-center">
-          <h1>Classifications</h1>
+          <h1 className="text-3xl">Classifications</h1>
           <UploadFileButton purpose="classifications" />
         </div>
-        <FileListTable purpose="classifications" onClick={setFile} />
+        <FileListTable
+          purpose="classifications"
+          onClick={(file) => router.push(`/classifications/${file.id}`)}
+        />
       </section>
       <section className="prose mt-12 text-sm">
         <p>
@@ -37,7 +39,6 @@ export default function Classifications() {
           and examples used for classification.
         </p>
       </section>
-      <TestClassification file={file} onClose={() => setFile(null)} />
     </main>
   );
 }

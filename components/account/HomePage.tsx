@@ -30,7 +30,7 @@ function Header() {
     <header>
       <h1>
         👋 Trainer
-        <span className="font-thin ml-2">The missing UI for OpenAI.</span>
+        <span className="font-light ml-4">The missing UI for OpenAI</span>
       </h1>
     </header>
   );

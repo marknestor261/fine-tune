@@ -1,20 +1,22 @@
 import FileListTable from "components/files/FileListTable";
 import UploadFileButton from "components/files/UploadFileButton";
-import React, { useState } from "react";
-import type { OpenAI } from "types/openai";
-import TestSearch from "./TestSearch";
+import { useRouter } from "next/dist/client/router";
+import React from "react";
 
-export default function Searches() {
-  const [file, setFile] = useState<OpenAI.File | null>(null);
+export default function SearchList() {
+  const router = useRouter();
 
   return (
-    <main>
+    <main className="max-w-4xl mx-auto">
       <section>
         <div className="flex flex-nowrap justify-between items-center">
-          <h1>Search</h1>
+          <h1 className="text-3xl">Search</h1>
           <UploadFileButton purpose="search" />
         </div>
-        <FileListTable purpose="search" onClick={setFile} />
+        <FileListTable
+          purpose="search"
+          onClick={(file) => router.push(`/search/${file.id}`)}
+        />
       </section>
       <section className="prose mt-12 text-sm">
         <p>
@@ -36,7 +38,6 @@ export default function Searches() {
           match score.
         </p>
       </section>
-      <TestSearch file={file} onClose={() => setFile(null)} />
     </main>
   );
 }

@@ -25,7 +25,7 @@ function PageHeader({ signOut }: { signOut: () => void }) {
     <header className="mb-8 flex flex-wrap justify-between items-center gap-4 text-xl">
       <span className="whitespace-nowrap">
         <span className="font-bold">👋 Trainer</span>
-        <span className="font-thin ml-2">The missing UI for OpenAI</span>
+        <span className="font-light ml-2">The missing UI for OpenAI</span>
       </span>
       <nav className="space-x-4 whitespace-nowrap">
         {pages.map(([name, href]) => (

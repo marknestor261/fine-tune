@@ -1,11 +1,11 @@
 import LoginRequired from "components/account/LoginRequired";
-import Search from "components/search/Search";
+import CompletionList from "components/completions/CompletionList";
 import React from "react";
 
-export default function SearchesPage() {
+export default function CompletionsPage() {
   return (
     <LoginRequired>
-      <Search />
+      <CompletionList />
     </LoginRequired>
   );
 }

@@ -1,11 +1,11 @@
 import LoginRequired from "components/account/LoginRequired";
-import Classifications from "components/classifications/Classifications";
+import ClassificationList from "components/classifications/ClassificationList";
 import React from "react";
 
 export default function ClassificationsPage() {
   return (
     <LoginRequired>
-      <Classifications />
+      <ClassificationList />
     </LoginRequired>
   );
 }

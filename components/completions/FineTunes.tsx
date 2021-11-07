@@ -2,16 +2,13 @@ import { Button } from "@nextui-org/react";
 import useAuthentication from "components/account/useAuthentication";
 import ErrorMessage from "components/ErrorMessage";
 import Loading from "components/Loading";
+import { useRouter } from "next/dist/client/router";
 import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import useSWR, { mutate } from "swr";
 import type { OpenAI } from "types/openai";
 
-export default function FineTunes({
-  onClick,
-}: {
-  onClick: (fineTune: OpenAI.FineTune) => void;
-}) {
+export default function FineTunes() {
   const { data, error } = useSWR<OpenAI.List<OpenAI.FineTune>>("fine-tunes");
 
   if (error) return <ErrorMessage error={error} />;
@@ -29,7 +26,7 @@ export default function FineTunes({
   return (
     <>
       <Processing fineTunes={fineTunes} />
-      <FineTunesTable fineTunes={fineTunes} onClick={onClick} />
+      <FineTunesTable fineTunes={fineTunes} />
     </>
   );
 }
@@ -62,13 +59,8 @@ function Processing({ fineTunes }: { fineTunes: OpenAI.FineTune[] }) {
   );
 }
 
-function FineTunesTable({
-  fineTunes,
-  onClick,
-}: {
-  fineTunes: OpenAI.FineTune[];
-  onClick: (fineTune: OpenAI.FineTune) => void;
-}) {
+function FineTunesTable({ fineTunes }: { fineTunes: OpenAI.FineTune[] }) {
+  const router = useRouter();
   const ready = fineTunes.filter((fineTune) => fineTune.status === "succeeded");
   return (
     <table cellPadding={10} className="my-4 w-full">
@@ -81,7 +73,11 @@ function FineTunesTable({
               key={fineTune.id}
             >
               <td className="align-text-top">
-                <Button light color="primary" onClick={() => onClick(fineTune)}>
+                <Button
+                  light
+                  color="primary"
+                  onClick={() => router.push(`/completions/${fineTune.id}`)}
+                >
                   {fineTune.id}
                 </Button>
               </td>

@@ -1,22 +1,18 @@
 import FileListTable from "components/files/FileListTable";
 import UploadFileButton from "components/files/UploadFileButton";
-import React, { useState } from "react";
-import type { OpenAI } from "types/openai";
+import React from "react";
 import CreateCompletionButton from "./CreateCompletionButton";
-import FindTuneDetails from "./FineTuneDetails";
 import FineTunes from "./FineTunes";
 
-export default function Classifications() {
-  const [fineTune, setFineTune] = useState<OpenAI.FineTune | null>(null);
-
+export default function ClassificationList() {
   return (
-    <main>
+    <main className="max-w-4xl mx-auto">
       <section>
         <div className="flex flex-nowrap justify-between items-center">
-          <h1>Completions</h1>
+          <h1 className="text-3xl">Completions</h1>
           <CreateCompletionButton />
         </div>
-        <FineTunes onClick={setFineTune} />
+        <FineTunes />
       </section>
       <section>
         <div className="flex flex-nowrap justify-between items-center">
@@ -26,7 +22,6 @@ export default function Classifications() {
         <FileListTable purpose="fine-tune" />
       </section>
       <section className="prose mt-12 text-sm">{/* Instructions */}</section>
-      <FindTuneDetails fineTune={fineTune} onClose={() => setFineTune(null)} />
     </main>
   );
 }
