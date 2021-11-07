@@ -2,7 +2,8 @@ import { faChevronRight } from "@fortawesome/free-solid-svg-icons/faChevronRight
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Button, Textarea } from "@nextui-org/react";
 import useAuthentication from "components/account/useAuthentication";
-import ErrorMessage from "components/ErrorMessage";
+import DetailsPage from "components/DetailsPage";
+import InfoCard from "components/InfoCard";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
@@ -17,15 +18,15 @@ export default function FineTuneDetails({ id }: { id: string }) {
   );
 
   return (
-    <main className="max-w-2xl mx-auto space-y-8">
-      <h1 className="text-3xl">
-        <span className="font-normal">Fine Tune Model</span> {id}
-      </h1>
-      {error && <ErrorMessage error={error} />}
-      {fineTune && <FineTuneForm fineTune={fineTune} />}
-      {fineTune && <FineTuneMetadata fineTune={fineTune} />}
-      {fineTune && <FineTuneResultFile fineTune={fineTune} />}
-    </main>
+    <DetailsPage name="fine-tune" id={id} error={error}>
+      {fineTune && (
+        <>
+          <FineTuneForm fineTune={fineTune} />
+          <FineTuneMetadata fineTune={fineTune} />
+          <FineTuneResultFile fineTune={fineTune} />
+        </>
+      )}
+    </DetailsPage>
   );
 }
 
@@ -91,7 +92,7 @@ function CompletionResults({
   results: OpenAI.Completions.Response;
 }) {
   return (
-    <div className="border rounded-xl shadow-sm p-4 space-y-1">
+    <InfoCard>
       <h4 className="my-4">⭐️ Completions</h4>
       <ol>
         {results.choices.map((choice, index) => (
@@ -100,6 +101,6 @@ function CompletionResults({
           </li>
         ))}
       </ol>
-    </div>
+    </InfoCard>
   );
 }

@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Tooltip } from "@nextui-org/react";
 import { useState } from "react";
 import { useCopyToClipboard } from "usehooks-ts";
+import InfoCard from "./InfoCard";
 
 export function MetadataCard({
   fields,
@@ -14,7 +15,7 @@ export function MetadataCard({
   }>;
 }) {
   return (
-    <div className="border rounded-xl shadow-sm p-4 space-y-1">
+    <InfoCard>
       {fields
         .map(({ clickToCopy, label, value }) => ({
           clickToCopy,
@@ -36,7 +37,7 @@ export function MetadataCard({
             )}
           </div>
         ))}
-    </div>
+    </InfoCard>
   );
 }
 

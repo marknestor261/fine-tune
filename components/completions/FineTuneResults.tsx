@@ -4,13 +4,13 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Button, Loading } from "@nextui-org/react";
 import useAuthentication from "components/account/useAuthentication";
 import ErrorMessage from "components/ErrorMessage";
-import parse from "csv-parse/lib/sync";
+import InfoCard from "components/InfoCard";
 import React from "react";
 import { toast } from "react-toastify";
-import useSWRImmutable from "swr/immutable";
 import { OpenAI } from "types/openai";
+import useFineTuneResults from "./useFineTuneResults";
 
-type ResultFileRecord = {
+export type ResultFileRecord = {
   elapsed_examples: number;
   elapsed_tokens: number;
   step: string;
@@ -47,7 +47,7 @@ export default function FineTuneResultFile({
   }
 
   return (
-    <div className="border rounded-xl shadow-sm p-4 space-y-1">
+    <InfoCard>
       <h4>
         Results File
         {results && (
@@ -83,26 +83,6 @@ export default function FineTuneResultFile({
       ) : (
         <Loading />
       )}
-    </div>
+    </InfoCard>
   );
-}
-
-function useFineTuneResults(fileId?: string): {
-  error?: Error;
-  results?: ResultFileRecord[];
-} {
-  const { headers } = useAuthentication();
-
-  const { data: results, error } = useSWRImmutable<ResultFileRecord[]>(
-    fileId ? `files/${fileId}/content` : null,
-    async (resource) => {
-      const response = await fetch(`https://api.openai.com/v1/${resource}`, {
-        headers,
-      });
-      if (!response.ok) throw new Error(response.statusText);
-      const raw = await response.text();
-      return parse(raw, { cast: true, columns: true, skip_empty_lines: true });
-    }
-  );
-  return { results, error };
 }

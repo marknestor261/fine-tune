@@ -2,29 +2,23 @@ import { faChevronRight } from "@fortawesome/free-solid-svg-icons/faChevronRight
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Button, Input } from "@nextui-org/react";
 import useAuthentication from "components/account/useAuthentication";
-import ErrorMessage from "components/ErrorMessage";
+import DetailsPage from "components/DetailsPage";
 import FileMetadata from "components/files/FileMetadata";
 import Loading from "components/Loading";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
 import useSWRImmutable from "swr/immutable";
 import type { OpenAI } from "types/openai";
 
 export default function SearchDetails({ id }: { id: string }) {
   const { data: file, error } = useSWRImmutable<OpenAI.File>(`files/${id}`);
-  const { t } = useTranslation();
 
   return (
-    <main className="max-w-2xl mx-auto space-y-8">
-      <h1 className="text-3xl">
-        <span className="font-normal">{t("pages.search")}</span> {id}
-      </h1>
-      {error && <ErrorMessage error={error} />}
+    <DetailsPage name="search" id={id} error={error}>
       <SearchForm id={id} />
       {file ? <FileMetadata file={file} /> : <Loading />}
-    </main>
+    </DetailsPage>
   );
 }
 

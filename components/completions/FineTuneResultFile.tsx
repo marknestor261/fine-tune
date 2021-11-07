@@ -1,9 +1,7 @@
-import useAuthentication from "components/account/useAuthentication";
 import ErrorMessage from "components/ErrorMessage";
 import Loading from "components/Loading";
-import parse from "csv-parse/lib/sync";
 import React from "react";
-import useSWRImmutable from "swr/immutable";
+import useFineTuneResults from "./useFineTuneResults";
 
 type ResultFileRecord = {
   elapsed_examples: number;
@@ -15,23 +13,7 @@ type ResultFileRecord = {
 };
 
 export default function FineTuneResultFile({ id }: { id: string }) {
-  const { headers } = useAuthentication();
-
-  const { data: results, error } = useSWRImmutable(
-    `files/${id}/content`,
-    async (resource) => {
-      const response = await fetch(`https://api.openai.com/v1/${resource}`, {
-        headers,
-      });
-      if (!response.ok) throw new Error(response.statusText);
-      const raw = await response.text();
-      return parse(raw, {
-        cast: true,
-        columns: true,
-        skip_empty_lines: true,
-      }) as ResultFileRecord[];
-    }
-  );
+  const { results, error } = useFineTuneResults(id);
 
   if (error) return <ErrorMessage error={error} />;
   if (!results) return <Loading />;

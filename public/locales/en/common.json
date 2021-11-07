@@ -6,6 +6,7 @@
   "pages": {
     "completions": "Completions",
     "classifications": "Classifications",
+    "fine-tune": "Fine-Tune Model",
     "search": "Search"
   }
 }

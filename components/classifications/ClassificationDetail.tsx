@@ -2,28 +2,23 @@ import { faChevronRight } from "@fortawesome/free-solid-svg-icons/faChevronRight
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Button, Loading, Textarea } from "@nextui-org/react";
 import useAuthentication from "components/account/useAuthentication";
-import ErrorMessage from "components/ErrorMessage";
+import DetailsPage from "components/DetailsPage";
 import FileMetadata from "components/files/FileMetadata";
+import InfoCard from "components/InfoCard";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
 import useSWRImmutable from "swr/immutable";
 import type { OpenAI } from "types/openai";
 
 export default function ClassificationDetail({ id }: { id: string }) {
-  const { t } = useTranslation();
   const { data: file, error } = useSWRImmutable<OpenAI.File>(`files/${id}`);
 
   return (
-    <main className="max-w-2xl mx-auto space-y-8">
-      <h1 className="text-3xl">
-        <span className="font-normal">{t("pages.classifications")}</span> {id}
-      </h1>
-      {error && <ErrorMessage error={error} />}
+    <DetailsPage name="classifications" id={id} error={error}>
       <ClassificationForm id={id} />
       {file ? <FileMetadata file={file} /> : <Loading />}
-    </main>
+    </DetailsPage>
   );
 }
 
@@ -87,7 +82,7 @@ function ClassificationResult({
   results: OpenAI.Classifications.Response;
 }) {
   return (
-    <div className="border rounded-xl shadow-sm p-4 space-y-1">
+    <InfoCard>
       <h3>
         <span className="font-normal">Label:</span> {results.label}
       </h3>
@@ -108,6 +103,6 @@ function ClassificationResult({
           ))}
         </tbody>
       </table>
-    </div>
+    </InfoCard>
   );
 }
