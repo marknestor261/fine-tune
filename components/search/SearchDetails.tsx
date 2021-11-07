@@ -17,13 +17,17 @@ export default function SearchDetails({ id }: { id: string }) {
   const { t } = useTranslation();
 
   return (
-    <main className="max-w-2xl mx-auto space-y-8">
+    <main className="max-w-4xl mx-auto space-y-8">
       <h1 className="text-3xl">
         <span className="font-normal">{t("pages.search")}</span> {id}
       </h1>
       {error && <ErrorMessage error={error} />}
-      <SearchForm id={id} />
-      {file ? <FileMetadata file={file} /> : <Loading />}
+      <div className="grid md:grid-cols-3 gap-8">
+        <div className="col-span-2">
+          <SearchForm id={id} />
+        </div>
+        {file ? <FileMetadata file={file} /> : <Loading />}
+      </div>
     </main>
   );
 }
