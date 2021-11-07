@@ -21,12 +21,14 @@ export default function FineTuneResultFile({ id }: { id: string }) {
   return (
     <table className="w-full text-left" cellPadding={4}>
       <thead>
-        <th>Step</th>
-        <th>Elapsed Tokens</th>
-        <th>Examples</th>
-        <th>Training Loss</th>
-        <th>Sequency Accuracy</th>
-        <th>Token Accuracy</th>
+        <tr>
+          <th>Step</th>
+          <th>Elapsed Tokens</th>
+          <th>Examples</th>
+          <th>Training Loss</th>
+          <th>Sequency Accuracy</th>
+          <th>Token Accuracy</th>
+        </tr>
       </thead>
       <tbody>
         {results.map((row) => (

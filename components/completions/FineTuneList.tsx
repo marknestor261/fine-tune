@@ -8,7 +8,7 @@ import { toast } from "react-toastify";
 import useSWR, { mutate } from "swr";
 import type { OpenAI } from "types/openai";
 
-export default function FineTunes() {
+export default function FineTuneList() {
   const { data, error } = useSWR<OpenAI.List<OpenAI.FineTune>>("fine-tunes");
 
   if (error) return <ErrorMessage error={error} />;

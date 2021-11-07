@@ -5,6 +5,7 @@ import useAuthentication from "components/account/useAuthentication";
 import DetailsPage from "components/DetailsPage";
 import FileMetadata from "components/files/FileMetadata";
 import InfoCard from "components/InfoCard";
+import RequestCode from "components/RequestCode";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
@@ -27,17 +28,18 @@ function ClassificationForm({ id }: { id: string }) {
   const { headers } = useAuthentication();
   const [results, setResults] = useState<OpenAI.Classifications.Response[]>([]);
 
-  const onSubmit = form.handleSubmit(async ({ query }) => {
-    const request: OpenAI.Classifications.Request = {
-      file: id,
-      model: "davinci",
-      query,
-    };
-    const response = await fetch("https://api.openai.com/v1/classifications", {
-      headers: { ...headers, "content-type": "application/json" },
-      method: "POST",
-      body: JSON.stringify(request),
-    });
+  form.watch("query");
+
+  const request = {
+    url: "https://api.openai.com/v1/classifications",
+    method: "POST",
+    headers: { ...headers, "Content-Type": "application/json" },
+    body: { file: id, model: "davinci", query: form.getValues().query },
+  };
+
+  const onSubmit = form.handleSubmit(async () => {
+    const { url, body, ...init } = request;
+    const response = await fetch(url, { ...init, body: JSON.stringify(body) });
     if (response.ok) {
       const json = await response.json();
       setResults([json, ...results]);
@@ -72,6 +74,7 @@ function ClassificationForm({ id }: { id: string }) {
       {results.map((result, index) => (
         <ClassificationResult key={index} results={result} />
       ))}
+      <RequestCode request={request} />
     </>
   );
 }
@@ -89,8 +92,10 @@ function ClassificationResult({
       <table className="w-full text-left">
         <caption className="text-left my-2">Based on:</caption>
         <thead>
-          <th>Label</th>
-          <th>Example</th>
+          <tr>
+            <th>Label</th>
+            <th>Example</th>
+          </tr>
         </thead>
         <tbody>
           {results.selected_examples.map((example) => (

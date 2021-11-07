@@ -4,7 +4,8 @@ import { Button, Textarea } from "@nextui-org/react";
 import useAuthentication from "components/account/useAuthentication";
 import DetailsPage from "components/DetailsPage";
 import InfoCard from "components/InfoCard";
-import { useState } from "react";
+import RequestCode from "components/RequestCode";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import useSWRImmutable from "swr/immutable";
@@ -35,19 +36,24 @@ function FineTuneForm({ fineTune }: { fineTune: OpenAI.FineTune }) {
   const { headers } = useAuthentication();
   const [results, setResults] = useState<OpenAI.Completions.Response[]>([]);
 
-  const onSubmit = form.handleSubmit(async ({ prompt }) => {
-    const request: OpenAI.Completions.Request = {
-      model: fineTune?.fine_tuned_model,
-      prompt,
+  form.watch("prompt");
+
+  const request = {
+    url: `https://api.openai.com/v1/completions`,
+    method: "POST",
+    headers: { ...headers, "Content-Type": "application/json" },
+    body: {
+      model: fineTune.fine_tuned_model,
+      prompt: form.getValues().prompt,
       n: 3,
       temperature: 0.8,
       max_tokens: 30,
-    };
-    const response = await fetch(`https://api.openai.com/v1/completions`, {
-      headers: { ...headers, "content-type": "application/json" },
-      method: "POST",
-      body: JSON.stringify(request),
-    });
+    },
+  };
+
+  const onSubmit = form.handleSubmit(async () => {
+    const { url, body, ...init } = request;
+    const response = await fetch(url, { ...init, body: JSON.stringify(body) });
     if (response.ok) {
       const json = await response.json();
       setResults([json, ...results]);
@@ -82,6 +88,7 @@ function FineTuneForm({ fineTune }: { fineTune: OpenAI.FineTune }) {
       {results.map((result, index) => (
         <CompletionResults key={index} results={result} />
       ))}
+      <RequestCode request={request} />
     </>
   );
 }

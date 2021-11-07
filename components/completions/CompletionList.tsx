@@ -3,7 +3,7 @@ import UploadFileButton from "components/files/UploadFileButton";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import CreateCompletionButton from "./CreateCompletionButton";
-import FineTunes from "./FineTunes";
+import FineTuneList from "./FineTuneList";
 
 export default function ClassificationList() {
   const { t } = useTranslation();
@@ -15,7 +15,7 @@ export default function ClassificationList() {
           <h1 className="text-3xl">{t("pages.completions")}</h1>
           <CreateCompletionButton />
         </div>
-        <FineTunes />
+        <FineTuneList />
       </section>
       <section>
         <div className="flex flex-nowrap justify-between items-center">

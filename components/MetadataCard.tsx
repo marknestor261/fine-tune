@@ -50,8 +50,8 @@ function ClickToCopy({
   className?: string;
   value: string;
 }) {
-  const [copied, setCopied] = useState(false);
   const [, copy] = useCopyToClipboard();
+  const [copied, setCopied] = useState(false);
 
   return (
     <Tooltip

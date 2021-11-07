@@ -5,6 +5,7 @@ import useAuthentication from "components/account/useAuthentication";
 import DetailsPage from "components/DetailsPage";
 import FileMetadata from "components/files/FileMetadata";
 import Loading from "components/Loading";
+import RequestCode from "components/RequestCode";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
@@ -28,16 +29,18 @@ function SearchForm({ id }: { id: string }) {
   const { headers } = useAuthentication();
   const [results, setResults] = useState<OpenAI.Search.Response[]>([]);
 
-  const onSubmit = form.handleSubmit(async ({ query }) => {
-    const request: OpenAI.Search.Request = { file: id, query };
-    const response = await fetch(
-      `https://api.openai.com/v1/engines/${engine}/search`,
-      {
-        headers: { ...headers, "content-type": "application/json" },
-        method: "POST",
-        body: JSON.stringify(request),
-      }
-    );
+  form.watch("query");
+
+  const request = {
+    url: `https://api.openai.com/v1/engines/${engine}/search`,
+    method: "POST",
+    headers: { ...headers, "Content-Type": "application/json" },
+    body: { file: id, query: form.getValues().query },
+  };
+
+  const onSubmit = form.handleSubmit(async () => {
+    const { url, body, ...init } = request;
+    const response = await fetch(url, { ...init, body: JSON.stringify(body) });
     if (response.ok) {
       const json = await response.json();
       setResults([json, ...results]);
@@ -71,6 +74,7 @@ function SearchForm({ id }: { id: string }) {
       {results.map((result, i) => (
         <SearchResult key={i} results={result} />
       ))}
+      <RequestCode request={request} />
     </>
   );
 }
@@ -80,8 +84,10 @@ function SearchResult({ results }: { results: OpenAI.Search.Response }) {
     <div className="border rounded-xl shadow-sm p-4 space-y-1">
       <table className="w-full text-left">
         <thead>
-          <th>Score</th>
-          <th>Document</th>
+          <tr>
+            <th>Score</th>
+            <th>Document</th>
+          </tr>
         </thead>
         <tbody>
           {results.data.map((result) => (
