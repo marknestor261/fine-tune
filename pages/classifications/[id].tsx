@@ -8,7 +8,7 @@ export default function ClassificationsPage() {
   const { id } = router.query;
   return (
     <LoginRequired>
-      <ClassificationDetail id={String(id)} />
+      {id && <ClassificationDetail id={String(id)} />}
     </LoginRequired>
   );
 }

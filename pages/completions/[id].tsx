@@ -8,8 +8,6 @@ export default function CompletionsPage() {
   const { id } = router.query;
 
   return (
-    <LoginRequired>
-      <FineTuneDetails id={String(id)} />
-    </LoginRequired>
+    <LoginRequired>{id && <FineTuneDetails id={String(id)} />}</LoginRequired>
   );
 }

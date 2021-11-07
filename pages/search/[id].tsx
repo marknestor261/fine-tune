@@ -7,8 +7,6 @@ export default function SearchPage() {
   const router = useRouter();
   const { id } = router.query;
   return (
-    <LoginRequired>
-      <SearchDetails id={String(id)} />
-    </LoginRequired>
+    <LoginRequired>{id && <SearchDetails id={String(id)} />}</LoginRequired>
   );
 }
