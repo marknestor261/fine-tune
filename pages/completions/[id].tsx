@@ -1,6 +1,6 @@
 import LoginRequired from "components/account/LoginRequired";
 import FineTuneDetails from "components/completions/FineTuneDetails";
-import { useRouter } from "next/dist/client/router";
+import { useRouter } from "next/router";
 import React from "react";
 
 export default function CompletionsPage() {

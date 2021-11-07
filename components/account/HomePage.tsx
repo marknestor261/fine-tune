@@ -1,11 +1,12 @@
 import { faChevronRight } from "@fortawesome/free-solid-svg-icons/faChevronRight";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Button } from "@nextui-org/react";
-import Layout from "components/Layout";
+import PageLayout from "components/PageLayout";
 import Image from "next/image";
 import NextLink from "next/link";
 import screenshot from "public/images/screenshot.png";
 import React from "react";
+import { useTranslation } from "react-i18next";
 import Signin from "./SignIn";
 import useAuthentication from "./useAuthentication";
 
@@ -13,7 +14,7 @@ export default function HomePage() {
   const { isSignedIn } = useAuthentication();
 
   return (
-    <Layout fullPage={true}>
+    <PageLayout fullPage={true}>
       <Header />
       <div className="my-20 w-full flex flex-col lg:flex-row gap-x-20 gap-y-8">
         <div className="py-10 mx-auto flex-shrink-0 w-96">
@@ -22,16 +23,18 @@ export default function HomePage() {
         <Promo />
       </div>
       <Footer />
-    </Layout>
+    </PageLayout>
   );
 }
 
 function Header() {
+  const { t } = useTranslation();
+
   return (
     <header>
       <h1>
-        👋 Trainer
-        <span className="font-light ml-4">The missing UI for OpenAI</span>
+        {t("app.title")}
+        <span className="font-light ml-4">{t("app.subtitle")}</span>
       </h1>
     </header>
   );

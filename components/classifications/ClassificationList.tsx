@@ -1,16 +1,18 @@
 import FileListTable from "components/files/FileListTable";
 import UploadFileButton from "components/files/UploadFileButton";
-import { useRouter } from "next/dist/client/router";
+import { useRouter } from "next/router";
 import React from "react";
+import { useTranslation } from "react-i18next";
 
 export default function ClassificationList() {
   const router = useRouter();
+  const { t } = useTranslation();
 
   return (
     <main className="max-w-4xl mx-auto">
       <section>
         <div className="flex flex-nowrap justify-between items-center">
-          <h1 className="text-3xl">Classifications</h1>
+          <h1 className="text-3xl">{t("pages.classifications")}</h1>
           <UploadFileButton purpose="classifications" />
         </div>
         <FileListTable

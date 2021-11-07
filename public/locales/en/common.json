@@ -1,0 +1,11 @@
+{
+  "app": {
+    "title": "👋 Trainer",
+    "subtitle": "The missing UI for OpenAI"
+  },
+  "pages": {
+    "completions": "Completions",
+    "classifications": "Classifications",
+    "search": "Search"
+  }
+}

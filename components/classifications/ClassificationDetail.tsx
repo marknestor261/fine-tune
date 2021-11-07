@@ -6,17 +6,19 @@ import ErrorMessage from "components/ErrorMessage";
 import FileMetadata from "components/files/FileMetadata";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
+import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
 import useSWR from "swr";
 import type { OpenAI } from "types/openai";
 
 export default function ClassificationDetail({ id }: { id: string }) {
+  const { t } = useTranslation();
   const { data: file, error } = useSWR<OpenAI.File>(`files/${id}`);
 
   return (
     <main className="max-w-2xl mx-auto space-y-8">
       <h1 className="text-3xl">
-        <span className="font-normal">Classifications</span> {id}
+        <span className="font-normal">{t("pages.classifications")}</span> {id}
       </h1>
       {error && <ErrorMessage error={error} />}
       <ClassificationForm id={id} />
