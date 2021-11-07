@@ -1,4 +1,3 @@
-import { Link } from "@nextui-org/react";
 import classnames from "classnames";
 import NextLink from "next/link";
 import React from "react";
@@ -36,12 +35,12 @@ function PageHeader({ signOut }: { signOut: () => void }) {
 
   return (
     <header className="mb-8 flex flex-wrap justify-between items-center gap-4 text-xl">
-      <Link href="/">
+      <NextLink href="/">
         <a className="whitespace-nowrap text-black">
           <span className="font-bold">{t("app.title")}</span>
           <span className="font-light ml-2">{t("app.subtitle")}</span>
         </a>
-      </Link>
+      </NextLink>
       <nav className="space-x-4 whitespace-nowrap">
         {navigation.map((object) =>
           Object.entries(object).map(([key, href]) => (
