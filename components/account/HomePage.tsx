@@ -15,7 +15,7 @@ export default function HomePage() {
   return (
     <Layout fullPage={true}>
       <Header />
-      <div className="my-20 w-full flex flex-col lg:flex-row gap-x-32 gap-y-8">
+      <div className="my-20 w-full flex flex-col lg:flex-row gap-x-20 gap-y-8">
         <div className="py-10 mx-auto flex-shrink-0 w-96">
           {isSignedIn ? <WelcomeBack /> : <Signin />}
         </div>
@@ -59,9 +59,7 @@ function WelcomeBack() {
 function Promo() {
   return (
     <section>
-      <div className="shadow-lg rounded-lg border-gray-100 border py-2 bg-white">
-        <Image {...screenshot} />
-      </div>
+      <Image {...screenshot} />
       <ul className="mt-8 text-xl list-disc">
         <li>Go beyond the playground</li>
         <li>

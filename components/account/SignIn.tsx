@@ -40,13 +40,15 @@ export default function Signin() {
   });
 
   return (
-    <div className="divide-y">
-      <h2>Sign In</h2>
+    <div>
+      <h1 className="text-xl">Sign In</h1>
+      <hr />
       <form className="py-5 space-y-4" onSubmit={onSubmit}>
         {error && <div className="text-red-500 my-4">{error}</div>}
         <div>
           <Input
             autoFocus
+            bordered
             label="OpenAI API Key"
             required
             type="text"
@@ -67,6 +69,7 @@ export default function Signin() {
         </div>
         <div>
           <Input
+            bordered
             label="Organization ID (Optional)"
             type="text"
             width="100%"
@@ -83,11 +86,11 @@ export default function Signin() {
             {"Let's Go"}
           </Button>
         </div>
-        <p className="text-sm">
-          Your API key does not leave your browser, except to access the OpenAI
-          API.
-        </p>
       </form>
+      <p>
+        Your API key does not leave your browser, except to access the OpenAI
+        API.
+      </p>
     </div>
   );
 }
