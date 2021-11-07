@@ -40,7 +40,7 @@ export default function Signin() {
   });
 
   return (
-    <div className="w-96 divide-y">
+    <div className="divide-y">
       <h2>Sign In</h2>
       <form className="py-5 space-y-4" onSubmit={onSubmit}>
         {error && <div className="text-red-500 my-4">{error}</div>}

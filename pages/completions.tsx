@@ -1,11 +1,11 @@
-import Account from "components/account/Account";
+import LoginRequired from "components/account/LoginRequired";
 import Completions from "components/completions/Completions";
 import React from "react";
 
 export default function CompletionsPage() {
   return (
-    <Account>
+    <LoginRequired>
       <Completions />
-    </Account>
+    </LoginRequired>
   );
 }

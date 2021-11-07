@@ -1,4 +1,5 @@
 import { CssBaseline, Text } from "@nextui-org/react";
+import Account from "components/account/Account";
 import { AppProps } from "next/dist/shared/lib/router/router";
 import React from "react";
 import { toast, ToastContainer } from "react-toastify";
@@ -9,7 +10,9 @@ export default function App({ Component, pageProps }: AppProps) {
     <ErrorBoundary>
       <CssBaseline />
       <ToastContainer hideProgressBar />
-      <Component {...pageProps} />
+      <Account>
+        <Component {...pageProps} />
+      </Account>
     </ErrorBoundary>
   );
 }

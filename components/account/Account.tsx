@@ -8,9 +8,11 @@ import requestHeaders from "./requestHeaders";
 
 export const AccountContext = React.createContext<{
   headers?: { [key: string]: string };
+  isSignedIn: boolean;
   signIn: (apiKey: string, organizationId: string) => void;
   signOut: () => void;
 }>({
+  isSignedIn: false,
   signIn: () => undefined,
   signOut: () => undefined,
 });
@@ -51,7 +53,9 @@ export default function Account({ children }: { children: React.ReactNode }) {
   if (!process.browser) return null;
 
   return (
-    <AccountContext.Provider value={{ headers, signIn, signOut }}>
+    <AccountContext.Provider
+      value={{ isSignedIn: !!apiKey, headers, signIn, signOut }}
+    >
       {apiKey ? (
         <SWRConfig value={{ fetcher, onError }}>
           <Layout>{children}</Layout>
