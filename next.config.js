@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
+const withMDX = require("@next/mdx")();
 
 const config = {
   i18n: {
@@ -8,4 +9,4 @@ const config = {
   poweredByHeader: false,
 };
 
-module.exports = config;
+module.exports = withMDX(config);
