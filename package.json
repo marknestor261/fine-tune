@@ -1,5 +1,5 @@
 {
-  "name": "@assaf/trainer",
+  "name": "@assaf/fine-tune",
   "version": "1.0.0",
   "description": "👋 The missing UI for working with OpenAI: manage your files, and fine tune models.",
   "scripts": {
@@ -7,9 +7,9 @@
     "lint": "yarn next lint --dir components --dir pages ; tsc --noEmit"
   },
   "author": "Assaf Arkin <assaf@labnotes.org> (https://labnotes.org/)",
-  "homepage": "https://trainer.labnotes.org",
+  "homepage": "https://fine-tune.labnotes.org",
   "license": "MIT",
-  "repository": "github:assaf/trainer.git",
+  "repository": "github:assaf/fine-tune.git",
   "private": true,
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.36",

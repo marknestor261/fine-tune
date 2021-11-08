@@ -1,6 +1,8 @@
 {
   "app": {
-    "title": "👋 Trainer",
+    "emoji": "👋",
+    "name": "Fine Tune",
+    "title": "$t(app.emoji) $t(app.name)",
     "subtitle": "The missing UI for OpenAI"
   },
   "pages": {

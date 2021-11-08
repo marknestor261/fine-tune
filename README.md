@@ -1,4 +1,4 @@
-## 👋 Trainer: The missing UI for OpenAI
+## 👋 Fine Tune: The missing UI for OpenAI
 
 ![](public/images/screenshot.png)
 
