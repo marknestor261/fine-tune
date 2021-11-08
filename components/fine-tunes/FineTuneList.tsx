@@ -3,7 +3,6 @@ import useAuthentication from "components/account/useAuthentication";
 import ErrorMessage from "components/ErrorMessage";
 import Loading from "components/Loading";
 import Link from "next/link";
-import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import useSWR, { mutate } from "swr";
@@ -61,8 +60,8 @@ function Processing({ fineTunes }: { fineTunes: OpenAI.FineTune[] }) {
 }
 
 function FineTunesTable({ fineTunes }: { fineTunes: OpenAI.FineTune[] }) {
-  const router = useRouter();
   const ready = fineTunes.filter((fineTune) => fineTune.status === "succeeded");
+  const router = useRouter();
   return (
     <table className="my-4 w-full border-collapse">
       <tbody>
