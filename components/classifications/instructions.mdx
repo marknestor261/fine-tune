@@ -1,4 +1,14 @@
-Upload files with a list of label records. Each record contains `text`, `label`, and optional `metadata` fields. Currently only support JSONL files. For more details and examples, refer to the 
-[OpenAI docs](https://beta.openai.com/docs/guides/classifications).
+To classify with more than 200 examples, upload a file containing classification examples/labels.
 
-Click on the classifications file ID in the table to open the test UI.  From there, you can enter some text and see how it gets classified, and examples used for classification.
+The file can be CSV or JSONL. It must contain the columns "text" and "label", and may also include the column "metadata". [More details](https://beta.openai.com/docs/guides/classifications)
+
+For example:
+
+```
+{ "text": "good film, but very glum.",
+  "label": "Positive",
+  "metadata": { "source": "example.com" } }
+{ "text": "i sympathize with the plight of these families, but the movie doesn't do a very good job conveying the issue at hand.",
+  "label": "Negative",
+  "metadata": { "source": "example.com" } }
+```

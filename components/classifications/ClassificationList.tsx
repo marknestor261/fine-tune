@@ -15,7 +15,12 @@ export default function ClassificationList() {
           <h1 className="text-3xl">{t("pages.classifications")}</h1>
           <UploadFileButton
             purpose="classifications"
-            fields={["text", "label"]}
+            enforce={{
+              required: ["text", "label"],
+              optional: ["metadata"],
+              count: ["text"],
+              maxTokens: 2000,
+            }}
           />
         </div>
         <FileListTable

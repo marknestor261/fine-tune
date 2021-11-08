@@ -1,3 +1,10 @@
-To search, upload a file that contains multiple documents. Each record has a `text` field with the document text. Currently only support JSONL files. For more details and examples, refer to the [OpenAI docs](https://beta.openai.com/docs/guides/searches).
+To search against more than 200 documents, upload a file containing the documents to search through.
 
-Click on the searches file ID in the table to open the test UI. From there, you can do a search and see which documents match and their match score.
+The file can be CSV or JSONL. It must contain a column with the name "text", and may also include the column "metadata". [More details](https://beta.openai.com/docs/guides/search)
+
+For example:
+
+```
+{"text": "puppy A is happy", "metadata": "emotional state of puppy A"}
+{"text": "puppy B is sad", "metadata": "emotional state of puppy B"}
+```

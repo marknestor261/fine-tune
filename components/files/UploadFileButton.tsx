@@ -1,80 +1,27 @@
 import { faFileUpload } from "@fortawesome/free-solid-svg-icons/faFileUpload";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Button } from "@nextui-org/react";
-import useAuthentication from "components/account/useAuthentication";
-import parse from "csv-parse/lib/sync";
-import React, { useEffect, useRef, useState } from "react";
-import { toast } from "react-toastify";
-import { mutate } from "swr";
+import React, { useEffect, useRef } from "react";
 import { OpenAI } from "types/openai";
+import useUploadFile, { Enforce } from "./useUploadFile";
 
 export default function UploadFileButton({
-  fields,
+  enforce,
   purpose,
 }: {
-  fields: string[];
+  enforce: Enforce;
   purpose: OpenAI.Purpose;
 }) {
   const inputRef = useRef<HTMLInputElement>(null);
-  const [isLoading, setIsLoading] = useState(false);
-  const { headers } = useAuthentication();
+  const { isLoading, uploadFile } = useUploadFile(purpose, enforce);
 
-  useEffect(function () {
-    function onDragOver() {
-      return;
-    }
-
-    window.addEventListener("dragover", onDragOver);
-    return () => window.removeEventListener("dragover", onDragOver);
-  }, []);
-
-  useEffect(function () {
-    function onDrop(event: DragEvent) {
-      event.preventDefault();
-      const files = event.dataTransfer?.files;
-      if (files) for (const file of files) uploadFile(file);
-    }
-
-    window.addEventListener("drop", onDrop);
-    return () => window.removeEventListener("drop", onDrop);
-  }, []);
-
-  async function uploadFile(file: File) {
-    try {
-      setIsLoading(true);
-
-      const jsonl = await toJSONL(file, fields);
-      const body = new FormData();
-      body.append("purpose", purpose);
-      body.append(
-        "file",
-        // eslint-disable-next-line sonarjs/no-duplicate-string
-        new Blob([jsonl], { type: "application/json" }),
-        file.name
-      );
-
-      const response = await fetch("https://api.openai.com/v1/files", {
-        method: "POST",
-        headers,
-        body,
-      });
-      if (response.ok) {
-        await mutate("files");
-        toast.success("File uploaded successfully");
-      } else {
-        const { error } = (await response.json()) as OpenAI.ErrorResponse;
-        toast.error(error.message);
-      }
-    } catch (error) {
-      toast.error(String(error));
-    } finally {
-      setIsLoading(false);
-    }
-  }
+  useOnDrop(uploadFile);
 
   async function onChange() {
-    const file = inputRef.current?.files?.[0];
+    if (!inputRef.current) return;
+    const file = inputRef.current.files?.[0];
     if (file) await uploadFile(file);
+    inputRef.current.value = "";
   }
 
   return (
@@ -99,37 +46,23 @@ export default function UploadFileButton({
   );
 }
 
-async function toJSONL(file: File, fields: string[]) {
-  switch (file.type) {
-    case "application/json": {
-      let lines;
-      try {
-        const text = await file.text();
-        lines = text.split("\n").map((line) => JSON.parse(line));
-      } catch (error) {
-        throw new Error("This is not a JSONL file");
-      }
-      validate(lines, fields);
-      return lines.map((row) => JSON.stringify(row)).join("\n");
+function useOnDrop(uploadFile: (file: File) => void) {
+  useEffect(function () {
+    function onDragOver(event: DragEvent) {
+      event.preventDefault();
+    }
+    document.addEventListener("dragover", onDragOver);
+    return () => document.removeEventListener("dragover", onDragOver);
+  }, []);
+
+  useEffect(function () {
+    function onDrop(event: DragEvent) {
+      event.preventDefault();
+      const files = event.dataTransfer?.files;
+      if (files) for (const file of files) uploadFile(file);
     }
 
-    case "text/csv": {
-      const text = await file.text();
-      const csv = parse(text, { columns: true }) as { [key: string]: string }[];
-      validate(csv, fields);
-      return csv.map((row) => JSON.stringify(row)).join("\n");
-    }
-
-    default: {
-      throw new Error(`Unsupported file type ${file.type}`);
-    }
-  }
-}
-
-function validate(records: Array<{ [key: string]: string }>, fields: string[]) {
-  fields.forEach((field) => {
-    const all = records.every((record) => record[field] !== undefined);
-    if (!all)
-      throw new Error(`Some or all records missing the field "${field}""`);
-  });
+    document.addEventListener("drop", onDrop);
+    return () => document.removeEventListener("drop", onDrop);
+  }, []);
 }

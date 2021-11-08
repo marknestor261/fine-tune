@@ -1,9 +1,11 @@
 import FileListTable from "components/files/FileListTable";
 import UploadFileButton from "components/files/UploadFileButton";
 import FineTuneList from "components/fine-tunes/FineTuneList";
+import UsageInstructions from "components/UsageInstructions";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import CreateCompletionButton from "./CreateCompletionButton";
+import Instructions from "./instructions.mdx";
 
 export default function ClassificationList() {
   const { t } = useTranslation();
@@ -22,11 +24,18 @@ export default function ClassificationList() {
           <h3>Training Files</h3>
           <UploadFileButton
             purpose="fine-tune"
-            fields={["prompt", "completion"]}
+            enforce={{
+              required: ["prompt", "completion"],
+              count: ["prompt", "completion"],
+              maxTokens: 2048,
+            }}
           />
         </div>
         <FileListTable purpose="fine-tune" />
       </section>
+      <UsageInstructions>
+        <Instructions />
+      </UsageInstructions>
     </main>
   );
 }
