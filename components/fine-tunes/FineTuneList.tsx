@@ -61,7 +61,6 @@ function Processing({ fineTunes }: { fineTunes: OpenAI.FineTune[] }) {
 
 function FineTunesTable({ fineTunes }: { fineTunes: OpenAI.FineTune[] }) {
   const ready = fineTunes.filter((fineTune) => fineTune.status === "succeeded");
-  const router = useRouter();
   return (
     <table className="my-4 w-full border-collapse">
       <tbody>
