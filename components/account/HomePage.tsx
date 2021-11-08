@@ -1,7 +1,6 @@
 import { faChevronRight } from "@fortawesome/free-solid-svg-icons/faChevronRight";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Button } from "@nextui-org/react";
-import PageLayout from "components/PageLayout";
 import Image from "next/image";
 import NextLink from "next/link";
 import packageJSON from "package.json";
@@ -16,16 +15,16 @@ export default function HomePage() {
   const { isSignedIn } = useAuthentication();
 
   return (
-    <PageLayout fullPage={true}>
+    <>
       <Header />
-      <div className="my-20 w-full flex flex-col lg:flex-row gap-x-20 gap-y-8">
+      <div className="my-20 max-w-4xl mx-auto flex flex-col lg:flex-row gap-x-20 gap-y-8">
         <div className="py-10 mx-auto flex-shrink-0 w-96">
           {isSignedIn ? <WelcomeBack /> : <Signin />}
         </div>
         <Promo />
       </div>
       <Footer />
-    </PageLayout>
+    </>
   );
 }
 

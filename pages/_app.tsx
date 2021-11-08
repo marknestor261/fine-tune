@@ -20,8 +20,8 @@ function App({ Component, pageProps }: AppProps) {
   return (
     <ErrorBoundary>
       <NextSeo
-        title={ready ? t("$t(app.title) — $(app.subtitle)") : "🥱 waking up …"}
-        description={ready ? t("$t(app.title) — $(app.subtitle)") : undefined}
+        title={ready ? t("$t(app.title) — $t(app.subtitle)") : "🥱 waking up …"}
+        description={ready ? t("$t(app.title) — $t(app.subtitle)") : undefined}
         openGraph={{
           images: [
             {
@@ -34,11 +34,11 @@ function App({ Component, pageProps }: AppProps) {
       />
       <CssBaseline />
       <ToastContainer hideProgressBar />
-      <Account>
-        <PageLayout fullPage={pageProps.fullPage}>
+      <PageLayout fullPage={pageProps.fullPage}>
+        <Account>
           <Component {...pageProps} />
-        </PageLayout>
-      </Account>
+        </Account>
+      </PageLayout>
     </ErrorBoundary>
   );
 }
