@@ -14,12 +14,8 @@
 @tailwind components;
 @tailwind utilities;
 
-input:focus {
-  box-shadow: none !important;
-}
-
 details summary {
-  @apply font-title text-lg;
+  @apply font-title text-base;
   @apply pl-5 relative w-full cursor-pointer;
 }
 details summary:after {
