@@ -22,7 +22,6 @@ export default function DeleteFileButton({ id }: { id: string }) {
       }
     } catch (error) {
       toast.error(String(error));
-    } finally {
       setIsDeleting(false);
     }
   }
