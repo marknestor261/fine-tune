@@ -1,8 +1,5 @@
 module.exports = {
-  purge: {
-    content: ["./{components,pages}/**/*.{tsx,mdx}", "./public/**/*.html"],
-    css: ["style/index.css"],
-  },
+  content: ["./{components,pages}/**/*.{tsx,mdx}", "./public/**/*.html"],
   theme: {
     extend: {
       colors: {
