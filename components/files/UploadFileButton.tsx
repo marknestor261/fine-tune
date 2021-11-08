@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Button } from "@nextui-org/react";
 import useAuthentication from "components/account/useAuthentication";
 import parse from "csv-parse/lib/sync";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
 import { mutate } from "swr";
 import { OpenAI } from "types/openai";
@@ -19,11 +19,29 @@ export default function UploadFileButton({
   const [isLoading, setIsLoading] = useState(false);
   const { headers } = useAuthentication();
 
-  async function onChange() {
+  useEffect(function () {
+    function onDragOver() {
+      return;
+    }
+
+    window.addEventListener("dragover", onDragOver);
+    return () => window.removeEventListener("dragover", onDragOver);
+  }, []);
+
+  useEffect(function () {
+    function onDrop(event: DragEvent) {
+      event.preventDefault();
+      const files = event.dataTransfer?.files;
+      if (files) for (const file of files) uploadFile(file);
+    }
+
+    window.addEventListener("drop", onDrop);
+    return () => window.removeEventListener("drop", onDrop);
+  }, []);
+
+  async function uploadFile(file: File) {
     try {
       setIsLoading(true);
-      const file = inputRef.current?.files?.[0];
-      if (!file) return;
 
       const jsonl = await toJSONL(file, fields);
       const body = new FormData();
@@ -52,6 +70,11 @@ export default function UploadFileButton({
     } finally {
       setIsLoading(false);
     }
+  }
+
+  async function onChange() {
+    const file = inputRef.current?.files?.[0];
+    if (file) await uploadFile(file);
   }
 
   return (
