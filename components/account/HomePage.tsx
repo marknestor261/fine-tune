@@ -8,6 +8,7 @@ import { repository } from "package.json";
 import screenshot from "public/images/screenshot.png";
 import React from "react";
 import { useTranslation } from "react-i18next";
+import useSWR from "swr";
 import Signin from "./SignIn";
 import useAuthentication from "./useAuthentication";
 
@@ -61,6 +62,10 @@ function WelcomeBack() {
 }
 
 function Promo() {
+  const { data } = useSWR("advice", () =>
+    fetch("https://api.adviceslip.com/advice").then((res) => res.json())
+  );
+
   return (
     <section>
       <Image {...screenshot} />
@@ -75,6 +80,7 @@ function Promo() {
         <li>
           Upload and manage files for <b>search</b>
         </li>
+        {data && <li>{data.slip.advice}</li>}
       </ul>
     </section>
   );
