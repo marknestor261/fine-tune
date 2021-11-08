@@ -8,14 +8,14 @@ export default function UsageInstructions({
   children: React.ReactNode;
 }) {
   return (
-    <details className="prose mt-12 bg-white group">
-      <summary className="font-bold text-lg items-center flex justify-between">
-        Usage Instructions
+    <details className="mt-12 bg-white group prose">
+      <summary className="font-bold text-lg flex gap-2 items-center">
         <FontAwesomeIcon icon={faChevronDown} className="group-open:hidden" />
         <FontAwesomeIcon
           icon={faChevronUp}
           className="hidden group-open:inline"
         />
+        Usage Instructions
       </summary>
       {children}
     </details>

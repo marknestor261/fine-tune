@@ -32,8 +32,8 @@ module.exports = {
   },
   variants: {},
   plugins: [
-    "@tailwindcss/forms",
-    "@tailwindcss/typography",
+    require("@tailwindcss/forms"),
+    require("@tailwindcss/typography"),
     "tailwindcss-truncate-multiline",
   ],
 };

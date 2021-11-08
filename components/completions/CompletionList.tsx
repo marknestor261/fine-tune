@@ -27,7 +27,6 @@ export default function ClassificationList() {
         </div>
         <FileListTable purpose="fine-tune" />
       </section>
-      <section className="prose mt-12 text-sm">{/* Instructions */}</section>
     </main>
   );
 }
