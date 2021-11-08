@@ -5,7 +5,7 @@ import useAuthentication from "components/account/useAuthentication";
 import DetailsPage from "components/DetailsPage";
 import FileMetadata from "components/files/FileMetadata";
 import InfoCard from "components/InfoCard";
-import RequestCode from "components/RequestCode";
+import ShowRequestExample from "components/ShowRequestExample";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
@@ -74,7 +74,7 @@ function ClassificationForm({ id }: { id: string }) {
       {results.map((result, index) => (
         <ClassificationResult key={index} results={result} />
       ))}
-      <RequestCode request={request} />
+      <ShowRequestExample request={request} />
     </>
   );
 }

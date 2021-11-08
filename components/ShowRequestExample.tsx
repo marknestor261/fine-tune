@@ -5,7 +5,7 @@ import { useState } from "react";
 import { useCopyToClipboard } from "usehooks-ts";
 import InfoCard from "./InfoCard";
 
-export default function RequestCode({
+export default function ShowRequestExample({
   request,
 }: {
   request: {

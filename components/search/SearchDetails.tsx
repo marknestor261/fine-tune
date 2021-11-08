@@ -5,7 +5,7 @@ import useAuthentication from "components/account/useAuthentication";
 import DetailsPage from "components/DetailsPage";
 import FileMetadata from "components/files/FileMetadata";
 import Loading from "components/Loading";
-import RequestCode from "components/RequestCode";
+import ShowRequestExample from "components/ShowRequestExample";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
@@ -74,7 +74,7 @@ function SearchForm({ id }: { id: string }) {
       {results.map((result, i) => (
         <SearchResult key={i} results={result} />
       ))}
-      <RequestCode request={request} />
+      <ShowRequestExample request={request} />
     </>
   );
 }

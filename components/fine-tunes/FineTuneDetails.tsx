@@ -4,7 +4,7 @@ import { Button, Textarea } from "@nextui-org/react";
 import useAuthentication from "components/account/useAuthentication";
 import DetailsPage from "components/DetailsPage";
 import InfoCard from "components/InfoCard";
-import RequestCode from "components/RequestCode";
+import ShowRequestExample from "components/ShowRequestExample";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
@@ -88,7 +88,7 @@ function FineTuneForm({ fineTune }: { fineTune: OpenAI.FineTune }) {
       {results.map((result, index) => (
         <CompletionResults key={index} results={result} />
       ))}
-      <RequestCode request={request} />
+      <ShowRequestExample request={request} />
     </>
   );
 }
