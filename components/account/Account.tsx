@@ -49,8 +49,6 @@ export default function Account({ children }: { children: React.ReactNode }) {
     setOrganizationId(null);
   }
 
-  if (!process.browser) return null;
-
   return (
     <AccountContext.Provider
       value={{ isSignedIn: !!apiKey, headers, signIn, signOut }}

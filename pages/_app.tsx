@@ -2,10 +2,11 @@ import { CssBaseline } from "@nextui-org/react";
 import Account from "components/account/Account";
 import ErrorMessage from "components/ErrorMessage";
 import PageLayout from "components/PageLayout";
+import { NextSeo } from "next-seo";
 import { AppProps } from "next/dist/shared/lib/router/router";
-import Head from "next/head";
 import { appWithI18Next } from "ni18n";
 import { ni18nConfig } from "ni18n.config";
+import screenshot from "public/images/screenshot.png";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { toast, ToastContainer } from "react-toastify";
@@ -18,11 +19,19 @@ function App({ Component, pageProps }: AppProps) {
 
   return (
     <ErrorBoundary>
-      <Head>
-        <title>
-          {ready ? t(`$t(app.title) — $t(app.subtitle)`) : "🥱 waking up …"}
-        </title>
-      </Head>
+      <NextSeo
+        title={ready ? t("app.title") : "🥱 waking up …"}
+        description={ready ? t(`$t(app.title) — $t(app.subtitle)`) : undefined}
+        openGraph={{
+          images: [
+            {
+              url: screenshot.src,
+              width: screenshot.width,
+              height: screenshot.height,
+            },
+          ],
+        }}
+      />
       <CssBaseline />
       <ToastContainer hideProgressBar />
       <Account>

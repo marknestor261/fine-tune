@@ -1,4 +1,3 @@
-import classnames from "classnames";
 import NextLink from "next/link";
 import React from "react";
 import { useTranslation } from "react-i18next";
@@ -19,11 +18,10 @@ export default function PageLayout({
 }) {
   const { signOut } = useAuthentication();
   const { ready } = useTranslation();
+  if (!ready) return null;
 
   return (
-    <div
-      className={classnames("container mx-auto p-4", ready ? null : "hidden")}
-    >
+    <div className={"container mx-auto p-4"}>
       {fullPage ? null : <PageHeader signOut={signOut} />}
       {children}
     </div>

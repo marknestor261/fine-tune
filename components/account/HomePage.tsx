@@ -4,7 +4,7 @@ import { Button } from "@nextui-org/react";
 import PageLayout from "components/PageLayout";
 import Image from "next/image";
 import NextLink from "next/link";
-import { repository } from "package.json";
+import packageJSON from "package.json";
 import screenshot from "public/images/screenshot.png";
 import React from "react";
 import { useTranslation } from "react-i18next";
@@ -87,7 +87,7 @@ function Promo() {
 }
 
 function Footer() {
-  const githubURL = repository.replace(
+  const githubURL = packageJSON.repository.replace(
     /github:(.*).git/,
     "https://github.com/$1"
   );
