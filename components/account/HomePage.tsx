@@ -4,6 +4,7 @@ import { Button } from "@nextui-org/react";
 import PageLayout from "components/PageLayout";
 import Image from "next/image";
 import NextLink from "next/link";
+import { repository } from "package.json";
 import screenshot from "public/images/screenshot.png";
 import React from "react";
 import { useTranslation } from "react-i18next";
@@ -80,6 +81,11 @@ function Promo() {
 }
 
 function Footer() {
+  const githubURL = repository.replace(
+    /github:(.*).git/,
+    "https://github.com/$1"
+  );
+
   return (
     <footer>
       <p>
@@ -87,7 +93,8 @@ function Footer() {
         your OpenAI. Use responsibly.
       </p>
       <p>
-        ❤️ Created by <a href="https://labnotes.org">Assaf Arkin</a>
+        ❤️ Created by <a href="https://labnotes.org">Assaf Arkin</a> &bull;{" "}
+        <a href={githubURL}>GitHub</a>
       </p>
     </footer>
   );
