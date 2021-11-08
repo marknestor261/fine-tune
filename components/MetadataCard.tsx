@@ -30,10 +30,12 @@ export function MetadataCard({
             <span className="w-20 flex-shrink-0 font-bold"> {label}</span>
             {clickToCopy ? (
               <ClickToCopy className="flex gap-2 items-center" value={value}>
-                <FontAwesomeIcon icon={faCopy} /> {value}
+                <span className="line-clamp-1">
+                  <FontAwesomeIcon icon={faCopy} /> {value}
+                </span>
               </ClickToCopy>
             ) : (
-              <span>{value}</span>
+              <span className="line-clamp-1">{value}</span>
             )}
           </div>
         ))}

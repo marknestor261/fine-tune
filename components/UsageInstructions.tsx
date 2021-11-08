@@ -17,7 +17,7 @@ export default function UsageInstructions({
         />
         Usage Instructions
       </summary>
-      {children}
+      <div>{children}</div>
     </details>
   );
 }

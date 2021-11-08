@@ -81,7 +81,7 @@ function FineTunesTable({ fineTunes }: { fineTunes: OpenAI.FineTune[] }) {
                   {fineTune.id}
                 </Button>
               </td>
-              <td className="truncate max-w-xs">
+              <td className="line-clamp-1 max-w-xs">
                 {[...fineTune.training_files, ...fineTune.validation_files]
                   .map(({ filename }) => filename)
                   .join(", ")}

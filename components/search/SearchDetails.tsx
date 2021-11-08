@@ -93,7 +93,7 @@ function SearchResult({ results }: { results: OpenAI.Search.Response }) {
           {results.data.map((result) => (
             <tr key={result.document}>
               <td className="align-top">{result.score.toFixed(2)}</td>
-              <td className="truncate-2-lines  ">{result.text}</td>
+              <td className="line-clamp-2">{result.text}</td>
             </tr>
           ))}
         </tbody>

@@ -10,14 +10,6 @@ module.exports = {
         title: ["Inter", "Roboto", "Helvetica", "Arial", "sans-serif"],
         body: ["Inter", "Roboto", "Helvetica", "Arial", "sans-serif"],
       },
-      truncate: {
-        lines: {
-          2: "2",
-          3: "3",
-          4: "4",
-          5: "5",
-        },
-      },
       typography: (theme) => ({
         DEFAULT: {
           css: {
@@ -34,6 +26,6 @@ module.exports = {
   plugins: [
     require("@tailwindcss/forms"),
     require("@tailwindcss/typography"),
-    "tailwindcss-truncate-multiline",
+    require("@tailwindcss/line-clamp"),
   ],
 };

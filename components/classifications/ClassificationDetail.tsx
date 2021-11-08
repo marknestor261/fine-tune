@@ -103,7 +103,7 @@ function ClassificationResult({
               <td className="align-top">
                 {example.label} ({example.score.toFixed(2)})
               </td>
-              <td className="truncate-2-lines  ">{example.text}</td>
+              <td className="line-clamp-4">{example.text}</td>
             </tr>
           ))}
         </tbody>
