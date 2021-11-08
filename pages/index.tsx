@@ -1,4 +1,4 @@
-import HomePage from "components/account/HomePage";
+import HomePage from "components/HomePage";
 import { GetStaticPropsContext } from "next";
 import { loadTranslations } from "ni18n";
 import { ni18nConfig } from "ni18n.config";

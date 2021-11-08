@@ -8,8 +8,8 @@ import screenshot from "public/images/screenshot.png";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import useSWR from "swr";
-import Signin from "./SignIn";
-import useAuthentication from "./useAuthentication";
+import SigninForm from "./account/SignInForm";
+import useAuthentication from "./account/useAuthentication";
 
 export default function HomePage() {
   const { isSignedIn } = useAuthentication();
@@ -19,7 +19,7 @@ export default function HomePage() {
       <Header />
       <div className="my-20 max-w-4xl mx-auto flex flex-col lg:flex-row gap-x-20 gap-y-8">
         <div className="py-10 mx-auto flex-shrink-0 w-96">
-          {isSignedIn ? <WelcomeBack /> : <Signin />}
+          {isSignedIn ? <WelcomeBack /> : <SigninForm />}
         </div>
         <Promo />
       </div>

@@ -1,5 +1,5 @@
 import React from "react";
-import HomePage from "./HomePage";
+import HomePage from "../HomePage";
 import useAuthentication from "./useAuthentication";
 
 export default function LoginRequired({

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { SWRConfig } from "swr";
 import { OpenAI } from "types/openai";
-import HomePage from "./HomePage";
+import HomePage from "../HomePage";
 import requestHeaders from "./requestHeaders";
 
 export const AccountContext = React.createContext<{

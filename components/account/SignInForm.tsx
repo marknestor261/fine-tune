@@ -8,7 +8,7 @@ import { toast } from "react-toastify";
 import requestHeaders from "./requestHeaders";
 import useAuthentication from "./useAuthentication";
 
-export default function Signin() {
+export default function SigninForm() {
   const { signIn } = useAuthentication();
   const [isLoading, setIsLoading] = useState(false);
   const initialValue = { apiKey: "", organizationId: "" };
