@@ -1,5 +1,6 @@
 import FileListTable from "components/files/FileListTable";
 import UploadFileButton from "components/files/UploadFileButton";
+import UsageInstructions from "components/UsageInstructions";
 import { useRouter } from "next/router";
 import React from "react";
 import { useTranslation } from "react-i18next";
@@ -21,9 +22,9 @@ export default function SearchList() {
           onClick={(file) => router.push(`/search/${file.id}`)}
         />
       </section>
-      <section className="prose mt-12 text-sm">
+      <UsageInstructions>
         <Instructions />
-      </section>
+      </UsageInstructions>
     </main>
   );
 }
