@@ -14,7 +14,7 @@ export default function SearchList() {
       <section>
         <div className="flex flex-nowrap justify-between items-center">
           <h1 className="text-3xl">{t("pages.search")}</h1>
-          <UploadFileButton purpose="search" />
+          <UploadFileButton purpose="search" fields={["text"]} />
         </div>
         <FileListTable
           purpose="search"

@@ -20,7 +20,10 @@ export default function ClassificationList() {
       <section>
         <div className="flex flex-nowrap justify-between items-center">
           <h3>Training Files</h3>
-          <UploadFileButton purpose="fine-tune" />
+          <UploadFileButton
+            purpose="fine-tune"
+            fields={["prompt", "completion"]}
+          />
         </div>
         <FileListTable purpose="fine-tune" />
       </section>

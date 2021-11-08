@@ -14,7 +14,10 @@ export default function ClassificationList() {
       <section>
         <div className="flex flex-nowrap justify-between items-center">
           <h1 className="text-3xl">{t("pages.classifications")}</h1>
-          <UploadFileButton purpose="classifications" />
+          <UploadFileButton
+            purpose="classifications"
+            fields={["text", "label"]}
+          />
         </div>
         <FileListTable
           purpose="classifications"
