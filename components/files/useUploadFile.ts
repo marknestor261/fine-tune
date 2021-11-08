@@ -28,7 +28,7 @@ export default function useUploadFile(purpose: string, enforce: Enforce) {
       setIsLoading(true);
 
       const records = await parseAndValidate(file, enforce);
-      const largeRecords = findLargeRecords(records, enforce);
+      const largeRecords = await findLargeRecords(records, enforce);
 
       if (largeRecords.length > 0) {
         const confirmed = confirmLargeRecords(largeRecords, enforce.maxTokens);
@@ -123,18 +123,21 @@ function validateRecords(
   });
 }
 
-function findLargeRecords(
+async function findLargeRecords(
   records: Array<{ [key: string]: string }>,
   enforce: Enforce
-): Array<{ row: number; text: string; tokens: number }> {
-  return records
-    .map((record) => enforce.count.map((key) => record[key]).join(" "))
-    .map((text, index) => ({
-      row: index + 1,
-      text,
-      tokens: text.split(" ").length,
-    }))
-    .filter(({ tokens }) => tokens > enforce.maxTokens);
+): Promise<Array<{ row: number; tokens: number }>> {
+  const encode = import("lib/encoder").then((mod) => mod.default);
+
+  const allRows = await Promise.all(
+    records
+      .map((record) => enforce.count.map((key) => record[key]).join(" "))
+      .map(async (text, index) => ({
+        row: index + 1,
+        tokens: (await encode)(text).length,
+      }))
+  );
+  return allRows.filter(({ tokens }) => tokens > enforce.maxTokens);
 }
 
 function confirmLargeRecords(

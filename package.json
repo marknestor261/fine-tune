@@ -4,7 +4,7 @@
   "description": "👋 The missing UI for working with OpenAI: manage your files, and fine tune models.",
   "scripts": {
     "dev": "yarn next dev",
-    "lint": "yarn next lint --dir components --dir pages ; tsc --noEmit"
+    "lint": "yarn next lint ; tsc --noEmit"
   },
   "author": "Assaf Arkin <assaf@labnotes.org> (https://labnotes.org/)",
   "homepage": "https://fine-tune.labnotes.org",
