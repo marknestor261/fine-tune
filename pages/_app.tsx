@@ -21,6 +21,7 @@ function App({ Component, pageProps }: AppProps) {
     <ErrorBoundary>
       <NextSeo
         title={ready ? t("$t(app.title) — $(app.subtitle)") : "🥱 waking up …"}
+        description={ready ? t("$t(app.title) — $(app.subtitle)") : undefined}
         openGraph={{
           images: [
             {
