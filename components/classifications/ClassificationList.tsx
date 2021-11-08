@@ -1,13 +1,11 @@
 import FileListTable from "components/files/FileListTable";
 import UploadFileButton from "components/files/UploadFileButton";
 import UsageInstructions from "components/UsageInstructions";
-import { useRouter } from "next/router";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import Instructions from "./instructions.mdx";
 
 export default function ClassificationList() {
-  const router = useRouter();
   const { t } = useTranslation();
 
   return (
