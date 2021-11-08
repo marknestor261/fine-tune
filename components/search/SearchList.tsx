@@ -19,7 +19,7 @@ export default function SearchList() {
         </div>
         <FileListTable
           purpose="search"
-          onClick={(file) => router.push(`/search/${file.id}`)}
+          linkTo={(file) => `/search/${file.id}`}
         />
       </section>
       <UsageInstructions>

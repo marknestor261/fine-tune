@@ -1,16 +1,16 @@
-import { Button } from "@nextui-org/react";
 import ErrorMessage from "components/ErrorMessage";
 import Loading from "components/Loading";
+import Link from "next/link";
 import React from "react";
 import useSWR from "swr";
 import type { OpenAI } from "types/openai";
 import DeleteFileButton from "./DeleteFileButton";
 
 export default function FileListTable({
-  onClick,
+  linkTo,
   purpose,
 }: {
-  onClick?: (file: OpenAI.File) => void;
+  linkTo?: (file: OpenAI.File) => string;
   purpose: OpenAI.Purpose;
 }) {
   const { data, error } = useSWR<OpenAI.List<OpenAI.File>>("files");
@@ -27,24 +27,31 @@ export default function FileListTable({
   }
 
   return (
-    <table cellPadding={10} className="my-4 w-full">
+    <table className="my-4 w-full border-collapse">
       <tbody>
         {files
           .sort((a, b) => b.created_at - a.created_at)
           .map((file, index) => (
             <tr className={index % 2 === 0 ? "bg-gray-100" : ""} key={file.id}>
-              <td>
-                {onClick ? (
-                  <Button light color="primary" onClick={() => onClick(file)}>
-                    {file.id}
-                  </Button>
+              <td className="truncate p-2 max-w-0" title={file.id}>
+                {linkTo ? (
+                  <Link href={linkTo(file)}>
+                    <a>{file.id}</a>
+                  </Link>
                 ) : (
                   file.id
                 )}
               </td>
-              <td>{file.filename}</td>
-              <td>{new Date(file.created_at * 1000).toLocaleString()}</td>
-              <td>
+              <td className="truncate p-2 max-w-0" title={file.filename}>
+                {file.filename}
+              </td>
+              <td
+                className="truncate p-2 max-w-0"
+                title={new Date(file.created_at * 1000).toISOString()}
+              >
+                {new Date(file.created_at * 1000).toLocaleString()}
+              </td>
+              <td className="p-2 w-8">
                 <DeleteFileButton id={file.id} />
               </td>
             </tr>

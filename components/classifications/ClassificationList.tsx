@@ -22,7 +22,7 @@ export default function ClassificationList() {
         </div>
         <FileListTable
           purpose="classifications"
-          onClick={(file) => router.push(`/classifications/${file.id}`)}
+          linkTo={(file) => `/classifications/${file.id}`}
         />
       </section>
       <UsageInstructions>

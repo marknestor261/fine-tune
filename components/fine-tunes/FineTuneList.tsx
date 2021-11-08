@@ -2,6 +2,7 @@ import { Button } from "@nextui-org/react";
 import useAuthentication from "components/account/useAuthentication";
 import ErrorMessage from "components/ErrorMessage";
 import Loading from "components/Loading";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
@@ -63,7 +64,7 @@ function FineTunesTable({ fineTunes }: { fineTunes: OpenAI.FineTune[] }) {
   const router = useRouter();
   const ready = fineTunes.filter((fineTune) => fineTune.status === "succeeded");
   return (
-    <table cellPadding={10} className="my-4 w-full">
+    <table className="my-4 w-full border-collapse">
       <tbody>
         {ready
           .sort((a, b) => b.updated_at - a.updated_at)
@@ -72,21 +73,18 @@ function FineTunesTable({ fineTunes }: { fineTunes: OpenAI.FineTune[] }) {
               className={index % 2 === 0 ? "bg-gray-100" : ""}
               key={fineTune.id}
             >
-              <td className="align-text-top">
-                <Button
-                  light
-                  color="primary"
-                  onClick={() => router.push(`/fine-tunes/${fineTune.id}`)}
-                >
-                  {fineTune.id}
-                </Button>
+              <td className="truncate p-2 max-w-0" title={fineTune.id}>
+                <Link href={`/fine-tunes/${fineTune.id}`}>{fineTune.id}</Link>
               </td>
-              <td className="line-clamp-1 max-w-xs">
+              <td className="truncate p-2 max-w-0">
                 {[...fineTune.training_files, ...fineTune.validation_files]
                   .map(({ filename }) => filename)
                   .join(", ")}
               </td>
-              <td className="align-text-top whitespace-nowrap">
+              <td
+                className="truncate p-2 max-w-0"
+                title={new Date(fineTune.updated_at * 1000).toISOString()}
+              >
                 {new Date(fineTune.updated_at * 1000).toLocaleString()}
               </td>
             </tr>
