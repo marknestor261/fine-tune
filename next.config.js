@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 const withMDX = require("@next/mdx")();
+const { withSentryConfig } = require("@sentry/nextjs");
 
 const config = {
   i18n: {
@@ -9,4 +10,4 @@ const config = {
   poweredByHeader: false,
 };
 
-module.exports = withMDX(config);
+module.exports = withSentryConfig(withMDX(config), { silent: true });
