@@ -5,6 +5,7 @@ import PageLayout from "components/PageLayout";
 import { NextSeo } from "next-seo";
 import { AppProps } from "next/dist/shared/lib/router/router";
 import Head from "next/head";
+import Router from "next/router";
 import { appWithI18Next } from "ni18n";
 import { ni18nConfig } from "ni18n.config";
 import screenshot from "public/images/screenshot.png";
@@ -17,6 +18,14 @@ export default appWithI18Next(App, ni18nConfig);
 
 function App({ Component, pageProps }: AppProps) {
   const { t, ready } = useTranslation();
+
+  Router.events.on("routeChangeComplete", () => {
+    gtag("event", "page_view", {
+      page_title: document.title,
+      page_location: document.location.href,
+      page_path: document.location.pathname,
+    });
+  });
 
   return (
     <ErrorBoundary>
@@ -89,3 +98,9 @@ class ErrorBoundary extends React.Component<
     return error ? <ErrorMessage error={error} /> : this.props.children;
   }
 }
+
+declare function gtag(
+  action: string,
+  event: string,
+  props: { [key: string]: string }
+): void;
