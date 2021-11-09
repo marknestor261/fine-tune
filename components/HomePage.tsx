@@ -16,14 +16,16 @@ export default function HomePage() {
 
   return (
     <>
-      <Header />
-      <div className="my-20 max-w-4xl mx-auto flex flex-col lg:flex-row gap-x-20 gap-y-8">
-        <div className="py-10 mx-auto flex-shrink-0 w-96">
-          {isSignedIn ? <WelcomeBack /> : <SigninForm />}
+      <div className="max-w-4xl mx-auto">
+        <Header />
+        <div className="my-20 flex flex-col lg:flex-row gap-x-20 gap-y-8">
+          <div className="py-10 mx-auto flex-shrink-0 w-96">
+            {isSignedIn ? <WelcomeBack /> : <SigninForm />}
+          </div>
+          <Promo />
         </div>
-        <Promo />
+        <Footer />
       </div>
-      <Footer />
     </>
   );
 }
@@ -33,9 +35,9 @@ function Header() {
 
   return (
     <header>
-      <h1>
-        {t("app.title")}
-        <span className="font-light ml-4">{t("app.subtitle")}</span>
+      <h1 className="text-4xl lg:text-5xl flex flex-wrap gap-2">
+        <span>{t("app.title")}</span>
+        <span className="font-light">{t("app.subtitle")}</span>
       </h1>
     </header>
   );
