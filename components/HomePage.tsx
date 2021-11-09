@@ -6,6 +6,7 @@ import Image from "next/image";
 import NextLink from "next/link";
 import packageJSON from "package.json";
 import screenshot from "public/images/screenshot.png";
+import buyMeCofee from "public/images/yellow-button.png";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import useSWR from "swr";
@@ -63,6 +64,13 @@ function WelcomeBack() {
           <span className="uppercase">Enter this way</span>
         </Button>
       </NextLink>
+
+      <div className="pt-20">
+        <p>Like this project?</p>
+        <a href="https://buymeacoffee.com/assaf" className="block w-40 ">
+          <Image {...buyMeCofee} unoptimized />
+        </a>
+      </div>
     </div>
   );
 }
