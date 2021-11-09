@@ -9,5 +9,6 @@ export default function LoginRequired({
 }) {
   const { headers } = useAuthentication();
   if (!process.browser) return null;
+
   return headers ? <>{children}</> : <HomePage />;
 }

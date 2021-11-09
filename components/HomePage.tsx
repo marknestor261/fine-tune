@@ -1,6 +1,7 @@
 import { faChevronRight } from "@fortawesome/free-solid-svg-icons/faChevronRight";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Button } from "@nextui-org/react";
+import { NextSeo } from "next-seo";
 import Image from "next/image";
 import NextLink from "next/link";
 import packageJSON from "package.json";
@@ -16,6 +17,7 @@ export default function HomePage() {
 
   return (
     <>
+      <NextSeo title={"Hello"} />
       <div className="max-w-4xl mx-auto">
         <Header />
         <div className="my-10 flex flex-col lg:flex-row gap-x-20 gap-y-8">
