@@ -37,8 +37,8 @@ function Header() {
 
   return (
     <header className="my-4">
-      <h1 className="text-4xl lg:text-5xl flex flex-wrap gap-2">
-        <span className="font-bold flex flex-no-wrap gap-2">
+      <h1 className="text-4xl lg:text-5xl flex flex-wrap gap-4">
+        <span className="font-bold flex flex-no-wrap gap-4">
           <span>{t("app.emoji")}</span>
           <span>{t("app.name")}</span>
         </span>
