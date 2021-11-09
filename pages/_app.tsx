@@ -9,7 +9,7 @@ import Router from "next/router";
 import { appWithI18Next } from "ni18n";
 import { ni18nConfig } from "ni18n.config";
 import screenshot from "public/images/screenshot.png";
-import React from "react";
+import React, { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { toast, ToastContainer } from "react-toastify";
 import "styles/index.css";
@@ -18,14 +18,7 @@ export default appWithI18Next(App, ni18nConfig);
 
 function App({ Component, pageProps }: AppProps) {
   const { t, ready } = useTranslation();
-
-  Router.events.on("routeChangeComplete", () => {
-    gtag("event", "page_view", {
-      page_title: document.title,
-      page_location: document.location.href,
-      page_path: document.location.pathname,
-    });
-  });
+  useGATag(ready);
 
   return (
     <ErrorBoundary>
@@ -33,10 +26,8 @@ function App({ Component, pageProps }: AppProps) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
       <NextSeo
-        titleTemplate={t("%s | $t(app.name)")}
-        defaultTitle={
-          ready ? t("$t(app.name) — $t(app.subtitle)") : "🥱 waking up …"
-        }
+        title={ready ? t("$t(app.name) — $t(app.subtitle)") : "🥱 waking up …"}
+        titleTemplate={ready ? t("%s | $t(app.name)") : undefined}
         description={ready ? t("app.description") : undefined}
         openGraph={{
           images: [
@@ -99,8 +90,35 @@ class ErrorBoundary extends React.Component<
   }
 }
 
-declare function gtag(
-  action: string,
-  event: string,
-  props: { [key: string]: string }
-): void;
+function useGATag(ready: boolean) {
+  function pageView() {
+    window.gtag?.("event", "page_view", {
+      page_title: document.title,
+      page_location: location.href,
+      page_path: location.pathname,
+    });
+  }
+
+  useEffect(() => {
+    Router.events.on("routeChangeComplete", pageView);
+    return () => Router.events.off("routeChangeComplete", pageView);
+  }, []);
+
+  useEffect(
+    function () {
+      // Wait until first render had a change to load translations and set the page title
+      if (ready) pageView();
+    },
+    [ready]
+  );
+}
+
+declare global {
+  interface Window {
+    gtag?: (
+      action: string,
+      event: string,
+      props: { [key: string]: string }
+    ) => void;
+  }
+}
