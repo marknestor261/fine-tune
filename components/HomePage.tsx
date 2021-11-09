@@ -21,7 +21,7 @@ export default function HomePage() {
       <div className="max-w-6xl mx-auto">
         <Header />
         <div className="my-10 flex flex-col lg:flex-row gap-x-20 gap-y-8">
-          <div className="lg:w-1/3 shrink-0">
+          <div className="lg:w-1/3 shrink-0 lg:my-20">
             {isSignedIn ? <WelcomeBack /> : <SigninForm />}
           </div>
           <div className="lg:w-2/3">
@@ -52,19 +52,17 @@ function Header() {
 
 function WelcomeBack() {
   return (
-    <div className="mx-auto w-fit lg:mt-20">
+    <div className="mx-auto w-fit space-y-4">
       <h2 className="text-2xl font-bold">Welcome back!</h2>
-      <p className="text-lg">
-        <NextLink href="/completions">
-          <Button
-            auto
-            iconRight={<FontAwesomeIcon icon={faChevronRight} />}
-            size="large"
-          >
-            Enter This Way
-          </Button>
-        </NextLink>
-      </p>
+      <NextLink href="/completions">
+        <Button
+          auto
+          iconRight={<FontAwesomeIcon icon={faChevronRight} />}
+          size="large"
+        >
+          <span className="uppercase">Enter this way</span>
+        </Button>
+      </NextLink>
     </div>
   );
 }
@@ -105,12 +103,18 @@ function Footer() {
   return (
     <footer>
       <p>
-        For usage limits, terms and conditions, billing and charges, etc see
-        your OpenAI. Use responsibly.
+        For usage limits, terms and conditions, billing and charges, etc check
+        your OpenAI account. Use responsibly.
       </p>
       <p>
-        ❤️ Created by <a href="https://labnotes.org">Assaf Arkin</a> &bull;{" "}
-        <a href={githubURL}>GitHub</a>
+        Created by{" "}
+        <a href="https://labnotes.org" target="_blank" rel="noreferrer">
+          Assaf Arkin
+        </a>{" "}
+        {" ❤️ "} ️
+        <a href={githubURL} target="_blank" rel="noreferrer">
+          Source Code
+        </a>
       </p>
     </footer>
   );

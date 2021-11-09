@@ -17,6 +17,8 @@ export default function SigninForm() {
   const [showOrgId, setShowOrgId] = useState(false);
   const router = useRouter();
 
+  form.watch("apiKey");
+
   const onSubmit = form.handleSubmit(async function (
     formData: typeof initialValue
   ) {
@@ -42,14 +44,17 @@ export default function SigninForm() {
 
   return (
     <section className="space-y-4">
-      <h1 className="text-xl">Sign In</h1>
+      <h1 className="text-xl capitalize">
+        Enter this way{" "}
+        <FontAwesomeIcon icon={faChevronRight} className="ml-4" />
+      </h1>
       <hr />
       <form className="space-y-8 py-8" onSubmit={onSubmit}>
         {error && <div className="text-red-500 my-4">{error}</div>}
         <div>
           <Input
             bordered
-            labelPlaceholder="OpenAI API Key"
+            labelPlaceholder="Your OpenAI API Key"
             required
             type="text"
             width="100%"
@@ -91,16 +96,17 @@ export default function SigninForm() {
         <div className="flex justify-end ">
           <Button
             auto
+            disabled={form.getValues().apiKey === ""}
             loading={isLoading}
             iconRight={<FontAwesomeIcon icon={faChevronRight} />}
             type="submit"
           >
-            {"Let's Go"}
+            <span className="uppercase">{"Let's go"}</span>
           </Button>
         </div>
       </form>
       <p>
-        Your API key does not leave your browser, except to access the OpenAI
+        * Your API key does not leave your browser, except to access the OpenAI
         API.
       </p>
     </section>
