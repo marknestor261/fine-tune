@@ -23,9 +23,9 @@ export default function ShowRequestExample({
     <InfoCard>
       <details className="bg-white">
         <summary className="font-bold">Request JSON</summary>
-        <div className="relative">
+        <div className="relative prose">
           <Tooltip
-            className="absolute top-0 right-0 p-4"
+            className="absolute top-0 right-0 p-2"
             content={copied ? "Copied!" : "Click to copy"}
             placement="left"
             onVisibleChange={(visible) => visible && setCopied(false)}
@@ -34,9 +34,9 @@ export default function ShowRequestExample({
               setCopied(true);
             }}
           >
-            <FontAwesomeIcon icon={faCopy} size="lg" />
+            <FontAwesomeIcon icon={faCopy} />
           </Tooltip>
-          <pre className="bg-gray-100 overflow-scroll rounded-none">{code}</pre>
+          <pre>{code}</pre>
         </div>
       </details>
     </InfoCard>
