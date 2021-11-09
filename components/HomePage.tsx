@@ -18,7 +18,7 @@ export default function HomePage() {
   return (
     <>
       <NextSeo title={"Hello"} />
-      <div className="max-w-4xl mx-auto">
+      <div className="max-w-6xl mx-auto">
         <Header />
         <div className="my-10 flex flex-col lg:flex-row gap-x-20 gap-y-8">
           <div className="lg:w-1/3 shrink-0">
@@ -76,7 +76,9 @@ function Promo() {
 
   return (
     <section>
-      <Image {...screenshot} />
+      <div className="border rounded-lg shadow-sm p-1">
+        <Image {...screenshot} />
+      </div>
       <ul className="mt-8 text-xl list-disc">
         <li>Go beyond the playground</li>
         <li>
