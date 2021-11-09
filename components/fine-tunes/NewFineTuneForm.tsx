@@ -78,8 +78,8 @@ export default function NewFineTuneForm() {
       </h1>
       {error && <ErrorMessage error={error} />}
       {data && (
-        <form onSubmit={onSubmit}>
-          <fieldset className="my-8 space-y-4">
+        <form onSubmit={onSubmit} className="space-y-8">
+          <fieldset className="space-y-4">
             <Label label="OpenAI Engine">
               <Select
                 autoFocus
