@@ -1,6 +1,6 @@
 import { faChevronRight } from "@fortawesome/free-solid-svg-icons/faChevronRight";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Button, Input } from "@nextui-org/react";
+import { Button, Input, Link } from "@nextui-org/react";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -14,6 +14,7 @@ export default function SigninForm() {
   const initialValue = { apiKey: "", organizationId: "" };
   const form = useForm({ defaultValues: initialValue });
   const [error, setError] = useState("");
+  const [showOrgId, setShowOrgId] = useState(false);
   const router = useRouter();
 
   const onSubmit = form.handleSubmit(async function (
@@ -40,16 +41,15 @@ export default function SigninForm() {
   });
 
   return (
-    <section>
+    <section className="space-y-4">
       <h1 className="text-xl">Sign In</h1>
       <hr />
-      <form className="py-5 space-y-4" onSubmit={onSubmit}>
+      <form className="space-y-8 py-8" onSubmit={onSubmit}>
         {error && <div className="text-red-500 my-4">{error}</div>}
         <div>
           <Input
-            autoFocus
             bordered
-            label="OpenAI API Key"
+            labelPlaceholder="OpenAI API Key"
             required
             type="text"
             width="100%"
@@ -68,13 +68,25 @@ export default function SigninForm() {
           </p>
         </div>
         <div>
-          <Input
-            bordered
-            label="Organization ID (Optional)"
-            type="text"
-            width="100%"
-            {...form.register("organizationId")}
-          />
+          {showOrgId ? (
+            <Input
+              bordered
+              labelPlaceholder="Organization ID"
+              type="text"
+              width="100%"
+              {...form.register("organizationId")}
+            />
+          ) : (
+            <Link
+              color="primary"
+              onClick={(event) => {
+                event.preventDefault();
+                setShowOrgId(true);
+              }}
+            >
+              I have an organization ID
+            </Link>
+          )}
         </div>
         <div className="flex justify-end ">
           <Button
