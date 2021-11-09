@@ -61,7 +61,7 @@ export default function FineTuneForm({
               {...form.register("prompt")}
             />
           </div>
-          <div>
+          <div className="flex gap-8 flex-wrap">
             <Input
               label="Max Tokens"
               type="number"
@@ -70,8 +70,6 @@ export default function FineTuneForm({
               step={10}
               {...form.register("max_tokens", { min: 10, max: 2048 })}
             />
-          </div>
-          <div>
             <Input
               label="Temperature"
               type="number"
