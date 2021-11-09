@@ -34,6 +34,7 @@ export default function UploadFileButton({
         type="file"
       />
       <Button
+        auto
         flat
         icon={<FontAwesomeIcon icon={faFileUpload} />}
         loading={isLoading}
