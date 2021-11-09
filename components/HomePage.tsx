@@ -18,11 +18,13 @@ export default function HomePage() {
     <>
       <div className="max-w-4xl mx-auto">
         <Header />
-        <div className="my-20 flex flex-col lg:flex-row gap-x-20 gap-y-8">
-          <div className="py-10 mx-auto flex-shrink-0 w-96">
+        <div className="my-10 flex flex-col lg:flex-row gap-x-20 gap-y-8">
+          <div className="lg:w-1/3 shrink-0">
             {isSignedIn ? <WelcomeBack /> : <SigninForm />}
           </div>
-          <Promo />
+          <div className="lg:w-2/3">
+            <Promo />
+          </div>
         </div>
         <Footer />
       </div>
@@ -34,9 +36,12 @@ function Header() {
   const { t } = useTranslation();
 
   return (
-    <header>
+    <header className="my-4">
       <h1 className="text-4xl lg:text-5xl flex flex-wrap gap-2">
-        <span>{t("app.title")}</span>
+        <span className="font-bold flex flex-no-wrap gap-2">
+          <span>{t("app.emoji")}</span>
+          <span>{t("app.name")}</span>
+        </span>
         <span className="font-light">{t("app.subtitle")}</span>
       </h1>
     </header>
@@ -45,7 +50,7 @@ function Header() {
 
 function WelcomeBack() {
   return (
-    <div className="my-10 w-96">
+    <div className="mx-auto w-fit lg:mt-20">
       <h2 className="text-2xl font-bold">Welcome back!</h2>
       <p className="text-lg">
         <NextLink href="/completions">

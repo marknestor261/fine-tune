@@ -34,9 +34,12 @@ function PageHeader({ signOut }: { signOut: () => void }) {
   return (
     <header className="mb-8 flex flex-wrap justify-between items-center gap-4 text-xl">
       <NextLink href="/">
-        <a className="whitespace-nowrap text-black">
-          <span className="font-bold">{t("app.title")}</span>
-          <span className="font-light ml-2">{t("app.subtitle")}</span>
+        <a className="whitespace-nowrap text-black flex gap-2">
+          <span className="font-bold flex flex-no-wrap gap-2">
+            <span>{t("app.emoji")}</span>
+            <span>{t("app.name")}</span>
+          </span>
+          <span className="font-light">{t("app.subtitle")}</span>
         </a>
       </NextLink>
       <nav className="space-x-4 whitespace-nowrap">

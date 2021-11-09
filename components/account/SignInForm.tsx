@@ -40,7 +40,7 @@ export default function SigninForm() {
   });
 
   return (
-    <div>
+    <section>
       <h1 className="text-xl">Sign In</h1>
       <hr />
       <form className="py-5 space-y-4" onSubmit={onSubmit}>
@@ -91,6 +91,6 @@ export default function SigninForm() {
         Your API key does not leave your browser, except to access the OpenAI
         API.
       </p>
-    </div>
+    </section>
   );
 }

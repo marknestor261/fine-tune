@@ -4,6 +4,7 @@ import ErrorMessage from "components/ErrorMessage";
 import PageLayout from "components/PageLayout";
 import { NextSeo } from "next-seo";
 import { AppProps } from "next/dist/shared/lib/router/router";
+import Head from "next/head";
 import { appWithI18Next } from "ni18n";
 import { ni18nConfig } from "ni18n.config";
 import screenshot from "public/images/screenshot.png";
@@ -19,9 +20,12 @@ function App({ Component, pageProps }: AppProps) {
 
   return (
     <ErrorBoundary>
+      <Head>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+      </Head>
       <NextSeo
-        title={ready ? t("$t(app.title) — $t(app.subtitle)") : "🥱 waking up …"}
-        description={ready ? t("$t(app.title) — $t(app.subtitle)") : undefined}
+        title={ready ? t("$t(app.name) — $t(app.subtitle)") : "🥱 waking up …"}
+        description={ready ? t("app.description") : undefined}
         openGraph={{
           images: [
             {
@@ -30,7 +34,20 @@ function App({ Component, pageProps }: AppProps) {
               height: screenshot.height,
             },
           ],
+          type: "website",
         }}
+        twitter={{
+          cardType: "summary_large_image",
+          handle: "@assaf",
+        }}
+        additionalLinkTags={[
+          {
+            rel: "icon",
+            href: `data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>${t(
+              "app.emoji"
+            )}</text></svg>`,
+          },
+        ]}
       />
       <CssBaseline />
       <ToastContainer hideProgressBar />
