@@ -3,7 +3,7 @@ import Loading from "components/Loading";
 import React from "react";
 import useFineTuneResults from "./useFineTuneResults";
 
-export default function FineTuneResultFile({ id }: { id: string }) {
+export default function FineTuneResultsFile({ id }: { id: string }) {
   const { results, error } = useFineTuneResults(id);
 
   if (error) return <ErrorMessage error={error} />;

@@ -1,7 +1,7 @@
 import useAuthentication from "components/account/useAuthentication";
 import parse from "csv-parse/lib/sync";
 import useSWRImmutable from "swr/immutable";
-import { ResultFileRecord } from "./FineTuneResults";
+import { ResultFileRecord } from "./FineTuneResultsCard";
 
 export default function useFineTuneResults(fileId?: string): {
   error?: Error;

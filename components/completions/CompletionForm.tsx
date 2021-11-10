@@ -10,7 +10,7 @@ import { FormProvider, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { OpenAI } from "types/openai";
 
-export default function FineTuneForm({
+export default function CompletionForm({
   fineTune,
 }: {
   fineTune: OpenAI.FineTune;

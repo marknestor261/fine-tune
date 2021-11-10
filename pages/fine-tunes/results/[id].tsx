@@ -1,5 +1,5 @@
 import LoginRequired from "components/account/LoginRequired";
-import FineTuneResultFile from "components/fine-tunes/FineTuneResultFile";
+import FineTuneResultsFile from "components/fine-tunes/FineTuneResultsFile";
 import { NextSeo } from "next-seo";
 import { useRouter } from "next/router";
 import React from "react";
@@ -13,7 +13,7 @@ export default function CompletionsPage() {
   return (
     <LoginRequired>
       <NextSeo title={t("pages.fine-tune")} />
-      {id && <FineTuneResultFile id={String(id)} />}
+      {id && <FineTuneResultsFile id={String(id)} />}
     </LoginRequired>
   );
 }

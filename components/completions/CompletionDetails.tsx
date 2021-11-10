@@ -2,11 +2,11 @@ import DetailsPage from "components/DetailsPage";
 import React from "react";
 import useSWRImmutable from "swr/immutable";
 import type { OpenAI } from "types/openai";
-import FineTuneForm from "./FineTuneForm";
-import FineTuneMetadata from "./FineTuneMetadata";
-import FineTuneResultFile from "./FineTuneResults";
+import FineTuneMetadata from "../fine-tunes/FineTuneMetadata";
+import FineTuneResultsCard from "../fine-tunes/FineTuneResultsCard";
+import CompletionForm from "./CompletionForm";
 
-export default function FineTuneDetails({ id }: { id: string }) {
+export default function CompletionDetails({ id }: { id: string }) {
   const { data: fineTune, error } = useSWRImmutable<OpenAI.FineTune>(
     `fine-tunes/${id}`
   );
@@ -15,9 +15,9 @@ export default function FineTuneDetails({ id }: { id: string }) {
     <DetailsPage name="fine-tune" id={id} error={error}>
       {fineTune && (
         <>
-          <FineTuneForm fineTune={fineTune} />
+          <CompletionForm fineTune={fineTune} />
           <FineTuneMetadata fineTune={fineTune} />
-          <FineTuneResultFile fineTune={fineTune} />
+          <FineTuneResultsCard fineTune={fineTune} />
         </>
       )}
     </DetailsPage>

@@ -19,7 +19,7 @@ export type ResultFileRecord = {
   training_token_accuracy: number;
 };
 
-export default function FineTuneResultFile({
+export default function FineTuneResultsCard({
   fineTune,
 }: {
   fineTune: OpenAI.FineTune;
