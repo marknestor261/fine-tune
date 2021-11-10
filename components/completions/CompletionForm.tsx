@@ -22,7 +22,7 @@ export default function CompletionForm({
   const form = useForm({
     defaultValues: {
       engine: fineTune ? undefined : "davinci",
-      model: fineTune?.id,
+      model: fineTune ? fineTune.fine_tuned_model : undefined,
       prompt: "",
       max_tokens: 30,
       temperature: 0.8,
