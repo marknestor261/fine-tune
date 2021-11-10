@@ -9,7 +9,7 @@ export default function ShowRequestExample({
   reference,
   request,
 }: {
-  reference?: string;
+  reference: string;
   request: {
     url: string;
     method: string;
@@ -40,13 +40,11 @@ export default function ShowRequestExample({
           </Tooltip>
           <pre>{code}</pre>
         </div>
-        {reference && (
-          <p>
-            <Link href={reference} target="_blank" icon>
-              OpenAI Reference
-            </Link>
-          </p>
-        )}
+        <p>
+          <Link href={reference} target="_blank" icon>
+            OpenAI Reference
+          </Link>
+        </p>
       </details>
     </InfoCard>
   );

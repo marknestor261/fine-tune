@@ -59,6 +59,7 @@ export default function ClassificationForm({ id }: { id: string }) {
               autoFocus
               bordered
               minRows={4}
+              required
               width="100%"
               {...form.register("query")}
             />

@@ -46,10 +46,11 @@ export default function SearchForm({ id }: { id: string }) {
     <FormProvider {...form}>
       <form onSubmit={onSubmit} className="space-y-4">
         <fieldset>
-          <Label label="Search query">
+          <Label label="Search query" required>
             <Input
               autoFocus
               bordered
+              required
               width="100%"
               {...form.register("query")}
             />

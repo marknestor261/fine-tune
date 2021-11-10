@@ -13,15 +13,17 @@ import useSWR, { mutate } from "swr";
 import { OpenAI } from "types/openai";
 import Label from "../forms/Label";
 
+type Fields = {
+  model: string;
+  training: string;
+  validation?: string;
+};
+
 export default function NewFineTuneForm() {
   const { headers } = useAuthentication();
   const { data, error } = useSWR<OpenAI.List<OpenAI.File>>("files");
 
-  const form = useForm<{
-    model: string;
-    training: string;
-    validation?: string;
-  }>({
+  const form = useForm<Fields>({
     defaultValues: { model: "ada" },
   });
 
@@ -34,36 +36,35 @@ export default function NewFineTuneForm() {
       value: file.id,
     }));
 
-  async function onSubmit() {
-    async ({ model, training, validation }) => {
-      try {
-        if (training === validation) {
-          throw new Error(
-            "You cannot use the same file for training and validation"
-          );
-        }
-
-        const response = await fetch("https://api.openai.com/v1/fine-tunes", {
-          method: "POST",
-          headers,
-          body: JSON.stringify({
-            model,
-            training_file: training,
-            validation_file: validation,
-          }),
-        });
-        if (response.ok) {
-          await mutate("fine-tune");
-          await router.push("/completions");
-          toast.success("Model created!");
-        } else {
-          const { error } = (await response.json()) as OpenAI.ErrorResponse;
-          throw new Error(error.message);
-        }
-      } catch (error) {
-        toast.error(String(error));
+  async function onSubmit({ model, training, validation }: Fields) {
+    try {
+      if (training === validation) {
+        throw new Error(
+          "You cannot use the same file for training and validation"
+        );
       }
+
+      const response = await fetch("https://api.openai.com/v1/fine-tunes", {
+        method: "POST",
+        headers,
+        body: JSON.stringify({
+          model,
+          training_file: training,
+          validation_file: validation,
+        }),
+      });
+      if (response.ok) {
+        await mutate("fine-tune");
+        await router.push("/completions");
+        toast.success("Model created!");
+      } else {
+        const { error } = (await response.json()) as OpenAI.ErrorResponse;
+        throw new Error(error.message);
+      }
+    } catch (error) {
+      toast.error(String(error));
     }
+  }
 
   return (
     <main className="max-w-2xl mx-auto space-y-8 mb-8">
