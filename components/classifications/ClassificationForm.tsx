@@ -14,7 +14,7 @@ import { OpenAI } from "types/openai";
 export default function ClassificationForm({ id }: { id: string }) {
   const form = useForm({
     defaultValues: {
-      model: "ada",
+      model: "davinci",
       query: "",
       search_model: "",
       temperature: 0.9,

@@ -11,7 +11,7 @@ import { toast } from "react-toastify";
 import { OpenAI } from "types/openai";
 
 export default function SearchForm({ id }: { id: string }) {
-  const form = useForm({ defaultValues: { engine: "ada", query: "" } });
+  const form = useForm({ defaultValues: { engine: "davinci", query: "" } });
   const { headers } = useAuthentication();
   const [results, setResults] = useState<OpenAI.Search.Response[]>([]);
 
@@ -24,7 +24,7 @@ export default function SearchForm({ id }: { id: string }) {
     body: { file: id, query: form.getValues().query },
   };
 
-  const onSubmit = form.handleSubmit(async () => {
+  async function onSubmit() {
     const { url, body, ...init } = request;
     const response = await fetch(url, {
       ...init,
@@ -40,11 +40,11 @@ export default function SearchForm({ id }: { id: string }) {
       const { error } = (await response.json()) as OpenAI.ErrorResponse;
       toast.error(error.message);
     }
-  });
+  }
 
   return (
     <FormProvider {...form}>
-      <form onSubmit={onSubmit} className="space-y-4">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
         <fieldset>
           <Label label="Search query" required>
             <Input
