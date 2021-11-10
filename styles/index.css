@@ -41,3 +41,7 @@ details summary::-webkit-details-marker {
     opacity: 1;
   }
 }
+
+.react-select__control .react-select__value-container {
+  @apply py-1 px-2;
+}

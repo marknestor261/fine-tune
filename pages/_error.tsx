@@ -3,8 +3,6 @@ import { NextPageContext } from "next";
 import NextError, { ErrorProps } from "next/error";
 import { ReactNode } from "react";
 
-console.log(NextError);
-
 export default function ErrorPage({
   statusCode,
   hasGetInitialPropsRun,

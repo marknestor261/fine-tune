@@ -94,6 +94,7 @@ export namespace OpenAI {
         score: number;
         text: string;
       }>;
+      warnings?: Array<{ code: string; message: string }>;
     };
   }
 

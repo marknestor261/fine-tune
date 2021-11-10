@@ -1,6 +1,11 @@
-To classify with more than 200 examples, upload a file containing classification examples/labels.
+To classify with more than 200 examples, upload a file containing classification examples and labels.
 
-The file can be CSV or JSONL. It must contain the columns "text" and "label", and may also include the column "metadata". [More details](https://beta.openai.com/docs/guides/classifications)
+The file can be CSV or JSONL. It must contain the fields "text" and "label", and may also include the column "metadata". [More details](https://beta.openai.com/docs/guides/classifications)
+
+* All labels need to be capitalized. If not, input labels will be formatted at the backend.
+* Each label needs to be prepended with a white space when encoded by the tokenizer.
+* We highly recommend that each label is a single token word.
+* If every label is a single token, the calculated probabilities would be precise. Otherwise the probabilities are approximations.
 
 For example:
 

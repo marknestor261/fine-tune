@@ -3,13 +3,15 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Button } from "@nextui-org/react";
 import useAuthentication from "components/account/useAuthentication";
 import ErrorMessage from "components/ErrorMessage";
+import SelectEngine from "components/forms/SelectEngine";
 import router from "next/router";
 import React from "react";
-import { useForm } from "react-hook-form";
+import { FormProvider, useForm } from "react-hook-form";
 import Select from "react-select";
 import { toast } from "react-toastify";
 import useSWR, { mutate } from "swr";
 import { OpenAI } from "types/openai";
+import Label from "../forms/Label";
 
 const FineTuneEngines = ["ada", "baggage", "curie"];
 
@@ -78,66 +80,44 @@ export default function NewFineTuneForm() {
       </h1>
       {error && <ErrorMessage error={error} />}
       {data && (
-        <form onSubmit={onSubmit} className="space-y-8">
-          <fieldset className="space-y-4">
-            <Label label="OpenAI Engine">
-              <Select
-                autoFocus
-                options={engineOptions}
-                {...form.register("model", { required: true })}
-                onChange={(selection) =>
-                  form.setValue("model", selection?.value ?? "ada")
-                }
-                defaultValue={engineOptions[0]}
-                isSearchable={false}
-              />
-            </Label>
-            <Label label="Training File">
-              <Select
-                options={files}
-                {...form.register("training", { required: true })}
-                onChange={(selection) =>
-                  form.setValue("training", selection?.value ?? "")
-                }
-              />
-            </Label>
-            <Label label="Validation File (optional)">
-              <Select
-                isClearable
-                escapeClearsValue
-                options={files}
-                {...form.register("model")}
-                onChange={(newValue) =>
-                  form.setValue("validation", newValue?.value)
-                }
-              />
-            </Label>
-          </fieldset>
-          <Button
-            auto
-            iconRight={<FontAwesomeIcon icon={faChevronRight} />}
-            loading={form.formState.isSubmitting}
-            type="submit"
-          >
-            Create Model
-          </Button>
-        </form>
+        <FormProvider {...form}>
+          <form onSubmit={onSubmit} className="space-y-8">
+            <fieldset className="space-y-4">
+              <Label label="OpenAI Engine">
+                <SelectEngine name="model" required />
+              </Label>
+              <Label label="Training File">
+                <Select
+                  options={files}
+                  {...form.register("training", { required: true })}
+                  onChange={(selection) =>
+                    form.setValue("training", selection?.value ?? "")
+                  }
+                />
+              </Label>
+              <Label label="Validation File (optional)">
+                <Select
+                  isClearable
+                  escapeClearsValue
+                  options={files}
+                  {...form.register("model")}
+                  onChange={(newValue) =>
+                    form.setValue("validation", newValue?.value)
+                  }
+                />
+              </Label>
+            </fieldset>
+            <Button
+              auto
+              iconRight={<FontAwesomeIcon icon={faChevronRight} />}
+              loading={form.formState.isSubmitting}
+              type="submit"
+            >
+              Create Model
+            </Button>
+          </form>
+        </FormProvider>
       )}
     </main>
-  );
-}
-
-function Label({
-  children,
-  label,
-}: {
-  children: React.ReactNode;
-  label: string;
-}) {
-  return (
-    <label className="block">
-      <div className="font-bold mb-2">{label}</div>
-      {children}
-    </label>
   );
 }
