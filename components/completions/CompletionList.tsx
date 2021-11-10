@@ -33,7 +33,7 @@ export default function ClassificationList() {
         <p className="flex justify-between">
           <span>
             Select from the list of fine-tune models (above), or use one of the
-            default engines:
+            available engines:
           </span>
           <Button
             auto
@@ -42,7 +42,7 @@ export default function ClassificationList() {
             iconRight={<FontAwesomeIcon icon={faArrowAltCircleRight} />}
             onClick={() => router.push("/completions/adhoc")}
           >
-            Default Engines
+            Built-in Model
           </Button>
         </p>
       </section>
