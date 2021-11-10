@@ -1,3 +1,5 @@
+import { faTrash } from "@fortawesome/free-solid-svg-icons/faTrash";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Button } from "@nextui-org/react";
 import useAuthentication from "components/account/useAuthentication";
 import ErrorMessage from "components/ErrorMessage";
@@ -85,6 +87,9 @@ function FineTunesTable({ fineTunes }: { fineTunes: OpenAI.FineTune[] }) {
               >
                 {new Date(fineTune.updated_at * 1000).toLocaleString()}
               </td>
+              <td className="p-2 w-8">
+                <DeleteFineTune id={fineTune.id} />
+              </td>
             </tr>
           ))}
       </tbody>
@@ -121,6 +126,33 @@ function CancelFineTune({ id }: { id: string }) {
       onClick={onClick}
     >
       Cancel
+    </Button>
+  );
+}
+
+function DeleteFineTune({ id }: { id: string }) {
+  const { headers } = useAuthentication();
+  const [isDeleting, setIsDeleting] = useState(false);
+
+  async function onClick() {
+    try {
+      setIsDeleting(true);
+      if (window.confirm("Are you sure you want to delete this model?")) {
+        await fetch(`https://api.openai.com/v1/models/${id}`, {
+          method: "DELETE",
+          headers,
+        });
+        await mutate("files");
+      }
+    } catch (error) {
+      toast.error(String(error));
+      setIsDeleting(false);
+    }
+  }
+
+  return (
+    <Button auto size="mini" flat loading={isDeleting} onClick={onClick}>
+      <FontAwesomeIcon icon={faTrash} />
     </Button>
   );
 }
