@@ -96,7 +96,7 @@ function Promo() {
         <li>
           Upload and manage files for <b>search</b>
         </li>
-        {data && <li>{data.slip.advice}</li>}
+        {data && <li>{data.slip.advice.replace(/\.$/, "")}</li>}
       </ul>
     </section>
   );
