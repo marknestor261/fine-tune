@@ -32,7 +32,7 @@ export default function ClassificationList() {
       </section>
       <section>
         <div className="flex flex-nowrap justify-between items-center">
-          <h3>Training Files</h3>
+          <h2 className="text-3xl">Training Files</h2>
           <UploadFileButton
             purpose="fine-tune"
             enforce={{
