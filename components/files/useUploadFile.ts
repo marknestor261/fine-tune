@@ -5,8 +5,15 @@ import { useState } from "react";
 import { toast } from "react-toastify";
 import { mutate } from "swr";
 import { OpenAI } from "types/openai";
+import * as XLSX from "xlsx";
 
 const maxFileSize = 150 * 1024 * 1024;
+
+export const MimeTypes = [
+  "application/json",
+  "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+  "text/csv",
+];
 
 export type Enforce = {
   // All these fields are required
@@ -70,13 +77,14 @@ async function parseAndValidate(
   file: File,
   enforce: Enforce
 ): Promise<Array<{ [key: string]: string }>> {
-  const records = await parseFile(file);
+  const records = await parseFile(file, enforce);
   validateRecords(records, enforce);
   return records;
 }
 
 async function parseFile(
-  file: File
+  file: File,
+  enforce: Enforce
 ): Promise<Array<{ [key: string]: string }>> {
   switch (file.type) {
     case "application/json": {
@@ -92,6 +100,28 @@ async function parseFile(
     case "text/csv": {
       const text = await file.text();
       return parse(text, { columns: true }) as { [key: string]: string }[];
+    }
+
+    case "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet": {
+      const buffer = await file.arrayBuffer();
+      const workbook = XLSX.read(buffer, { type: "binary" });
+      const sheets = workbook.Workbook?.Sheets;
+      if (sheets?.length !== 1)
+        throw new Error("I can only read Excel documents with one worksheet");
+
+      const sheetName = sheets[0]!.name!;
+      const sheet = workbook.Sheets[sheetName]!;
+      const { s, e } = XLSX.utils.decode_range(sheet["!ref"]!);
+      const rows: Array<Record<string, string>> = [];
+      for (let r = s.r; r <= e.r; r++) {
+        const row: Record<string, string> = {};
+        enforce.required.forEach((key, index) => {
+          const cell = sheet[XLSX.utils.encode_cell({ r, c: s.c + index })];
+          row[key] = cell?.v ?? "";
+        });
+        rows.push(row);
+      }
+      return rows;
     }
 
     default: {

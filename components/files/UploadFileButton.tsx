@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Button } from "@nextui-org/react";
 import React, { useEffect, useRef } from "react";
 import { OpenAI } from "types/openai";
-import useUploadFile, { Enforce } from "./useUploadFile";
+import useUploadFile, { Enforce, MimeTypes } from "./useUploadFile";
 
 export default function UploadFileButton({
   enforce,
@@ -27,7 +27,7 @@ export default function UploadFileButton({
   return (
     <span>
       <input
-        accept={["application/json", "text/csv"].join()}
+        accept={MimeTypes.join()}
         onChange={onChange}
         ref={inputRef}
         style={{ display: "none" }}

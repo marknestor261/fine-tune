@@ -88,7 +88,7 @@ function Promo() {
       <ul className="mt-8 text-xl list-disc">
         <li>Go beyond the playground</li>
         <li>
-          Create <b>fine tune</b> models for prompt completion
+          Create <b>fine tune</b> models for completion
         </li>
         <li>
           Upload and manage files for <b>classification</b>
@@ -96,6 +96,7 @@ function Promo() {
         <li>
           Upload and manage files for <b>search</b>
         </li>
+        <li>Upload CSV, Excel spreadsheets, or JSONL</li>
         {data && <li>{data.slip.advice.replace(/\.$/, "")}</li>}
       </ul>
     </section>
