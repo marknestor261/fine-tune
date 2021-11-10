@@ -9,8 +9,8 @@ export default function SearchList() {
   const { t } = useTranslation();
 
   return (
-    <main className="max-w-4xl mx-auto">
-      <section>
+    <main className="max-w-4xl mx-auto space-y-12">
+      <section className="space-y-4">
         <div className="flex flex-nowrap justify-between items-center">
           <h1 className="text-3xl">{t("pages.search")}</h1>
           <UploadFileButton

@@ -27,7 +27,7 @@ export default function FileListTable({
   }
 
   return (
-    <table className="my-4 w-full border-collapse">
+    <table className="w-full border-collapse">
       <tbody>
         {files
           .sort((a, b) => b.created_at - a.created_at)

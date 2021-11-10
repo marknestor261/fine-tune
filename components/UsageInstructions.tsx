@@ -4,9 +4,9 @@ export default function UsageInstructions({
   children: React.ReactNode;
 }) {
   return (
-    <details className="mt-12 bg-white group prose">
+    <details className="bg-white prose">
       <summary className="font-bold text-lg">Usage Instructions</summary>
-      <div>{children}</div>
+      {children}
     </details>
   );
 }

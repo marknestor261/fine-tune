@@ -1,3 +1,4 @@
+import { faArrowAltCircleRight } from "@fortawesome/free-solid-svg-icons";
 import { faPlusCircle } from "@fortawesome/free-solid-svg-icons/faPlusCircle";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Button } from "@nextui-org/react";
@@ -14,8 +15,8 @@ export default function ClassificationList() {
   const { t } = useTranslation();
 
   return (
-    <main className="max-w-4xl mx-auto">
-      <section>
+    <main className="max-w-4xl mx-auto space-y-12">
+      <section className="space-y-4">
         <div className="flex flex-nowrap justify-between items-center">
           <h1 className="text-3xl">{t("pages.completions")}</h1>
           <Button
@@ -29,8 +30,23 @@ export default function ClassificationList() {
           </Button>
         </div>
         <FineTuneList />
+        <p className="flex justify-between">
+          <span>
+            Select from the list of fine-tune models (above), or use one of the
+            default engines:
+          </span>
+          <Button
+            auto
+            flat
+            size="small"
+            iconRight={<FontAwesomeIcon icon={faArrowAltCircleRight} />}
+            onClick={() => router.push("/completions/adhoc")}
+          >
+            Default Engines
+          </Button>
+        </p>
       </section>
-      <section>
+      <section className="space-y-4">
         <div className="flex flex-nowrap justify-between items-center">
           <h2 className="text-3xl">Training Files</h2>
           <UploadFileButton

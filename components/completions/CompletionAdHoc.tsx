@@ -8,7 +8,8 @@ export default function CompletionAdHoc() {
   return (
     <main className="max-w-2xl mx-auto space-y-8 mb-8">
       <h1 className="text-3xl">
-        <span className="font-normal">{t("pages.completions")}</span> Playground
+        <span className="font-normal">{t("pages.completions")}</span> Built-in
+        Engines
       </h1>
       <CompletionForm />
     </main>

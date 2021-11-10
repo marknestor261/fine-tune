@@ -51,7 +51,7 @@ function Processing({ fineTunes }: { fineTunes: OpenAI.FineTune[] }) {
   );
 
   return (
-    <ol className="my-4 list-none m-0">
+    <ol className="list-none m-0">
       {processing.map((fineTune) => (
         <li key={fineTune.id}>
           Processing {fineTune.id} <CancelFineTune id={fineTune.id} />
