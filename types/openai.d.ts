@@ -115,6 +115,7 @@ export namespace OpenAI {
         index: number;
         text: string;
       }>;
+      model: string;
     };
   }
 

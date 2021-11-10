@@ -3,6 +3,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Button, Input, Textarea } from "@nextui-org/react";
 import useAuthentication from "components/account/useAuthentication";
 import Label from "components/forms/Label";
+import SelectEngine, {
+  BaseEngines,
+  InstructEngines,
+} from "components/forms/SelectEngine";
 import InfoCard from "components/InfoCard";
 import ShowRequestExample from "components/ShowRequestExample";
 import React, { useState } from "react";
@@ -13,10 +17,12 @@ import { OpenAI } from "types/openai";
 export default function CompletionForm({
   fineTune,
 }: {
-  fineTune: OpenAI.FineTune;
+  fineTune?: OpenAI.FineTune;
 }) {
   const form = useForm({
     defaultValues: {
+      engine: fineTune ? undefined : "davinci",
+      model: fineTune?.id,
       prompt: "",
       max_tokens: 30,
       temperature: 0.8,
@@ -30,11 +36,15 @@ export default function CompletionForm({
   form.watch();
 
   const request = {
-    url: `https://api.openai.com/v1/completions`,
+    url: fineTune
+      ? `https://api.openai.com/v1/completions`
+      : `https://api.openai.com/v1/engines/${
+          form.getValues().engine
+        }/completions`,
     method: "POST",
     headers: { ...headers, "Content-Type": "application/json" },
     body: {
-      model: fineTune.fine_tuned_model,
+      model: form.getValues().model,
       prompt: form.getValues().prompt,
       n: 3,
       temperature: +form.getValues().temperature,
@@ -64,13 +74,22 @@ export default function CompletionForm({
             <Textarea
               autoFocus
               bordered
-              minRows={4}
+              minRows={8}
               required
               width="100%"
               {...form.register("prompt")}
             />
           </Label>
-          <div className="flex gap-8 flex-wrap">
+          <div className="flex gap-4 flex-wrap">
+            {fineTune ? null : (
+              <Label label="Engine" required>
+                <SelectEngine
+                  engines={BaseEngines.concat(InstructEngines)}
+                  name="engine"
+                  required
+                />
+              </Label>
+            )}
             <Label label="Max tokens">
               <Input
                 type="number"
@@ -139,13 +158,16 @@ function CompletionResults({
   return (
     <InfoCard>
       <h4 className="my-4">⭐️ Completions</h4>
-      <ol>
+      <ol className=" list-disc">
         {results.choices.map((choice, index) => (
-          <li key={index} className="line-clamp-4 my-4">
-            {choice.text}
+          <li key={index} className="my-4">
+            <p line-clamp-4>{choice.text}</p>
           </li>
         ))}
       </ol>
+      <p>
+        <b>Model:</b> {results.model}
+      </p>
     </InfoCard>
   );
 }
