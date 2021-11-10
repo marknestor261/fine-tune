@@ -14,7 +14,7 @@ export default function ShowRequestExample({
     url: string;
     method: string;
     headers: { [key: string]: string };
-    body: { [key: string]: string | number | boolean | undefined };
+    body: { [key: string]: string | string[] | number | boolean | undefined };
   };
 }) {
   const [, copy] = useCopyToClipboard();

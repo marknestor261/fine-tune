@@ -10,7 +10,8 @@ import SelectEngine, {
 import InfoCard from "components/InfoCard";
 import ShowRequestExample from "components/ShowRequestExample";
 import React, { useState } from "react";
-import { FormProvider, useForm } from "react-hook-form";
+import { FormProvider, useForm, useFormContext } from "react-hook-form";
+import CreatableSelect from "react-select/creatable";
 import { toast } from "react-toastify";
 import { OpenAI } from "types/openai";
 
@@ -28,6 +29,7 @@ export default function CompletionForm({
       temperature: 0.8,
       presence_penalty: 0,
       frequency_penalty: 0,
+      stop: [] as string[],
     },
   });
   const { headers } = useAuthentication();
@@ -35,6 +37,7 @@ export default function CompletionForm({
 
   form.watch();
 
+  const values = form.getValues();
   const request = {
     url: fineTune
       ? `https://api.openai.com/v1/completions`
@@ -44,13 +47,14 @@ export default function CompletionForm({
     method: "POST",
     headers: { ...headers, "Content-Type": "application/json" },
     body: {
-      model: form.getValues().model,
-      prompt: form.getValues().prompt,
+      model: values.model,
+      prompt: values.prompt,
       n: 3,
-      temperature: +form.getValues().temperature,
-      max_tokens: +form.getValues().max_tokens,
-      presence_penalty: +form.getValues().presence_penalty,
-      frequency_penalty: +form.getValues().frequency_penalty,
+      temperature: +values.temperature,
+      max_tokens: +values.max_tokens,
+      presence_penalty: +values.presence_penalty,
+      frequency_penalty: +values.frequency_penalty,
+      stop: values.stop.length ? values.stop : undefined,
     },
   };
 
@@ -69,7 +73,7 @@ export default function CompletionForm({
   return (
     <FormProvider {...form}>
       <form onSubmit={onSubmit} className="space-y-8">
-        <fieldset className="space-y-4">
+        <fieldset className="md:space-y-4">
           <Label label="Text to complete" required>
             <Textarea
               autoFocus
@@ -80,55 +84,10 @@ export default function CompletionForm({
               {...form.register("prompt")}
             />
           </Label>
-          <div className="flex gap-4 flex-wrap">
-            {fineTune ? null : (
-              <Label label="Engine" required>
-                <SelectEngine
-                  engines={BaseEngines.concat(InstructEngines)}
-                  name="engine"
-                  required
-                />
-              </Label>
-            )}
-            <Label label="Max tokens">
-              <Input
-                type="number"
-                min={10}
-                max={2048}
-                step={10}
-                {...form.register("max_tokens", { min: 10, max: 2048 })}
-              />
-            </Label>
-            <Label label="Temperature">
-              <Input
-                type="number"
-                min={0}
-                max={1}
-                step={0.1}
-                {...form.register("temperature", { min: 0, max: 1 })}
-              />
-            </Label>
-            <Label label="Presence penalty">
-              <Input
-                type="number"
-                min={-2}
-                max={2}
-                step={0.1}
-                {...form.register("presence_penalty", { min: -2, max: 2 })}
-              />
-            </Label>
-            <Label label="Frequency penalty">
-              <Input
-                type="number"
-                min={-2}
-                max={2}
-                step={0.1}
-                {...form.register("frequency_penalty", { min: -2, max: 2 })}
-              />
-            </Label>
-          </div>
+          {!fineTune && <AdHocOptions />}
+          <CommonOptions />
         </fieldset>
-        <div className="pb-4">
+        <div>
           <Button
             auto
             iconRight={<FontAwesomeIcon icon={faChevronRight} />}
@@ -147,6 +106,81 @@ export default function CompletionForm({
         reference="https://beta.openai.com/docs/api-reference/completions/create"
       />
     </FormProvider>
+  );
+}
+
+function CommonOptions() {
+  const form = useFormContext();
+
+  return (
+    <div className="flex gap-x-4 flex-wrap">
+      <Label label="Max tokens">
+        <Input
+          type="number"
+          min={10}
+          max={2048}
+          step={10}
+          {...form.register("max_tokens", { min: 10, max: 2048 })}
+        />
+      </Label>
+      <Label label="Temperature">
+        <Input
+          type="number"
+          min={0}
+          max={1}
+          step={0.1}
+          {...form.register("temperature", { min: 0, max: 1 })}
+        />
+      </Label>
+      <Label label="Presence penalty">
+        <Input
+          type="number"
+          min={-2}
+          max={2}
+          step={0.1}
+          {...form.register("presence_penalty", { min: -2, max: 2 })}
+        />
+      </Label>
+      <Label label="Frequency penalty">
+        <Input
+          type="number"
+          min={-2}
+          max={2}
+          step={0.1}
+          {...form.register("frequency_penalty", { min: -2, max: 2 })}
+        />
+      </Label>
+    </div>
+  );
+}
+
+function AdHocOptions() {
+  const form = useFormContext();
+
+  return (
+    <div className="flex gap-x-4 flex-wrap">
+      <Label label="Engine" required>
+        <SelectEngine
+          engines={BaseEngines.concat(InstructEngines)}
+          name="engine"
+          required
+        />
+      </Label>
+      <Label label="Stop sequences">
+        <CreatableSelect
+          {...form.register("stop")}
+          classNamePrefix="react-select"
+          isMulti
+          onChange={(selection) =>
+            form.setValue(
+              "stop",
+              selection.map(({ value }) => value)
+            )
+          }
+          options={[] as Array<{ value: string }>}
+        />
+      </Label>
+    </div>
   );
 }
 

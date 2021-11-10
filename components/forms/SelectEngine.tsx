@@ -23,7 +23,7 @@ export default function SelectEngine({
   return (
     <Select
       {...form.register(name, { required })}
-      className="w-44 z-50"
+      className="w-44"
       classNamePrefix="react-select"
       defaultValue={options.find(
         (option) => option.value === form.getValues()[name]
