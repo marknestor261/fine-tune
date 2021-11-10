@@ -55,7 +55,7 @@ export default function SearchForm({ id }: { id: string }) {
               {...form.register("query")}
             />
           </Label>
-          <div className="flex gap-8 flex-wrap">
+          <div className="flex flex-wrap gap-8">
             <Label label="Engine" required>
               <SelectEngine name="engine" required />
             </Label>
@@ -83,7 +83,7 @@ export default function SearchForm({ id }: { id: string }) {
 
 function SearchResult({ results }: { results: OpenAI.Search.Response }) {
   return (
-    <div className="border rounded-xl shadow-sm p-4 space-y-1">
+    <div className="p-4 space-y-1 rounded-xl border shadow-sm">
       <table className="w-full text-left">
         <thead>
           <tr>

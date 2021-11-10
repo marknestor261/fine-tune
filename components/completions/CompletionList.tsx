@@ -15,7 +15,7 @@ export default function ClassificationList() {
   const { t } = useTranslation();
 
   return (
-    <main className="max-w-4xl mx-auto space-y-12">
+    <main className="mx-auto space-y-12 max-w-4xl">
       <section className="space-y-4">
         <div className="flex flex-nowrap justify-between items-center">
           <h1 className="text-3xl">{t("pages.completions")}</h1>

@@ -25,7 +25,9 @@ ErrorPage.getInitialProps = async function (
 ): Promise<ErrorProps> {
   const errorInitialProps = await NextError.getInitialProps(context);
 
-  // @ts-ignore Workaround for https://github.com/vercel/next.js/issues/8592, mark when
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  // Workaround for https://github.com/vercel/next.js/issues/8592, mark when
   errorInitialProps.hasGetInitialPropsRun = true;
 
   if (context.err) {

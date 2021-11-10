@@ -6,7 +6,7 @@ export default function CompletionAdHoc() {
   const { t } = useTranslation();
 
   return (
-    <main className="max-w-2xl mx-auto space-y-8 mb-8">
+    <main className="mx-auto mb-8 space-y-8 max-w-2xl">
       <h1 className="text-3xl">
         <span className="font-normal">{t("pages.completions")}</span> Built-in
         Engines

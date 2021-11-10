@@ -113,7 +113,7 @@ function CommonOptions() {
   const form = useFormContext();
 
   return (
-    <div className="flex gap-x-4 flex-wrap">
+    <div className="flex flex-wrap gap-x-4">
       <Label label="Max tokens">
         <Input
           type="number"
@@ -158,7 +158,7 @@ function AdHocOptions() {
   const form = useFormContext();
 
   return (
-    <div className="flex gap-x-4 flex-wrap">
+    <div className="flex flex-wrap gap-x-4">
       <Label label="Engine" required>
         <SelectEngine
           engines={BaseEngines.concat(InstructEngines)}

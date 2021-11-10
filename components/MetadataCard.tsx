@@ -27,7 +27,7 @@ export function MetadataCard({
         }))
         .map(({ clickToCopy, label, value }) => (
           <div key={label} className="flex flex-nowrap gap-4">
-            <span className="w-20 flex-shrink-0 font-bold"> {label}</span>
+            <span className="flex-shrink-0 w-20 font-bold"> {label}</span>
             {clickToCopy ? (
               <ClickToCopy className="flex gap-2 items-center" value={value}>
                 <span className="line-clamp-1">

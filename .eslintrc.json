@@ -10,8 +10,10 @@
     "plugin:@next/next/recommended",
     "plugin:@typescript-eslint/recommended",
     "plugin:mdx/recommended",
+    "plugin:promise/recommended",
     "plugin:react/recommended",
-    "plugin:sonarjs/recommended"
+    "plugin:sonarjs/recommended",
+    "plugin:tailwindcss/recommended"
   ],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
@@ -19,13 +21,6 @@
     "ecmaVersion": 12,
     "sourceType": "module"
   },
-  "plugins": [
-    "@typescript-eslint",
-    "promise",
-    "react",
-    "sonarjs",
-    "tailwindcss"
-  ],
   "rules": {
     "@typescript-eslint/explicit-module-boundary-types": 0,
     "react/react-in-jsx-scope": 0

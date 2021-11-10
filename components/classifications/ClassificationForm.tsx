@@ -64,7 +64,7 @@ export default function ClassificationForm({ id }: { id: string }) {
               {...form.register("query")}
             />
           </Label>
-          <div className="flex gap-8 flex-wrap">
+          <div className="flex flex-wrap gap-8">
             <Label label="Completion engine" required>
               <SelectEngine name="model" required />
             </Label>

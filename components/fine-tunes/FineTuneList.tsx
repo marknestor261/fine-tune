@@ -51,7 +51,7 @@ function Processing({ fineTunes }: { fineTunes: OpenAI.FineTune[] }) {
   );
 
   return (
-    <ol className="list-none m-0">
+    <ol className="m-0 list-none">
       {processing.map((fineTune) => (
         <li key={fineTune.id}>
           Processing {fineTune.id} <CancelFineTune id={fineTune.id} />
@@ -73,16 +73,16 @@ function FineTunesTable({ fineTunes }: { fineTunes: OpenAI.FineTune[] }) {
               className={index % 2 === 0 ? "bg-gray-100" : ""}
               key={fineTune.id}
             >
-              <td className="truncate p-2 max-w-0" title={fineTune.id}>
+              <td className="p-2 max-w-0 truncate" title={fineTune.id}>
                 <Link href={`/fine-tunes/${fineTune.id}`}>{fineTune.id}</Link>
               </td>
-              <td className="truncate p-2 max-w-0">
+              <td className="p-2 max-w-0 truncate">
                 {[...fineTune.training_files, ...fineTune.validation_files]
                   .map(({ filename }) => filename)
                   .join(", ")}
               </td>
               <td
-                className="truncate p-2 max-w-0"
+                className="p-2 max-w-0 truncate"
                 title={new Date(fineTune.updated_at * 1000).toISOString()}
               >
                 {new Date(fineTune.updated_at * 1000).toLocaleString()}

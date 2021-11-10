@@ -10,6 +10,7 @@ import * as XLSX from "xlsx";
 const maxFileSize = 150 * 1024 * 1024;
 
 export const MimeTypes = [
+  // eslint-disable-next-line sonarjs/no-duplicate-string
   "application/json",
   "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
   "text/csv",

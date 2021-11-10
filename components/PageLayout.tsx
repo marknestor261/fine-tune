@@ -21,7 +21,7 @@ export default function PageLayout({
   if (!ready) return null;
 
   return (
-    <div className={"container mx-auto p-4"}>
+    <div className={"container p-4 mx-auto"}>
       {fullPage ? null : <PageHeader signOut={signOut} />}
       {children}
     </div>
@@ -32,10 +32,10 @@ function PageHeader({ signOut }: { signOut: () => void }) {
   const { t } = useTranslation();
 
   return (
-    <header className="mb-8 flex flex-wrap justify-between items-center gap-4 text-xl">
+    <header className="flex flex-wrap gap-4 justify-between items-center mb-8 text-xl">
       <NextLink href="/">
-        <a className="whitespace-nowrap text-black flex gap-2">
-          <span className="font-bold flex flex-no-wrap gap-2">
+        <a className="flex gap-2 text-black whitespace-nowrap">
+          <span className="flex flex-nowrap gap-2 font-bold">
             <span>{t("app.emoji")}</span>
             <span>{t("app.name")}</span>
           </span>

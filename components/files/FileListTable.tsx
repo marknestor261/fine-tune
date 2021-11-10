@@ -33,7 +33,7 @@ export default function FileListTable({
           .sort((a, b) => b.created_at - a.created_at)
           .map((file, index) => (
             <tr className={index % 2 === 0 ? "bg-gray-100" : ""} key={file.id}>
-              <td className="truncate p-2 max-w-0" title={file.id}>
+              <td className="p-2 max-w-0 truncate" title={file.id}>
                 {linkTo ? (
                   <Link href={linkTo(file)}>
                     <a>{file.id}</a>
@@ -42,11 +42,11 @@ export default function FileListTable({
                   file.id
                 )}
               </td>
-              <td className="truncate p-2 max-w-0" title={file.filename}>
+              <td className="p-2 max-w-0 truncate" title={file.filename}>
                 {file.filename}
               </td>
               <td
-                className="truncate p-2 max-w-0"
+                className="p-2 max-w-0 truncate"
                 title={new Date(file.created_at * 1000).toISOString()}
               >
                 {new Date(file.created_at * 1000).toLocaleString()}

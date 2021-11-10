@@ -11,9 +11,9 @@ export default function Label({
 }) {
   return (
     <label className="block my-4">
-      <div className="font-bold mb-2 text-sm capitalize">
+      <div className="mb-2 text-sm font-bold capitalize">
         {label}
-        {required && <span className="text-blue-500 ml-1">*</span>}
+        {required && <span className="ml-1 text-blue-500">*</span>}
       </div>
       {children}
     </label>

@@ -67,7 +67,7 @@ export default function NewFineTuneForm() {
   }
 
   return (
-    <main className="max-w-2xl mx-auto space-y-8 mb-8">
+    <main className="mx-auto mb-8 space-y-8 max-w-2xl">
       <h1 className="text-3xl">
         Fine Tune <span className="font-normal">Completions Model</span>
       </h1>

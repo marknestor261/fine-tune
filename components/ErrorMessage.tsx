@@ -4,7 +4,7 @@ export default function ErrorMessage({
   error: Error | string;
 }): JSX.Element {
   return (
-    <div className="max-w-2xl mx-auto my-4 bg-red-100 border border-red-600 text-red-600 px-4 py-3 rounded relative">
+    <div className="relative py-3 px-4 my-4 mx-auto max-w-2xl text-red-600 bg-red-100 rounded border border-red-600">
       <strong className="font-bold">Oops!</strong>
       <span className="block sm:inline"> {String(error)}</span>
     </div>

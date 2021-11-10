@@ -49,8 +49,8 @@ export default function SigninForm() {
         <FontAwesomeIcon icon={faChevronRight} className="ml-4" />
       </h1>
       <hr />
-      <form className="space-y-8 py-8" onSubmit={onSubmit}>
-        {error && <div className="text-red-500 my-4">{error}</div>}
+      <form className="py-8 space-y-8" onSubmit={onSubmit}>
+        {error && <div className="my-4 text-red-500">{error}</div>}
         <div>
           <Input
             bordered

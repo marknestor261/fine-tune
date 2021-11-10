@@ -19,10 +19,10 @@ export default function HomePage() {
   return (
     <>
       <NextSeo title={"Hello"} />
-      <div className="max-w-6xl mx-auto">
+      <div className="mx-auto max-w-6xl">
         <Header />
-        <div className="my-10 flex flex-col lg:flex-row gap-x-20 gap-y-8">
-          <div className="lg:w-1/3 shrink-0 lg:my-20">
+        <div className="flex flex-col lg:flex-row gap-x-20 gap-y-8 my-10">
+          <div className="lg:my-20 lg:w-1/3 shrink-0">
             {isSignedIn ? <WelcomeBack /> : <SigninForm />}
           </div>
           <div className="lg:w-2/3">
@@ -40,8 +40,8 @@ function Header() {
 
   return (
     <header className="my-4">
-      <h1 className="text-4xl lg:text-5xl flex flex-wrap gap-4">
-        <span className="font-bold flex flex-no-wrap gap-4">
+      <h1 className="flex flex-wrap gap-4 text-4xl lg:text-5xl">
+        <span className="flex flex-nowrap gap-4 font-bold">
           <span>{t("app.emoji")}</span>
           <span>{t("app.name")}</span>
         </span>
@@ -53,7 +53,7 @@ function Header() {
 
 function WelcomeBack() {
   return (
-    <div className="mx-auto w-fit space-y-4">
+    <div className="mx-auto space-y-4 w-fit">
       <h2 className="text-2xl font-bold">Welcome back!</h2>
       <NextLink href="/completions">
         <Button
@@ -82,7 +82,7 @@ function Promo() {
 
   return (
     <section>
-      <div className="border rounded-lg shadow-sm p-1">
+      <div className="p-1 rounded-lg border shadow-sm">
         <Image {...screenshot} />
       </div>
       <ul className="mt-8 text-xl list-disc">
