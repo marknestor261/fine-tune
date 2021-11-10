@@ -93,7 +93,10 @@ export default function ClassificationForm({ id }: { id: string }) {
       {results.map((result, index) => (
         <ClassificationResult key={index} results={result} />
       ))}
-      <ShowRequestExample request={request} />
+      <ShowRequestExample
+        request={request}
+        reference="https://beta.openai.com/docs/api-reference/classifications/create"
+      />
     </FormProvider>
   );
 }

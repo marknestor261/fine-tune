@@ -1,13 +1,15 @@
 import { faCopy } from "@fortawesome/free-solid-svg-icons/faCopy";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Tooltip } from "@nextui-org/react";
+import { Link, Tooltip } from "@nextui-org/react";
 import { useState } from "react";
 import { useCopyToClipboard } from "usehooks-ts";
 import InfoCard from "./InfoCard";
 
 export default function ShowRequestExample({
+  reference,
   request,
 }: {
+  reference?: string;
   request: {
     url: string;
     method: string;
@@ -34,10 +36,17 @@ export default function ShowRequestExample({
               setCopied(true);
             }}
           >
-            <FontAwesomeIcon icon={faCopy} />
+            <FontAwesomeIcon icon={faCopy} className="text-white" />
           </Tooltip>
           <pre>{code}</pre>
         </div>
+        {reference && (
+          <p>
+            <Link href={reference} target="_blank" icon>
+              OpenAI Reference
+            </Link>
+          </p>
+        )}
       </details>
     </InfoCard>
   );
