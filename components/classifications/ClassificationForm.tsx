@@ -38,7 +38,7 @@ export default function ClassificationForm({ id }: { id: string }) {
     },
   };
 
-  const onSubmit = form.handleSubmit(async () => {
+  async function onSubmit() {
     const { url, body, ...init } = request;
     const response = await fetch(url, { ...init, body: JSON.stringify(body) });
     if (response.ok) {
@@ -48,11 +48,11 @@ export default function ClassificationForm({ id }: { id: string }) {
       const { error } = (await response.json()) as OpenAI.ErrorResponse;
       toast.error(error.message);
     }
-  });
+  }
 
   return (
     <FormProvider {...form}>
-      <form onSubmit={onSubmit} className="space-y-4">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
         <fieldset>
           <Label label="Text to classify" required>
             <Textarea
@@ -129,6 +129,12 @@ function ClassificationResult({
           ))}
         </tbody>
       </table>
+      <p>
+        <b>Model:</b> {results.model}
+      </p>
+      <p>
+        <b>Search Model:</b> {results.search_model}
+      </p>
       {results.warnings?.map(({ message }, index) => (
         <p key={index} className="mt-4 text-red-500">
           <b>Warning:</b> {message}

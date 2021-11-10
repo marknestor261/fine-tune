@@ -1,7 +1,7 @@
 export namespace OpenAI {
   export type Engine =
     | "ada"
-    | "baggage"
+    | "babbage"
     | "curie"
     | "davinci"
     | "curie-instruct-beta"
@@ -88,6 +88,8 @@ export namespace OpenAI {
 
     export type Response = {
       label: string;
+      model: string;
+      search_model: string;
       selected_examples: Array<{
         document: number;
         label: string;
@@ -130,6 +132,7 @@ export namespace OpenAI {
         object: string;
         text: string;
       }>;
+      model: string;
     };
   }
 }

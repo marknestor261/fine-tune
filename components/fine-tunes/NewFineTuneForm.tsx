@@ -13,8 +13,6 @@ import useSWR, { mutate } from "swr";
 import { OpenAI } from "types/openai";
 import Label from "../forms/Label";
 
-const FineTuneEngines = ["ada", "baggage", "curie"];
-
 export default function NewFineTuneForm() {
   const { headers } = useAuthentication();
   const { data, error } = useSWR<OpenAI.List<OpenAI.File>>("files");
@@ -36,12 +34,7 @@ export default function NewFineTuneForm() {
       value: file.id,
     }));
 
-  const engineOptions = FineTuneEngines.map((engine) => ({
-    label: engine,
-    value: engine,
-  }));
-
-  const onSubmit = form.handleSubmit(
+  async function onSubmit() {
     async ({ model, training, validation }) => {
       try {
         if (training === validation) {
@@ -71,7 +64,6 @@ export default function NewFineTuneForm() {
         toast.error(String(error));
       }
     }
-  );
 
   return (
     <main className="max-w-2xl mx-auto space-y-8 mb-8">
@@ -81,7 +73,7 @@ export default function NewFineTuneForm() {
       {error && <ErrorMessage error={error} />}
       {data && (
         <FormProvider {...form}>
-          <form onSubmit={onSubmit} className="space-y-8">
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
             <fieldset className="space-y-4">
               <Label label="OpenAI Engine">
                 <SelectEngine name="model" required />

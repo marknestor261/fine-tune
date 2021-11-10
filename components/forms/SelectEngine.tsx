@@ -1,7 +1,8 @@
 import { useFormContext } from "react-hook-form";
 import Select from "react-select";
+import { OpenAI } from "types/openai";
 
-const AllEngines = ["ada", "baggage", "curie", "davinci"];
+const AllEngines: OpenAI.Engine[] = ["ada", "babbage", "curie", "davinci"];
 
 export default function SelectEngine({
   engines = AllEngines,
