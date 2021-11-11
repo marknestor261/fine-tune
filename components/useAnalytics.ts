@@ -6,25 +6,24 @@ export default function useAnalytics() {
 
   useEffect(() => {
     if (!propertyId) return;
-
-    const src = `https://www.googletagmanager.com/gtag/js?id=${propertyId}&l=dataLayer&cx=c`;
-    const loaded = [...document.querySelectorAll("script")].find(
-      (script) => script.src === src
-    );
-    if (loaded) return;
+    if (window.gtag) return;
 
     window.dataLayer = window.dataLayer || [];
-    window.dataLayer.push(["js", new Date()]);
-    window.dataLayer.push(["config", propertyId, { page_view: false }]);
+    window.gtag = function () {
+      // eslint-disable-next-line prefer-rest-params
+      window.dataLayer!.push(arguments);
+    };
+    window.gtag("js", new Date());
+    window.gtag("config", propertyId, { send_page_view: false });
 
     const script = document.createElement("script");
-    script.src = src;
+    script.src = `https://www.googletagmanager.com/gtag/js?id=${propertyId}`;
     script.async = true;
-    document.body.appendChild(script);
+    document.head.appendChild(script);
   }, []);
 
   function sendEvent(name: string, props?: { [key: string]: string }) {
-    window.dataLayer?.push(["event", name, props]);
+    window.gtag!("event", name, props);
   }
 
   function pageView() {
@@ -45,5 +44,6 @@ export default function useAnalytics() {
 declare global {
   interface Window {
     dataLayer?: unknown[];
+    gtag?: (...args: unknown[]) => void;
   }
 }
