@@ -88,15 +88,14 @@ function Promo() {
       <ul className="mt-8 text-xl list-disc">
         <li>Go beyond the playground</li>
         <li>
-          Create <b>fine tune</b> models for completion
+          <b>Fine tune</b> your completion model by uploading training and
+          validation files
         </li>
         <li>
-          Upload and manage files for <b>classification</b>
+          Upload <b>classification</b> and <b>search</b> files
         </li>
-        <li>
-          Upload and manage files for <b>search</b>
-        </li>
-        <li>Upload CSV, Excel spreadsheets, or JSONL</li>
+        <li>CSV, Excel spreadsheets, and of course JSONL</li>
+        <li>Play around and see the API requests</li>
         {data && <li>{data.slip.advice.replace(/\.$/, "")}</li>}
       </ul>
     </section>

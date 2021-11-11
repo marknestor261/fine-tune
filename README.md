@@ -4,8 +4,7 @@
 
 * Go beyond the playground
 * **Fine tune** your completion model by uploading training and validation files
-* Upload **classification** files
-* Upload documents to **search** against
+* Upload **classification** and **search** files
 * CSV, Excel spreadsheets, and of course JSONL
 * Play around and see the API requests
 
