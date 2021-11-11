@@ -3,7 +3,6 @@ import Account from "components/account/Account";
 import ErrorMessage from "components/ErrorMessage";
 import PageLayout from "components/PageLayout";
 import useAnalytics from "components/useAnalytics";
-import useEmojiFavicon from "components/useEmojiFavicon";
 import { NextSeo } from "next-seo";
 import { AppProps } from "next/dist/shared/lib/router/router";
 import Head from "next/head";
@@ -19,7 +18,7 @@ export default appWithI18Next(App, ni18nConfig);
 
 function App({ Component, pageProps }: AppProps) {
   const { t, ready } = useTranslation();
-  const emojiFavicon = useEmojiFavicon(ready ? t("app.emoji") : "🥱");
+  const emoji = ready ? t("app.emoji") : "🥱";
 
   const { pageView } = useAnalytics();
   useEffect(() => {
@@ -31,7 +30,10 @@ function App({ Component, pageProps }: AppProps) {
     <ErrorBoundary>
       <Head>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        {emojiFavicon ? <link rel="icon" href={emojiFavicon} /> : null}
+        <link
+          rel="icon"
+          href={`data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>${emoji}</text></svg>`}
+        />
       </Head>
       <NextSeo
         title={ready ? t("$t(app.name) — $t(app.subtitle)") : "waking up …"}
