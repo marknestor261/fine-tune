@@ -23,7 +23,7 @@ export default function useAnalytics() {
   }, []);
 
   function sendEvent(name: string, props?: { [key: string]: string }) {
-    window.gtag!("event", name, props);
+    window.gtag?.("event", name, props);
   }
 
   function pageView() {
