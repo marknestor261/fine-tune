@@ -1,4 +1,5 @@
 import useAuthentication from "components/account/useAuthentication";
+import useAnalytics from "components/useAnalytics";
 import parse from "csv-parse/lib/sync";
 import filesize from "filesize";
 import { useState } from "react";
@@ -30,6 +31,7 @@ export type Enforce = {
 export default function useUploadFile(purpose: string, enforce: Enforce) {
   const { headers } = useAuthentication();
   const [isLoading, setIsLoading] = useState(false);
+  const { sendEvent } = useAnalytics();
 
   async function uploadFile(file: File) {
     try {
@@ -68,6 +70,7 @@ export default function useUploadFile(purpose: string, enforce: Enforce) {
       toast.error(String(error));
     } finally {
       setIsLoading(false);
+      sendEvent("upload", { purpose });
     }
   }
 

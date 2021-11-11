@@ -4,6 +4,7 @@ import { Button } from "@nextui-org/react";
 import useAuthentication from "components/account/useAuthentication";
 import ErrorMessage from "components/ErrorMessage";
 import SelectEngine from "components/forms/SelectEngine";
+import useAnalytics from "components/useAnalytics";
 import router from "next/router";
 import React from "react";
 import { FormProvider, useForm } from "react-hook-form";
@@ -22,6 +23,7 @@ type Fields = {
 export default function NewFineTuneForm() {
   const { headers } = useAuthentication();
   const { data, error } = useSWR<OpenAI.List<OpenAI.File>>("files");
+  const { sendEvent } = useAnalytics();
 
   const form = useForm<Fields>({
     defaultValues: { model: "ada" },
@@ -63,6 +65,8 @@ export default function NewFineTuneForm() {
       }
     } catch (error) {
       toast.error(String(error));
+    } finally {
+      sendEvent("new_fine_tune");
     }
   }
 

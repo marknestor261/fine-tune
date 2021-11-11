@@ -2,11 +2,11 @@ import { CssBaseline } from "@nextui-org/react";
 import Account from "components/account/Account";
 import ErrorMessage from "components/ErrorMessage";
 import PageLayout from "components/PageLayout";
+import useAnalytics from "components/useAnalytics";
 import useEmojiFavicon from "components/useEmojiFavicon";
 import { NextSeo } from "next-seo";
 import { AppProps } from "next/dist/shared/lib/router/router";
 import Head from "next/head";
-import Router from "next/router";
 import { appWithI18Next } from "ni18n";
 import { ni18nConfig } from "ni18n.config";
 import screenshot from "public/images/screenshot.png";
@@ -20,13 +20,18 @@ export default appWithI18Next(App, ni18nConfig);
 function App({ Component, pageProps }: AppProps) {
   const { t, ready } = useTranslation();
   const emojiFavicon = useEmojiFavicon(ready ? t("app.emoji") : "🥱");
-  useGATag(ready);
+
+  const { pageView } = useAnalytics();
+  useEffect(() => {
+    // Wait until first render had a change to load translations and set the page title
+    if (ready) pageView();
+  }, [ready]);
 
   return (
     <ErrorBoundary>
       <Head>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href={emojiFavicon} />
+        {emojiFavicon ? <link rel="icon" href={emojiFavicon} /> : null}
       </Head>
       <NextSeo
         title={ready ? t("$t(app.name) — $t(app.subtitle)") : "waking up …"}
@@ -82,38 +87,5 @@ class ErrorBoundary extends React.Component<
   render() {
     const { error } = this.state;
     return error ? <ErrorMessage error={error} /> : this.props.children;
-  }
-}
-
-function useGATag(ready: boolean) {
-  function pageView() {
-    window.gtag?.("event", "page_view", {
-      page_title: document.title,
-      page_location: location.href,
-      page_path: location.pathname,
-    });
-  }
-
-  useEffect(() => {
-    Router.events.on("routeChangeComplete", pageView);
-    return () => Router.events.off("routeChangeComplete", pageView);
-  }, []);
-
-  useEffect(
-    function () {
-      // Wait until first render had a change to load translations and set the page title
-      if (ready) pageView();
-    },
-    [ready]
-  );
-}
-
-declare global {
-  interface Window {
-    gtag?: (
-      action: string,
-      event: string,
-      props: { [key: string]: string }
-    ) => void;
   }
 }

@@ -5,6 +5,7 @@ import useAuthentication from "components/account/useAuthentication";
 import Label from "components/forms/Label";
 import SelectEngine from "components/forms/SelectEngine";
 import ShowRequestExample from "components/ShowRequestExample";
+import useAnalytics from "components/useAnalytics";
 import React, { useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
@@ -14,6 +15,7 @@ export default function SearchForm({ id }: { id: string }) {
   const form = useForm({ defaultValues: { engine: "davinci", query: "" } });
   const { headers } = useAuthentication();
   const [results, setResults] = useState<OpenAI.Search.Response[]>([]);
+  const { sendEvent } = useAnalytics();
 
   form.watch();
 
@@ -40,6 +42,7 @@ export default function SearchForm({ id }: { id: string }) {
       const { error } = (await response.json()) as OpenAI.ErrorResponse;
       toast.error(error.message);
     }
+    sendEvent("query", { type: "search" });
   }
 
   return (

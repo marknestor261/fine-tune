@@ -9,6 +9,7 @@ import SelectEngine, {
 } from "components/forms/SelectEngine";
 import InfoCard from "components/InfoCard";
 import ShowRequestExample from "components/ShowRequestExample";
+import useAnalytics from "components/useAnalytics";
 import React, { useState } from "react";
 import { FormProvider, useForm, useFormContext } from "react-hook-form";
 import CreatableSelect from "react-select/creatable";
@@ -34,6 +35,7 @@ export default function CompletionForm({
   });
   const { headers } = useAuthentication();
   const [results, setResults] = useState<OpenAI.Completions.Response[]>([]);
+  const { sendEvent } = useAnalytics();
 
   form.watch();
 
@@ -68,6 +70,7 @@ export default function CompletionForm({
       const { error } = (await response.json()) as OpenAI.ErrorResponse;
       toast.error(error.message);
     }
+    sendEvent("query", { type: "completion" });
   });
 
   return (
