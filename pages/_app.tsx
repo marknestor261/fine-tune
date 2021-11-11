@@ -2,6 +2,7 @@ import { CssBaseline } from "@nextui-org/react";
 import Account from "components/account/Account";
 import ErrorMessage from "components/ErrorMessage";
 import PageLayout from "components/PageLayout";
+import useEmojiFavicon from "components/useEmojiFavicon";
 import { NextSeo } from "next-seo";
 import { AppProps } from "next/dist/shared/lib/router/router";
 import Head from "next/head";
@@ -18,15 +19,17 @@ export default appWithI18Next(App, ni18nConfig);
 
 function App({ Component, pageProps }: AppProps) {
   const { t, ready } = useTranslation();
+  const emojiFavicon = useEmojiFavicon(ready ? t("app.emoji") : "🥱");
   useGATag(ready);
 
   return (
     <ErrorBoundary>
       <Head>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="icon" href={emojiFavicon} />
       </Head>
       <NextSeo
-        title={ready ? t("$t(app.name) — $t(app.subtitle)") : "🥱 waking up …"}
+        title={ready ? t("$t(app.name) — $t(app.subtitle)") : "waking up …"}
         titleTemplate={ready ? t("%s | $t(app.name)") : undefined}
         description={ready ? t("app.description") : undefined}
         openGraph={{
@@ -43,14 +46,6 @@ function App({ Component, pageProps }: AppProps) {
           cardType: "summary_large_image",
           handle: "@assaf",
         }}
-        additionalLinkTags={[
-          {
-            rel: "icon",
-            href: `data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>${t(
-              "app.emoji"
-            )}</text></svg>`,
-          },
-        ]}
       />
       <CssBaseline />
       <ToastContainer hideProgressBar />
