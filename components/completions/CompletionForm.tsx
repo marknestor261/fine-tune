@@ -119,6 +119,7 @@ function CommonOptions() {
     <div className="flex flex-wrap gap-x-4">
       <Label label="Max tokens">
         <Input
+          bordered
           type="number"
           min={10}
           max={2048}
@@ -128,6 +129,7 @@ function CommonOptions() {
       </Label>
       <Label label="Temperature">
         <Input
+          bordered
           type="number"
           min={0}
           max={1}
@@ -137,6 +139,7 @@ function CommonOptions() {
       </Label>
       <Label label="Presence penalty">
         <Input
+          bordered
           type="number"
           min={-2}
           max={2}
@@ -146,6 +149,7 @@ function CommonOptions() {
       </Label>
       <Label label="Frequency penalty">
         <Input
+          bordered
           type="number"
           min={-2}
           max={2}

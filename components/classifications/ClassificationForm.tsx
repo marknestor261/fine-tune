@@ -76,6 +76,7 @@ export default function ClassificationForm({ id }: { id: string }) {
             </Label>
             <Label label="Temperature">
               <Input
+                bordered
                 type="number"
                 min={0}
                 max={1}
