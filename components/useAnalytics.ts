@@ -4,25 +4,18 @@ import { useEffect } from "react";
 export default function useAnalytics() {
   const propertyId = process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID;
 
-  if (process.browser) {
-    window.dataLayer = window.dataLayer || [];
-    window.gtag = (...args) => {
-      window.dataLayer.push(args);
-    };
-    window.gtag("js", new Date());
-    window.gtag("config", propertyId, {
-      send_page_view: false,
-    });
-  }
-
   useEffect(() => {
     if (!propertyId) return;
 
-    const src = `https://www.googletagmanager.com/gtag/js?id=${propertyId}`;
+    const src = `https://www.googletagmanager.com/gtag/js?id=${propertyId}&l=dataLayer&cx=c`;
     const loaded = [...document.querySelectorAll("script")].find(
       (script) => script.src === src
     );
     if (loaded) return;
+
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push(["js", new Date()]);
+    window.dataLayer.push(["config", propertyId, { page_view: false }]);
 
     const script = document.createElement("script");
     script.src = src;
@@ -31,14 +24,13 @@ export default function useAnalytics() {
   }, []);
 
   function sendEvent(name: string, props?: { [key: string]: string }) {
-    window.gtag("event", name, props);
+    window.dataLayer?.push(["event", name, props]);
   }
 
   function pageView() {
     sendEvent("page_view", {
       page_title: document.title,
       page_location: location.href,
-      page_path: location.pathname,
     });
   }
 
@@ -52,7 +44,6 @@ export default function useAnalytics() {
 
 declare global {
   interface Window {
-    dataLayer: unknown[];
-    gtag: (...args: unknown[]) => void;
+    dataLayer?: unknown[];
   }
 }
