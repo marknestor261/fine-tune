@@ -202,7 +202,7 @@ function CompletionResults({
       <ol className=" list-disc">
         {results.choices.map((choice, index) => (
           <li key={index} className="my-4">
-            <p line-clamp-4>{choice.text}</p>
+            <p className="line-clamp-4">{choice.text}</p>
           </li>
         ))}
       </ol>

@@ -2,7 +2,7 @@ import { Router } from "next/router";
 import { useEffect } from "react";
 
 export default function useAnalytics() {
-  const propertyId = process.env.GOOGLE_ANALYTICS_ID;
+  const propertyId = process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID;
 
   if (process.browser) {
     window.dataLayer = window.dataLayer || [];
