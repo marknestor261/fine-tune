@@ -11,7 +11,7 @@ export default function useAnalytics() {
     window.dataLayer = window.dataLayer || [];
     window.gtag = function () {
       // eslint-disable-next-line prefer-rest-params
-      window.dataLayer!.push(arguments);
+      window.dataLayer?.push(arguments);
     };
     window.gtag("js", new Date());
     window.gtag("config", propertyId, { send_page_view: false });

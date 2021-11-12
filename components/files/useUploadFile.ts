@@ -90,48 +90,60 @@ async function parseFile(
   file: File,
   enforce: Enforce
 ): Promise<Array<{ [key: string]: string }>> {
-  switch (file.type) {
-    case "application/json": {
-      try {
-        const text = await file.text();
-        const lines = text.split("\n");
-        return lines.map((line) => JSON.parse(line));
-      } catch (error) {
-        throw new Error("This is not a JSONL file");
-      }
-    }
+  const parser = {
+    "application/json": parseJSONL,
+    "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet":
+      parseExcel,
+    "text/csv": parseCSV,
+  }[file.type];
+  if (!parser) throw new Error(`Unsupported file type ${file.type}`);
+  return await parser(file, enforce);
+}
 
-    case "text/csv": {
-      const text = await file.text();
-      return parse(text, { columns: true }) as { [key: string]: string }[];
-    }
-
-    case "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet": {
-      const buffer = await file.arrayBuffer();
-      const workbook = XLSX.read(buffer, { type: "binary" });
-      const sheets = workbook.Workbook?.Sheets;
-      if (sheets?.length !== 1)
-        throw new Error("I can only read Excel documents with one worksheet");
-
-      const sheetName = sheets[0]!.name!;
-      const sheet = workbook.Sheets[sheetName]!;
-      const { s, e } = XLSX.utils.decode_range(sheet["!ref"]!);
-      const rows: Array<Record<string, string>> = [];
-      for (let r = s.r; r <= e.r; r++) {
-        const row: Record<string, string> = {};
-        enforce.required.forEach((key, index) => {
-          const cell = sheet[XLSX.utils.encode_cell({ r, c: s.c + index })];
-          row[key] = cell?.v ?? "";
-        });
-        rows.push(row);
-      }
-      return rows;
-    }
-
-    default: {
-      throw new Error(`Unsupported file type ${file.type}`);
-    }
+async function parseJSONL(file: File) {
+  try {
+    const text = await file.text();
+    const lines = text.split("\n");
+    return lines.map((line) => JSON.parse(line));
+  } catch (error) {
+    throw new Error("This is not a JSONL file");
   }
+}
+
+async function parseCSV(file: File) {
+  const text = await file.text();
+  return parse(text, { columns: true }) as { [key: string]: string }[];
+}
+
+async function parseExcel(file: File, enforce: Enforce) {
+  const buffer = await file.arrayBuffer();
+  const workbook = XLSX.read(buffer, { type: "binary" });
+  const sheets = workbook.Workbook?.Sheets;
+  if (sheets?.length !== 1)
+    throw new Error("I can only read Excel documents with one worksheet");
+
+  const sheetName = workbook.SheetNames[0];
+  const sheet = sheetName && workbook.Sheets[sheetName];
+  if (!sheet) throw new Error("Cannot read this spreadsheet");
+
+  const { s, e } = XLSX.utils.decode_range(sheet["!ref"] ?? "A1:A1");
+  if (s.r === e.r) throw new Error("There are no rows in this spreadsheet");
+
+  if (e.c - s.c + 1 < enforce.required.length)
+    throw new Error(
+      `There are not enough columns in this spreadsheet (expect ${enforce.required.length})`
+    );
+
+  const rows: Array<Record<string, string>> = [];
+  for (let r = s.r; r <= e.r; r++) {
+    const row: Record<string, string> = {};
+    enforce.required.forEach((key, index) => {
+      const cell = sheet[XLSX.utils.encode_cell({ r, c: s.c + index })];
+      row[key] = cell?.v ?? "";
+    });
+    rows.push(row);
+  }
+  return rows;
 }
 
 function validateRecords(
