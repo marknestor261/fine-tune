@@ -1,6 +1,7 @@
 import { CssBaseline } from "@nextui-org/react";
 import Account from "components/account/Account";
 import ErrorMessage from "components/ErrorMessage";
+import HomePage from "components/HomePage";
 import PageLayout from "components/PageLayout";
 import useAnalytics from "components/useAnalytics";
 import { NextSeo } from "next-seo";
@@ -21,10 +22,8 @@ function App({ Component, pageProps }: AppProps) {
   const emoji = ready ? t("app.emoji") : "🥱";
 
   const { pageView } = useAnalytics();
-  useEffect(() => {
-    // Wait until first render had a change to load translations and set the page title
-    if (ready) pageView();
-  }, [ready]);
+  // Wait until first render had a change to load translations and set the page title
+  useEffect(pageView, [ready]);
 
   return (
     <ErrorBoundary>
@@ -36,7 +35,11 @@ function App({ Component, pageProps }: AppProps) {
         />
       </Head>
       <NextSeo
-        title={ready ? t("$t(app.name) — $t(app.subtitle)") : "waking up …"}
+        title={
+          ready
+            ? t("$t(app.emoji) $t(app.name) — $t(app.subtitle)")
+            : "waking up …"
+        }
         titleTemplate={ready ? t("%s | $t(app.name)") : undefined}
         description={ready ? t("app.description") : undefined}
         openGraph={{
@@ -57,11 +60,13 @@ function App({ Component, pageProps }: AppProps) {
       <CssBaseline />
       <ToastContainer hideProgressBar />
       {ready ? (
-        <PageLayout fullPage={pageProps.fullPage}>
-          <Account>
-            <Component {...pageProps} />
-          </Account>
-        </PageLayout>
+        <Account>
+          {({ isSignedIn }) => (
+            <PageLayout fullPage={pageProps.fullPage || !isSignedIn}>
+              {isSignedIn ? <Component {...pageProps} /> : <HomePage />}
+            </PageLayout>
+          )}
+        </Account>
       ) : null}
     </ErrorBoundary>
   );

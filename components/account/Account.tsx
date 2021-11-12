@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { toast } from "react-toastify";
 import { SWRConfig } from "swr";
 import { OpenAI } from "types/openai";
-import HomePage from "../HomePage";
+import { useLocalStorage } from "usehooks-ts";
 import requestHeaders from "./requestHeaders";
 
 export const AccountContext = React.createContext<{
-  headers?: { [key: string]: string };
+  headers?: { [key: string]: string; };
   isSignedIn: boolean;
   signIn: (apiKey: string, organizationId: string) => void;
   signOut: () => void;
@@ -16,13 +16,15 @@ export const AccountContext = React.createContext<{
   signOut: () => undefined,
 });
 
-export default function Account({ children }: { children: React.ReactNode }) {
-  const [apiKey, setApiKey] = useLocalStorage("apiKey");
-  const [organizationId, setOrganizationId] = useLocalStorage("organizationId");
-  const headers = requestHeaders({ apiKey, organizationId });
+export default function Account({ children }: { children: (props: { isSignedIn: boolean; }) => JSX.Element; }) {
+  const [account, setAccount] = useLocalStorage<{
+    apiKey: string;
+    organizationId: string;
+  } | null>("openai", null);
+  const headers = account ? requestHeaders(account) : undefined;
 
   async function fetcher(path: string) {
-    if (!apiKey) return null;
+    if (!headers) return null;
 
     const response = await fetch(`https://api.openai.com/v1/${path}`, {
       headers,
@@ -40,39 +42,20 @@ export default function Account({ children }: { children: React.ReactNode }) {
   }
 
   function signIn(apiKey: string, organizationId: string) {
-    setApiKey(apiKey);
-    setOrganizationId(organizationId);
+    setAccount({ apiKey, organizationId });
   }
 
   function signOut() {
-    setApiKey(null);
-    setOrganizationId(null);
+    setAccount(null);
   }
 
   return (
     <AccountContext.Provider
-      value={{ isSignedIn: !!apiKey, headers, signIn, signOut }}
+      value={{ isSignedIn: !!account, headers, signIn, signOut }}
     >
-      {apiKey ? (
-        <SWRConfig value={{ fetcher, onError }}>{children}</SWRConfig>
-      ) : (
-        <HomePage />
-      )}
+      <SWRConfig value={{ fetcher, onError }}>{children({
+        isSignedIn: !!account
+      })}</SWRConfig>
     </AccountContext.Provider>
   );
-}
-
-function useLocalStorage(
-  key: string
-): [string | null, (value: string | null) => void] {
-  const [value, setValue] = useState(() =>
-    typeof localStorage === "undefined" ? null : localStorage.getItem(key)
-  );
-
-  useEffect(() => {
-    if (value) localStorage.setItem(key, value);
-    else localStorage.removeItem(key);
-  }, [value]);
-
-  return [value, setValue];
 }
