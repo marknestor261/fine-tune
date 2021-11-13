@@ -4,7 +4,7 @@
     "name": "Fine Tune",
     "title": "$t(app.emoji) $t(app.name)",
     "subtitle": "The missing UI for OpenAI",
-    "description": "$(app.emoji) $t(app.name) — ${app.subtitle}"
+    "description": "$t(app.emoji) $t(app.name) — $t(app.subtitle)"
   },
   "pages": {
     "completions": "Completions",
