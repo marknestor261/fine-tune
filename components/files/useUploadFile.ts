@@ -1,6 +1,6 @@
 import useAuthentication from "components/account/useAuthentication";
 import useAnalytics from "components/useAnalytics";
-import parse from "csv-parse/lib/sync";
+import { parse } from "csv-parse";
 import filesize from "filesize";
 import { useState } from "react";
 import { toast } from "react-toastify";
@@ -110,9 +110,14 @@ async function parseJSONL(file: File) {
   }
 }
 
-async function parseCSV(file: File) {
+async function parseCSV(file: File): Promise<Array<{ [key: string]: string }>> {
   const text = await file.text();
-  return parse(text, { columns: true }) as { [key: string]: string }[];
+  return await new Promise((resolve, reject) => {
+    parse(text, { columns: true }, (error, data) => {
+      if (error) reject(error);
+      else resolve(data);
+    });
+  });
 }
 
 async function parseExcel(file: File, enforce: Enforce) {

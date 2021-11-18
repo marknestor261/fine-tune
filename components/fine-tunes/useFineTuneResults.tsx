@@ -1,5 +1,5 @@
 import useAuthentication from "components/account/useAuthentication";
-import parse from "csv-parse/lib/sync";
+import { parse } from "csv-parse";
 import useSWRImmutable from "swr/immutable";
 import { ResultFileRecord } from "./FineTuneResultsCard";
 
@@ -17,7 +17,16 @@ export default function useFineTuneResults(fileId?: string): {
       });
       if (!response.ok) throw new Error(response.statusText);
       const raw = await response.text();
-      return parse(raw, { cast: true, columns: true, skip_empty_lines: true });
+      return new Promise((resolve, reject) => {
+        parse(
+          raw,
+          { cast: true, columns: true, skip_empty_lines: true },
+          (error, data) => {
+            if (error) return reject(error);
+            else resolve(data);
+          }
+        );
+      });
     }
   );
   return { results, error };
