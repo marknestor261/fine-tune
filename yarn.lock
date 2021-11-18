@@ -772,10 +772,10 @@
   resolved "https://registry.yarnpkg.com/@types/node/-/node-16.11.6.tgz#6bef7a2a0ad684cf6e90fcfe31cecabd9ce0a3ae"
   integrity sha512-ua7PgUoeQFjmWPcoo9khiPum3Pd60k4/2ZGXt18sm2Slk0W0xZTqt5Y0Ny1NyBiN1EVQ/+FaF9NcY4Qe6rwk5w==
 
-"@types/node@^16.11.7":
-  version "16.11.7"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-16.11.7.tgz#36820945061326978c42a01e56b61cd223dfdc42"
-  integrity sha512-QB5D2sqfSjCmTuWcBWyJ+/44bcjO7VbjSbOE0ucoVbAsSNQc4Lt6QkgkVXkTDwkL4z/beecZNDvVX15D4P8Jbw==
+"@types/node@^16.11.8":
+  version "16.11.8"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-16.11.8.tgz#a1aeb23f0aa33cb111e64ccaa1687b2ae0423b69"
+  integrity sha512-hmT5gfpRkkHr7DZZHMf3jBe/zNcVGN+jXSL2f8nAsYfBPxQFToKwQlS/zES4Sjp488Bi73i+p6bvrNRRGU0x9Q==
 
 "@types/parse-json@^4.0.0":
   version "4.0.0"
@@ -1685,10 +1685,10 @@ csstype@^3.0.2:
   resolved "https://registry.yarnpkg.com/csstype/-/csstype-3.0.9.tgz#6410af31b26bd0520933d02cbc64fce9ce3fbf0b"
   integrity sha512-rpw6JPxK6Rfg1zLOYCSwle2GFOOsnjmDYDaBwEcwoOg4qlsIVCN789VkBZDJAGi4T07gI4YSutR43t9Zz4Lzuw==
 
-csv-parse@^5.0.1:
-  version "5.0.1"
-  resolved "https://registry.yarnpkg.com/csv-parse/-/csv-parse-5.0.1.tgz#01368a30152023022dce67f653505bcbb29322e5"
-  integrity sha512-K1WfnyENJincXFtyHEA6DSe16+/aVdU6TCTqvJw+BouVNiovn1hBpO3BCGFPIhVnndy7c+2IOMMNEFir6Snh4Q==
+csv-parse@^5.0.2:
+  version "5.0.2"
+  resolved "https://registry.yarnpkg.com/csv-parse/-/csv-parse-5.0.2.tgz#15186c5eb85c7d45eb6567f22d1397deb962a20d"
+  integrity sha512-nn7kY+si9BefTuunYrRg4QX5qU/LBqzGFBkgeAb7GDU/Yyo4P/JzpAg0/CkvW/8/Gg0WNlQ9WenH4n86keZCig==
 
 damerau-levenshtein@^1.0.6:
   version "1.0.7"
@@ -2088,10 +2088,10 @@ eslint-plugin-sonarjs@^0.10.0:
   resolved "https://registry.yarnpkg.com/eslint-plugin-sonarjs/-/eslint-plugin-sonarjs-0.10.0.tgz#2b520c6d0dbdecbea98cd82f5cb84fc5c3d2b954"
   integrity sha512-FBRIBmWQh2UAfuLSnuYEfmle33jIup9hfkR0X8pkfjeCKNpHUG8qyZI63ahs3aw8CJrv47QJ9ccdK3ZxKH016A==
 
-eslint-plugin-tailwindcss@^1.17.1:
-  version "1.17.1"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-tailwindcss/-/eslint-plugin-tailwindcss-1.17.1.tgz#6a28d2dd9caef547bb6c91c84e69cb0741eeb9ad"
-  integrity sha512-WcGxGZUpUoWsopkvDsgc7OZZJm+wbklen2iT8zE+kuhsNMw5aCmbvvrw+ylwmPugityZCby2DTyMYmzwgtrj+Q==
+eslint-plugin-tailwindcss@^1.17.2:
+  version "1.17.2"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-tailwindcss/-/eslint-plugin-tailwindcss-1.17.2.tgz#974303fdeb99894501b3a7d8eb88cb57034c5a89"
+  integrity sha512-cQWP7bSdJHcnBIv/eCXqerMYiwn7qfpyRvqzCiGhttWBhjr+h5q6XsAgg967mdUeJzzQr+68ETXNHLkCK7KJQA==
   dependencies:
     fast-glob "^3.2.5"
     postcss "^8.3.0"
@@ -2696,10 +2696,10 @@ i18next-http-backend@^1.3.1:
   dependencies:
     cross-fetch "3.1.4"
 
-i18next@^21.4.2:
-  version "21.4.2"
-  resolved "https://registry.yarnpkg.com/i18next/-/i18next-21.4.2.tgz#10d10e07c9d1d589d71ac031f8ae755a37fcd0fc"
-  integrity sha512-vVWsmTnZNdYHPLt01MvT5YNM2lxec2R6r5T72J89eaazp8XQnGSqA66O+a918qqmjHZGB6HHRSs02xp753he9g==
+i18next@^21.5.2:
+  version "21.5.2"
+  resolved "https://registry.yarnpkg.com/i18next/-/i18next-21.5.2.tgz#ababe6fb0a769360035ebf06a36751e0b810cdfa"
+  integrity sha512-Iuztr2+7CPCh5SYQV0utw2HXMx1za18xfznrw/PmgX+98oIpm84bhIM7VUPODjLycwIZ299oP7sEVQ9oCgmzfg==
   dependencies:
     "@babel/runtime" "^7.12.0"
 
