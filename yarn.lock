@@ -4318,6 +4318,11 @@ scheduler@^0.20.2:
     loose-envify "^1.1.0"
     object-assign "^4.1.1"
 
+scoutbar@^1.1.7:
+  version "1.1.7"
+  resolved "https://registry.yarnpkg.com/scoutbar/-/scoutbar-1.1.7.tgz#f2cb0ffc29dd84ce0384c5fe03462e200822b6ed"
+  integrity sha512-NPkvSTY0APaZoCdytI9r9SNDvpA4qMqiB+71hocBZnkLt40jT7f8iQZTs5V/QkGkHHscXwhv7lwk/wKJDeGMyQ==
+
 semver@^5.4.1:
   version "5.7.1"
   resolved "https://registry.yarnpkg.com/semver/-/semver-5.7.1.tgz#a954f931aeba508d307bbf069eff0c01c96116f7"

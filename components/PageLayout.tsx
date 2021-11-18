@@ -1,6 +1,8 @@
 import NextLink from "next/link";
+import { useRouter } from "next/router";
 import React from "react";
 import { useTranslation } from "react-i18next";
+import { ScoutBar } from "scoutbar";
 import useAuthentication from "./account/useAuthentication";
 
 const navigation = [
@@ -17,13 +19,13 @@ export default function PageLayout({
   fullPage?: boolean;
 }) {
   const { signOut } = useAuthentication();
-  const { ready } = useTranslation();
-  if (!ready) return null;
+  const { isSignedIn } = useAuthentication();
 
   return (
     <div className={"container p-4 mx-auto"}>
       {fullPage ? null : <PageHeader signOut={signOut} />}
       {children}
+      {isSignedIn && <CommandK />}
     </div>
   );
 }
@@ -55,5 +57,31 @@ function PageHeader({ signOut }: { signOut: () => void }) {
         Sign Out
       </button>
     </header>
+  );
+}
+
+function CommandK() {
+  const { t } = useTranslation();
+  const router = useRouter();
+
+  return (
+    <ScoutBar
+      actions={({ createScoutAction }) =>
+        navigation
+          .map((object) =>
+            Object.entries(object).map(([key, href]) =>
+              createScoutAction({
+                label: t(`Go to: $t(pages.${key})`),
+                action: () => router.push(href),
+              })
+            )
+          )
+          .flat()
+      }
+      aknowledgement={false}
+      tutorial={false}
+      showRecentSearch={false}
+      placeholder="Where would you like to go?"
+    />
   );
 }
