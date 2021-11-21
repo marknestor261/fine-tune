@@ -51,6 +51,7 @@ export default function SearchForm({ id }: { id: string }) {
         <fieldset>
           <Label label="Search query" required>
             <Input
+              // eslint-disable-next-line jsx-a11y/no-autofocus
               autoFocus
               bordered
               required

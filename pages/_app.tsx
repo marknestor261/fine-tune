@@ -23,7 +23,9 @@ function App({ Component, pageProps }: AppProps) {
 
   const { pageView } = useAnalytics();
   // Wait until first render had a change to load translations and set the page title
-  useEffect(pageView, [ready]);
+  useEffect(() => {
+    if (ready) pageView();
+  }, [pageView, ready]);
 
   return (
     <ErrorBoundary>

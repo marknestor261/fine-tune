@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback, useMemo } from "react";
 import { toast } from "react-toastify";
 import { SWRConfig } from "swr";
 import { OpenAI } from "types/openai";
@@ -6,7 +6,7 @@ import { useLocalStorage } from "usehooks-ts";
 import requestHeaders from "./requestHeaders";
 
 export const AccountContext = React.createContext<{
-  headers?: { [key: string]: string; };
+  headers?: { [key: string]: string };
   isSignedIn: boolean;
   signIn: (apiKey: string, organizationId: string) => void;
   signOut: () => void;
@@ -16,46 +16,56 @@ export const AccountContext = React.createContext<{
   signOut: () => undefined,
 });
 
-export default function Account({ children }: { children: (props: { isSignedIn: boolean; }) => JSX.Element; }) {
+export default function Account({
+  children,
+}: {
+  children: (props: { isSignedIn: boolean }) => JSX.Element;
+}) {
   const [account, setAccount] = useLocalStorage<{
     apiKey: string;
     organizationId: string;
   } | null>("openai", null);
-  const headers = account ? requestHeaders(account) : undefined;
+  const headers = useMemo(
+    () => (account ? requestHeaders(account) : undefined),
+    [account]
+  );
 
-  async function fetcher(path: string) {
-    if (!headers) return null;
+  const fetcher = useCallback(
+    async (path: string) => {
+      if (!headers) return null;
 
-    const response = await fetch(`https://api.openai.com/v1/${path}`, {
-      headers,
-    });
-    if (response.ok) {
-      return await response.json();
-    } else {
-      const { error } = (await response.json()) as OpenAI.ErrorResponse;
-      throw new Error(error.message);
-    }
-  }
+      const response = await fetch(`https://api.openai.com/v1/${path}`, {
+        headers,
+      });
+      if (response.ok) {
+        return await response.json();
+      } else {
+        const { error } = (await response.json()) as OpenAI.ErrorResponse;
+        throw new Error(error.message);
+      }
+    },
+    [headers]
+  );
 
-  function onError(error: Error) {
-    toast.error(String(error));
-  }
+  const onError = useCallback((error: Error) => toast.error(String(error)), []);
 
-  function signIn(apiKey: string, organizationId: string) {
-    setAccount({ apiKey, organizationId });
-  }
+  const signIn = useCallback(
+    (apiKey: string, organizationId: string) =>
+      setAccount({ apiKey, organizationId }),
+    [setAccount]
+  );
 
-  function signOut() {
-    setAccount(null);
-  }
+  const signOut = useCallback(() => setAccount(null), [setAccount]);
 
   return (
     <AccountContext.Provider
       value={{ isSignedIn: !!account, headers, signIn, signOut }}
     >
-      <SWRConfig value={{ fetcher, onError }}>{children({
-        isSignedIn: !!account
-      })}</SWRConfig>
+      <SWRConfig value={{ fetcher, onError }}>
+        {children({
+          isSignedIn: !!account,
+        })}
+      </SWRConfig>
     </AccountContext.Provider>
   );
 }

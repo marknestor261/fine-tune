@@ -1,9 +1,9 @@
 import { Router } from "next/router";
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
+
+const propertyId = process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID;
 
 export default function useAnalytics() {
-  const propertyId = process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID;
-
   useEffect(() => {
     if (!propertyId) return;
     if (window.gtag) return;
@@ -22,21 +22,24 @@ export default function useAnalytics() {
     document.head.appendChild(script);
   }, []);
 
-  function sendEvent(name: string, props?: { [key: string]: string }) {
-    window.gtag?.("event", name, props);
-  }
+  const sendEvent = useCallback(
+    (name: string, props?: { [key: string]: string }) => {
+      window.gtag?.("event", name, props);
+    },
+    []
+  );
 
-  function pageView() {
+  const pageView = useCallback(() => {
     sendEvent("page_view", {
       page_title: document.title,
       page_location: location.href,
     });
-  }
+  }, [sendEvent]);
 
   useEffect(() => {
     Router.events.on("routeChangeComplete", pageView);
     return () => Router.events.off("routeChangeComplete", pageView);
-  }, []);
+  }, [pageView]);
 
   return { pageView, sendEvent };
 }

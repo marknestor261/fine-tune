@@ -79,6 +79,7 @@ export default function CompletionForm({
         <fieldset className="md:space-y-4">
           <Label label="Text to complete" required>
             <Textarea
+              // eslint-disable-next-line jsx-a11y/no-autofocus
               autoFocus
               bordered
               minRows={8}
@@ -198,7 +199,12 @@ function CompletionResults({
 }) {
   return (
     <InfoCard>
-      <h4 className="my-4">⭐️ Completions</h4>
+      <h4 className="my-4">
+        <span role="img" aria-label="star">
+          ⭐️
+        </span>{" "}
+        Completions
+      </h4>
       <ol className=" list-disc">
         {results.choices.map((choice, index) => (
           <li key={index} className="my-4">

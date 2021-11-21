@@ -56,14 +56,17 @@ function useOnDrop(uploadFile: (file: File) => void) {
     return () => document.removeEventListener("dragover", onDragOver);
   }, []);
 
-  useEffect(function () {
-    function onDrop(event: DragEvent) {
-      event.preventDefault();
-      const files = event.dataTransfer?.files;
-      if (files) for (const file of files) uploadFile(file);
-    }
+  useEffect(
+    function () {
+      function onDrop(event: DragEvent) {
+        event.preventDefault();
+        const files = event.dataTransfer?.files;
+        if (files) for (const file of files) uploadFile(file);
+      }
 
-    document.addEventListener("drop", onDrop);
-    return () => document.removeEventListener("drop", onDrop);
-  }, []);
+      document.addEventListener("drop", onDrop);
+      return () => document.removeEventListener("drop", onDrop);
+    },
+    [uploadFile]
+  );
 }

@@ -2,7 +2,7 @@ import useAuthentication from "components/account/useAuthentication";
 import useAnalytics from "components/useAnalytics";
 import { parse } from "csv-parse";
 import filesize from "filesize";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { toast } from "react-toastify";
 import { mutate } from "swr";
 import { OpenAI } from "types/openai";
@@ -33,46 +33,52 @@ export default function useUploadFile(purpose: string, enforce: Enforce) {
   const [isLoading, setIsLoading] = useState(false);
   const { sendEvent } = useAnalytics();
 
-  async function uploadFile(file: File) {
-    try {
-      setIsLoading(true);
+  const uploadFile = useCallback(
+    async function (file: File) {
+      try {
+        setIsLoading(true);
 
-      const records = await parseAndValidate(file, enforce);
-      const largeRecords = await findLargeRecords(records, enforce);
+        const records = await parseAndValidate(file, enforce);
+        const largeRecords = await findLargeRecords(records, enforce);
 
-      if (largeRecords.length > 0) {
-        const confirmed = confirmLargeRecords(largeRecords, enforce.maxTokens);
-        if (!confirmed) return;
+        if (largeRecords.length > 0) {
+          const confirmed = confirmLargeRecords(
+            largeRecords,
+            enforce.maxTokens
+          );
+          if (!confirmed) return;
+        }
+
+        const blob = new Blob([toJSONL(records)], { type: "application/json" });
+        const body = new FormData();
+        body.append("purpose", purpose);
+        body.append("file", blob, file.name);
+
+        const response = await fetch("https://api.openai.com/v1/files", {
+          method: "POST",
+          headers,
+          body,
+        });
+        if (response.ok) {
+          await mutate("files");
+          toast.success(
+            `Uploaded new ${purpose} file: ${
+              records.length
+            } records, ${filesize(blob.size)}`
+          );
+        } else {
+          const { error } = (await response.json()) as OpenAI.ErrorResponse;
+          toast.error(error.message);
+        }
+      } catch (error) {
+        toast.error(String(error));
+      } finally {
+        setIsLoading(false);
+        sendEvent("upload", { purpose });
       }
-
-      const blob = new Blob([toJSONL(records)], { type: "application/json" });
-      const body = new FormData();
-      body.append("purpose", purpose);
-      body.append("file", blob, file.name);
-
-      const response = await fetch("https://api.openai.com/v1/files", {
-        method: "POST",
-        headers,
-        body,
-      });
-      if (response.ok) {
-        await mutate("files");
-        toast.success(
-          `Uploaded new ${purpose} file: ${records.length} records, ${filesize(
-            blob.size
-          )}`
-        );
-      } else {
-        const { error } = (await response.json()) as OpenAI.ErrorResponse;
-        toast.error(error.message);
-      }
-    } catch (error) {
-      toast.error(String(error));
-    } finally {
-      setIsLoading(false);
-      sendEvent("upload", { purpose });
-    }
-  }
+    },
+    [enforce, headers, purpose, sendEvent]
+  );
 
   return { uploadFile, isLoading };
 }

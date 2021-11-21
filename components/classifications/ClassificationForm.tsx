@@ -59,6 +59,7 @@ export default function ClassificationForm({ id }: { id: string }) {
         <fieldset>
           <Label label="Text to classify" required>
             <Textarea
+              // eslint-disable-next-line jsx-a11y/no-autofocus
               autoFocus
               bordered
               minRows={4}
