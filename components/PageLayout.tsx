@@ -79,9 +79,11 @@ function CommandK() {
           .flat()
       }
       aknowledgement={false}
+      disableSnackbar
       tutorial={false}
       showRecentSearch={false}
       placeholder="Where would you like to go?"
+      theme="dark"
     />
   );
 }
